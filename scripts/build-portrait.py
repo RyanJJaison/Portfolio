@@ -1,5 +1,6 @@
 """Turn assets/portrait-source.png into the brightness grid used by the hero's binary portrait.
 
+Needs assets/portrait-source.png locally (not committed).
 Run: pip install "rembg[cpu]" pillow numpy && python scripts/build-portrait.py
 Writes content/portrait.ts. Cell value 0 = background, 1..255 = brightness inside the person.
 """
