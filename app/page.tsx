@@ -4,7 +4,7 @@ import { projects } from "@/content/projects";
 import { skillGroups } from "@/content/skills";
 import { journey } from "@/content/journey";
 import { credentials } from "@/content/experience";
-import { BinaryPortraitPlaceholder } from "@/components/home/BinaryPortraitPlaceholder";
+import { BinaryPortrait } from "@/components/home/BinaryPortrait";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 
 function Block({ title, href, cta, children }: { title: string; href: string; cta: string; children: React.ReactNode }) {
@@ -34,7 +34,10 @@ export default function Home() {
             <Link href="/journey" className="rounded-full border border-line px-5 py-2 hover:border-accent">My journey</Link>
           </div>
         </div>
-        <BinaryPortraitPlaceholder />
+        <div className="relative order-first mx-auto w-full max-w-xs md:order-none md:max-w-lg">
+          <BinaryPortrait label={`Portrait of ${profile.name} drawn in binary digits`} />
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background to-transparent" />
+        </div>
       </section>
 
       <Block title="Skills" href="/lab" cta="What I'm learning now">
