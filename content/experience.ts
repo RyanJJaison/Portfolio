@@ -4,7 +4,7 @@ export const experience = [
     org: "iLeaf Solutions",
     place: "Kochi, Kerala (on-site)",
     period: "Apr 2026 to May 2026",
-    note: "Helped the team build scalable systems. TODO: confirm duration (1 month vs LinkedIn's 2 months).",
+    note: "One-month software development internship. Worked in the team on active sprint goals, debugging and helping build scalable systems.",
   },
 ];
 

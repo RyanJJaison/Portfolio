@@ -42,7 +42,7 @@ function graphData() {
   const edges: GEdge[] = [];
   skillGroups.forEach((g) => g.skills.forEach((s) => edges.push({ a: `hub:${g.name}`, b: `skill:${s}`, kind: "hub" })));
   const skillSet = new Set(skillGroups.flatMap((g) => g.skills));
-  const targets: { id: string; label: string; kind: Kind; href?: string; skills: string[] }[] = projects.map((p) => ({
+  const targets: { id: string; label: string; kind: Kind; href?: string; skills: string[] }[] = projects.filter((p) => p.skills.length && p.status !== "Learning project").map((p) => ({
     id: `project:${p.slug}`, label: p.title, kind: "project", href: `/projects/${p.slug}`, skills: p.skills.filter((s) => skillSet.has(s)),
   }));
   const cert = credentials.find((c) => c.status === "Certified");

@@ -4,10 +4,3 @@ export const sentrixMetrics = [
   { metric: "AUC", raw: 0.8966, rawSd: null, ppr: 0.957, pprSd: null },
 ] as const;
 
-export const sentrixPipeline = [
-  { step: "Elliptic graph", detail: "Bitcoin transactions as nodes, payment flows as edges, 49 time steps" },
-  { step: "Personalized PageRank", detail: "Seeded per time step on confirmed-illicit nodes, leave-one-out, forward and reverse" },
-  { step: "Feature join", detail: "165 raw node features + 4 PPR columns" },
-  { step: "GraphSAGE", detail: "Temporal split, two-stage training" },
-  { step: "Risk score", detail: "Per-transaction risk records" },
-];

@@ -9,7 +9,7 @@ export function ProjectCard({ p }: { p: Project }) {
         <h3 className="text-lg font-medium group-hover:text-accent">{p.title}</h3>
         <StatusTag status={p.status} />
       </div>
-      <p className="mt-3 text-sm text-muted">{p.summary}</p>
+      <p className="mt-3 text-sm text-muted">{p.tagline}</p>
       <p className="mt-4 font-mono text-xs text-muted">{p.stack.join(" · ")}</p>
     </Link>
   );
