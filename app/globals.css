@@ -6,6 +6,7 @@
   --muted: #8b95a5;
   --line: #1c232d;
   --accent: #22d3ee; /* TODO: confirm accent colour */
+  --risk: #fb923c; /* heat colour for risk scores in demos */
 }
 
 @theme inline {
@@ -14,6 +15,7 @@
   --color-muted: var(--muted);
   --color-line: var(--line);
   --color-accent: var(--accent);
+  --color-risk: var(--risk);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

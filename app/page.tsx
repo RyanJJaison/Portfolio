@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { profile } from "@/content/profile";
 import { projects } from "@/content/projects";
-import { skillGroups } from "@/content/skills";
 import { journey } from "@/content/journey";
 import { credentials } from "@/content/experience";
 import { BinaryPortrait } from "@/components/home/BinaryPortrait";
+import { SkillGraph } from "@/components/home/SkillGraph";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 
 function Block({ title, href, cta, children }: { title: string; href: string; cta: string; children: React.ReactNode }) {
@@ -40,16 +40,9 @@ export default function Home() {
         </div>
       </section>
 
-      <Block title="Skills" href="/lab" cta="What I'm learning now">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {skillGroups.map((g) => (
-            <div key={g.name} className="rounded-xl border border-line p-5">
-              <h3 className="font-mono text-sm text-accent">{g.name}</h3>
-              <p className="mt-2 text-sm text-muted">{g.skills.join(", ")}</p>
-            </div>
-          ))}
-        </div>
-      </Block>
+      <div className="mt-24">
+        <SkillGraph />
+      </div>
 
       <Block title="Featured projects" href="/projects" cta="All projects">
         <div className="grid gap-4 md:grid-cols-2">
