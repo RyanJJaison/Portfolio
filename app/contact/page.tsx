@@ -21,6 +21,11 @@ export default function ContactPage() {
           </li>
         ))}
       </ul>
+      {profile.links.cv && (
+        <a href={profile.links.cv} {...ext} className="mt-8 inline-block rounded-full bg-accent px-6 py-2.5 text-sm font-medium text-black">
+          Download CV (PDF) →
+        </a>
+      )}
     </PageShell>
   );
 }

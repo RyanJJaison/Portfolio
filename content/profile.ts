@@ -9,7 +9,7 @@ export const profile = {
     linkedin: "https://www.linkedin.com/in/ryan-joseph-jaison-960390420/",
     orcid: "https://orcid.org/0009-0004-3794-7334",
     email: "ryan@ileafsolutions.com", // TODO: confirm public contact email
-    cv: null as string | null, // TODO: add CV PDF to /public
+    cv: "/Ryan_Joseph_Jaison_CV.pdf" as string | null,
   },
 };
 
