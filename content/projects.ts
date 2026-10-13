@@ -25,6 +25,7 @@ export type Project = {
   skills: string[]; // names from content/skills.ts, drawn as edges in the skill graph
   repo?: string;
   live?: string;
+  model?: string; // Hugging Face model page
   context?: string;
   results?: string[];
 };
@@ -69,9 +70,9 @@ export const projects: Project[] = [
     mission:
       "Kokborok is spoken by over a million people in Tripura and Bangladesh, yet no major speech or language model supports it: no voice, no speech recognition, no translation code. Lahja set out to close that gap honestly, telling the user which model produced each answer and how confident it is, instead of pretending to native support.",
     role:
-      "Built the speech side: speech-to-text, voice-to-voice, transcription and translation, including fine-tuning a Whisper speech-recognition model for Kokborok.",
+      "Built the speech side: speech-to-text, voice-to-voice, transcription and translation, including fine-tuning and publishing a Kokborok speech-recognition model.",
     architecture: [
-      { layer: "Speech to text", tech: "Whisper-small (~244M params) + LoRA, PyTorch", detail: "Whisper has no Kokborok mode, so it was fine-tuned on Kokborok audio and driven through a proxy language." },
+      { layer: "Speech to text", tech: "Whisper-small + LoRA, PyTorch, PEFT", detail: "Whisper has no Kokborok mode, so a small LoRA adapter (3.5M trainable parameters on the 244M-parameter model) was trained on Kokborok audio, using Bengali script as the bridge." },
       { layer: "Translation", tech: "Fine-tuned NLLB-200", detail: "Kokborok to English and back." },
       { layer: "Text to speech", tech: "Coqui XTTS v2", detail: "Clones a real Kokborok speaker's voice from a short reference clip." },
       { layer: "Chat", tech: "LLM via translation bridge", detail: "Questions are translated to English, answered, and translated back." },
@@ -80,6 +81,10 @@ export const projects: Project[] = [
     stack: ["Whisper", "LoRA", "NLLB-200", "XTTS", "FastAPI", "Next.js"],
     skills: ["Deep Learning", "PyTorch", "Generative AI", "NLP", "Whisper", "FastAPI", "Python"],
     repo: "https://github.com/RyanJJaison/Lahja",
+    model: "https://huggingface.co/RyanJJaison/kokborok-whisper-lora",
+    results: [
+      "Kokborok speech model: trained on 235 clips (about 33 minutes) of single-speaker narration. Compared with untuned Whisper, which got no words right on the test set, it roughly halves the character error rate (1.37 to 0.72). Published as a research/demo checkpoint, not yet reliable enough for unsupervised use.",
+    ],
   },
   {
     slug: "clarity",
