@@ -47,7 +47,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
         <div className="mt-6 flex flex-wrap gap-4 text-sm">
           {p.repo && <a href={p.repo} {...ext} className="rounded-full border border-line px-4 py-1.5 hover:border-accent">GitHub repository →</a>}
           {p.model && <a href={p.model} {...ext} className="rounded-full border border-line px-4 py-1.5 hover:border-accent">Model on Hugging Face →</a>}
-          {p.live && <a href={p.live} {...ext} className="rounded-full bg-accent px-4 py-1.5 font-medium text-black">Open live app →</a>}
+          {p.live && <a href={p.live} {...ext} className="rounded-full bg-accent px-4 py-1.5 font-medium text-white">Open live app →</a>}
         </div>
       </header>
 

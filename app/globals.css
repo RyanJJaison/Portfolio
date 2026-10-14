@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #07090c;
-  --foreground: #e6eaf0;
-  --muted: #8b95a5;
-  --line: #1c232d;
-  --accent: #22d3ee; /* TODO: confirm accent colour */
-  --risk: #fb923c; /* heat colour for risk scores in demos */
+  --background: #f7f8fa;
+  --foreground: #0f172a;
+  --muted: #5b6577;
+  --line: #d8dde6;
+  --accent: #0e7490; /* deep cyan, readable on light ground */
+  --risk: #ea580c; /* heat colour for risk scores in demos */
 }
 
 @theme inline {
@@ -20,7 +20,7 @@
   --font-mono: var(--font-geist-mono);
 }
 
-html { color-scheme: dark; }
+html { color-scheme: light; }
 
 body {
   background: var(--background);

@@ -24,7 +24,7 @@ function decode() {
 }
 
 function readAccent(el: HTMLElement) {
-  return getComputedStyle(el).getPropertyValue("--accent").trim() || "#22d3ee";
+  return getComputedStyle(el).getPropertyValue("--accent").trim() || "#0e7490";
 }
 
 export function BinaryPortrait({ label }: { label: string }) {

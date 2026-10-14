@@ -30,7 +30,7 @@ export default function Home() {
           <p className="mt-6 max-w-md text-lg text-muted">{profile.tagline}</p>
           <p className="mt-2 text-sm text-muted">B.Tech AI, Christ University, Bangalore · AWS Certified AI Practitioner</p>
           <div className="mt-8 flex flex-wrap gap-4 text-sm">
-            <Link href="/projects" className="rounded-full bg-accent px-5 py-2 font-medium text-black">View projects</Link>
+            <Link href="/projects" className="rounded-full bg-accent px-5 py-2 font-medium text-white">View projects</Link>
             <Link href="/journey" className="rounded-full border border-line px-5 py-2 hover:border-accent">My journey</Link>
             {profile.links.cv && (
               <a href={profile.links.cv} target="_blank" rel="noopener noreferrer" className="rounded-full border border-line px-5 py-2 hover:border-accent">CV ↓</a>
