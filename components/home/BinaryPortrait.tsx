@@ -23,8 +23,14 @@ function decode() {
   return out;
 }
 
-function readAccent(el: HTMLElement) {
-  return getComputedStyle(el).getPropertyValue("--accent").trim() || "#0e7490";
+function readInk(el: HTMLElement) {
+  return getComputedStyle(el).getPropertyValue("--foreground").trim() || "#141414";
+}
+
+/** Grid cells store brightness (18%..100% inside the person). Ink is the inverse: dark hair and suit get dense digits. */
+function inkLevel(v: number) {
+  const brightness = Math.min(1, Math.max(0, (v / 255 - 0.18) / 0.82));
+  return Math.min(LEVELS - 1, Math.floor((1 - brightness) * LEVELS));
 }
 
 export function BinaryPortrait({ label }: { label: string }) {
@@ -51,7 +57,7 @@ export function BinaryPortrait({ label }: { label: string }) {
           x: reduced ? c : cols / 2 + Math.cos(angle) * dist,
           y: reduced ? r : rows / 2 + Math.sin(angle) * dist,
           vx: 0, vy: 0,
-          level: Math.min(LEVELS - 1, Math.floor((v / 256) * LEVELS)),
+          level: inkLevel(v),
           bit: Math.random() < 0.5 ? 0 : 1,
           delay: reduced ? 0 : (r / rows) * 600 + Math.random() * 500,
         });
@@ -63,7 +69,7 @@ export function BinaryPortrait({ label }: { label: string }) {
     let sprites: HTMLCanvasElement[][] = []; // [bit][level]
 
     function buildSprites() {
-      const color = readAccent(wrap);
+      const color = readInk(wrap);
       const size = Math.max(1, Math.ceil(cell * dpr));
       sprites = [0, 1].map((bit) =>
         Array.from({ length: LEVELS }, (_, lvl) => {
@@ -71,9 +77,9 @@ export function BinaryPortrait({ label }: { label: string }) {
           s.width = s.height = size;
           const sc = s.getContext("2d")!;
           const t = (lvl + 1) / LEVELS;
-          sc.globalAlpha = 0.22 + 0.78 * Math.pow(t, 0.75);
+          sc.globalAlpha = 0.14 + 0.86 * Math.pow(t, 1.1);
           sc.fillStyle = color;
-          sc.font = `${size * (0.8 + 0.35 * t)}px ui-monospace, monospace`;
+          sc.font = `${t > 0.6 ? 700 : 500} ${size * (0.85 + 0.3 * t)}px ui-monospace, monospace`;
           sc.textAlign = "center";
           sc.textBaseline = "middle";
           sc.fillText(String(bit), size / 2, size / 2 + size * 0.05);

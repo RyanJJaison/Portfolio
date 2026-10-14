@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7f8fa;
-  --foreground: #0f172a;
-  --muted: #5b6577;
-  --line: #d8dde6;
-  --accent: #0e7490; /* deep cyan, readable on light ground */
-  --risk: #ea580c; /* heat colour for risk scores in demos */
+  --background: #f4f2ec; /* warm paper */
+  --foreground: #141414; /* ink */
+  --muted: #5f5d58;
+  --line: #dcd8ce;
+  --accent: #2f4bd8; /* cobalt, ~6:1 on paper */
+  --risk: #e4572e; /* heat colour for risk scores in demos */
 }
 
 @theme inline {
