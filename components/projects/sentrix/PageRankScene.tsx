@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { forceCollide, forceLink, forceManyBody, forceSimulation, forceX, forceY, type SimulationNodeDatum } from "d3-force";
-import { PinnedScene } from "@/components/scroll/PinnedScene";
+import { PlayOnView } from "@/components/scroll/PlayOnView";
 import { sentrixMetrics } from "@/content/sentrix";
 
 // ---- Toy transaction graph (illustrative only, not Elliptic data) ----
@@ -97,9 +97,9 @@ function Scene({ p }: { p: number }) {
   const heat = (i: number) => (i === seed ? 1 : max > 0 ? Math.log1p(1000 * score[i]) / Math.log1p(1000 * max) : 0);
 
   return (
-    <div className="mx-auto grid h-full max-w-6xl content-center gap-6 px-6 pt-16 pb-12 md:grid-cols-[1.2fr_1fr] md:gap-10">
+    <div className="mx-auto grid max-w-6xl content-center gap-6 px-6 py-10 md:grid-cols-[1.2fr_1fr] md:gap-10">
       <div className="min-h-0">
-        <svg viewBox={`0 0 ${G.W} ${G.H}`} className="mx-auto max-h-[42vh] w-full md:max-h-[70vh]" role="img" aria-label="Toy transaction graph with Personalized PageRank scores spreading from a seed node">
+        <svg viewBox={`0 0 ${G.W} ${G.H}`} className="mx-auto max-h-[42vh] w-full md:max-h-[min(64svh,600px)]" role="img" aria-label="Toy transaction graph with Personalized PageRank scores spreading from a seed node">
           <defs>
             <radialGradient id="pr-halo">
               <stop offset="0%" stopColor="var(--risk)" stopOpacity="0.7" />
@@ -131,14 +131,14 @@ function Scene({ p }: { p: number }) {
         </svg>
         <div className="mt-2 flex flex-wrap justify-between gap-2 font-mono text-[11px] text-muted">
           <span>iteration {iter} / {ITERS} · restart {RESTART}</span>
-          <span>Toy graph, illustrative. Click a node to re-seed.</span>
+          <span>Toy graph, illustrative. Click a node to re-seed, then replay.</span>
         </div>
       </div>
 
       <div className="flex min-h-0 flex-col justify-center">
         <ol className="space-y-3">
           {STEPS.map((s, i) => (
-            <li key={s.title} className={`border-l-2 py-2 pl-5 transition duration-500 ${i === step ? "border-foreground" : "border-line opacity-40"} ${i !== step ? "max-md:hidden" : ""}`}>
+            <li key={s.title} className={`card p-4 transition duration-500 ${i === step ? "bg-accent-soft" : "opacity-40"} ${i !== step ? "max-md:hidden" : ""}`}>
               <p className="caps text-muted">Step 0{i + 1}</p>
               <h3 className="display mt-2 text-2xl">{s.title}</h3>
               <p className="mt-1 text-sm text-muted">{s.body}</p>
@@ -155,8 +155,8 @@ function Scene({ p }: { p: number }) {
                 {([["165 raw", m.raw, m.rawSd, "var(--muted)"], ["165 raw + 4 PPR", m.ppr, m.pprSd, "var(--accent)"]] as const).map(([label, v, sd, color]) => (
                   <div key={label} className="mt-1.5 flex items-center gap-3">
                     <span className="w-28 shrink-0 font-mono text-[11px] text-muted">{label}</span>
-                    <div className="relative h-3 flex-1 rounded-sm bg-line/60">
-                      <div className="h-full rounded-sm" style={{ width: `${v * bars * 100}%`, background: color }} />
+                    <div className="relative h-3 flex-1 rounded-full bg-line/60">
+                      <div className="h-full rounded-full" style={{ width: `${v * bars * 100}%`, background: color }} />
                     </div>
                     <span className="w-24 shrink-0 text-right font-mono text-xs tabular-nums">
                       {(v * bars).toFixed(4)}{sd ? <span className="text-muted"> ±{sd}</span> : null}
@@ -174,8 +174,8 @@ function Scene({ p }: { p: number }) {
 
 export function PageRankScene() {
   return (
-    <PinnedScene label="SentriX Personalized PageRank demo" length={3.8}>
+    <PlayOnView label="SentriX Personalized PageRank demo" duration={3200}>
       {(p) => <Scene p={p} />}
-    </PinnedScene>
+    </PlayOnView>
   );
 }

@@ -25,7 +25,7 @@ function Section({ index, title, children }: { index: string; title: string; chi
   return (
     <section className="mt-16 grid grid-cols-12 gap-x-6 gap-y-4 border-t border-foreground pt-4">
       <h2 className="caps col-span-12 md:col-span-3">
-        <span className="text-accent-ink">{index}</span> {title}
+        <span className="text-accent">{index}</span> {title}
       </h2>
       <div className="col-span-12 md:col-span-9">{children}</div>
     </section>
@@ -52,7 +52,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
       <header className="mt-8 grid grid-cols-12 gap-x-6 gap-y-8">
         <div className="col-span-12 md:col-span-8">
           <p className="caps flex flex-wrap gap-x-4 gap-y-1">
-            <span className="text-accent-ink">({String(index + 1).padStart(2, "0")})</span>
+            <span className="text-accent">({String(index + 1).padStart(2, "0")})</span>
             <StatusTag status={p.status} />
           </p>
           <h1 className="display mt-4 text-[clamp(3.5rem,11vw,9.5rem)]">{p.title}<span className="mark" aria-hidden /></h1>
@@ -62,7 +62,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
             <div className="mt-8 flex flex-wrap gap-3">
               {links.map((l, i) => (
                 <a key={l.href} href={l.href} {...ext}
-                  className={`caps border border-foreground px-4 py-2.5 transition-colors ${i === 0 ? "bg-foreground text-background hover:bg-accent hover:text-foreground" : "hover:bg-foreground hover:text-background"}`}>
+                  className={`caps pill border border-foreground ${i === 0 ? "bg-foreground text-background hover:border-accent hover:bg-accent" : "hover:bg-foreground hover:text-background"}`}>
                   {l.label} ↗
                 </a>
               ))}
@@ -70,7 +70,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
           )}
         </div>
         <figure className="col-span-12 self-end md:col-span-4">
-          <Illustration slug={p.slug} className="border border-line p-6" />
+          <Illustration slug={p.slug} className="card p-6" />
           <figcaption className="caps mt-2 text-muted">Fig. — {p.title}</figcaption>
         </figure>
       </header>
@@ -101,9 +101,12 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
         </Section>
       )}
 
-      <Link href={`/projects/${next.slug}`} className="group mt-24 block bg-foreground px-6 py-10 text-background">
-        <span className="caps text-background/60">Next project</span>
-        <span className="display mt-3 block text-5xl hl sm:text-7xl">{next.title} →</span>
+      <Link href={`/projects/${next.slug}`} className="card group mt-24 block !bg-foreground px-8 py-10 text-background">
+        <span className="caps text-accent-soft/70">Next project</span>
+        <span className="display mt-3 flex items-baseline gap-4 text-5xl sm:text-7xl">
+          {next.title}
+          <span className="text-accent-soft transition-transform duration-300 group-hover:translate-x-2" aria-hidden>→</span>
+        </span>
       </Link>
     </main>
   );

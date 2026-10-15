@@ -12,13 +12,13 @@ export default function ContactPage() {
     { label: "ORCID", href: profile.links.orcid, note: "Research identity" },
   ];
   return (
-    <PageShell title="Say hello" kicker="(C) Contact" aside="Open to internships and collaborations in AI/ML">
+    <PageShell title={<>Say <em>hello</em></>} kicker="(C) Contact" aside="Open to internships and collaborations in AI/ML">
       <div className="grid grid-cols-12 gap-x-6 gap-y-12 py-10">
         <div className="col-span-12 md:col-span-5">
           <p className="caps text-muted">Email</p>
           <p className="display mt-3 text-[clamp(1.5rem,2.4vw,2.25rem)] [overflow-wrap:anywhere]">{profile.links.email}</p>
           {profile.links.cv && (
-            <a href={profile.links.cv} {...ext} className="caps mt-8 inline-block border border-foreground bg-foreground px-4 py-2.5 text-background hover:bg-accent hover:text-foreground">
+            <a href={profile.links.cv} {...ext} className="caps pill mt-8 bg-foreground text-background hover:bg-accent">
               Download résumé (PDF) ↗
             </a>
           )}
@@ -27,7 +27,7 @@ export default function ContactPage() {
           {items.map((i, n) => (
             <li key={i.label} className="border-b border-line">
               <a href={i.href} {...ext} className="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 py-5">
-                <span className="caps text-accent-ink">{String(n + 1).padStart(2, "0")}</span>
+                <span className="caps text-accent">{String(n + 1).padStart(2, "0")}</span>
                 <span className="display text-4xl hl">{i.label}</span>
                 <span className="caps text-right text-muted">{i.note} ↗</span>
               </a>

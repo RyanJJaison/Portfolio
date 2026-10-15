@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Inter_Tight, JetBrains_Mono } from "next/font/google";
+import { Instrument_Serif, Inter, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/ui/Nav";
 import { Footer } from "@/components/ui/Footer";
@@ -7,6 +7,7 @@ import { profile } from "@/content/profile";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 const interTight = Inter_Tight({ variable: "--font-inter-tight", subsets: ["latin"], weight: ["500", "700", "800"] });
+const instrument = Instrument_Serif({ variable: "--font-instrument", subsets: ["latin"], weight: "400", style: "italic" });
 const jetbrains = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -15,11 +16,11 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
-  const fonts = [inter, interTight, jetbrains].map((f) => f.variable).join(" ");
+  const fonts = [inter, interTight, instrument, jetbrains].map((f) => f.variable).join(" ");
   return (
     <html lang="en" className={`${fonts} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
-        <a href="#main" className="caps sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:bg-accent focus:px-3 focus:py-2 focus:text-foreground">
+        <a href="#main" className="caps sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-accent focus:px-3 focus:py-2 focus:text-background">
           Skip to content
         </a>
         <Nav />

@@ -33,7 +33,7 @@ const drawings: Record<string, React.ReactNode> = {
       {L("M80 55 h40 v35 h-40 Z M88 63 h24 v19 h-24 Z")}
       {L("M45 45 h-10 M45 60 h-10 M45 75 h-10 M45 90 h-10 M155 45 h10 M155 60 h10 M155 75 h10 M155 90 h10")}
       {L("M60 50 a6 6 0 1 0 0.1 0 M140 95 a7 7 0 1 0 0.1 0")}
-      {L("M20 125 c20 -10 40 10 60 0 s40 -10 60 0 s30 5 45 0", { stroke: "var(--accent-ink)", strokeWidth: 2 })}
+      {L("M20 125 c20 -10 40 10 60 0 s40 -10 60 0 s30 5 45 0", { stroke: "var(--accent)", strokeWidth: 2 })}
     </>
   ),
   "task-manager": (

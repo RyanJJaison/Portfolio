@@ -1,25 +1,28 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f4f4f0; /* soft off-white */
-  --foreground: #111111;
-  --muted: #6b6b66;
-  --line: #dddcd6; /* soft dividers; hard rules use the foreground */
-  --accent: #c6f432; /* chartreuse: fills and highlights only, never thin text on light */
-  --accent-ink: #4a6600; /* readable olive for accent-coloured text on light */
-  --risk: #ff5a1f; /* risk heat in the SentriX demo */
+  --background: #efeee9; /* warm stone */
+  --surface: #e4e2db; /* cards */
+  --foreground: #161614;
+  --muted: #6e6c66;
+  --line: #d6d4cc; /* soft dividers; hard rules use the foreground */
+  --accent: #1f5c45; /* forest green: readable as text and as a fill */
+  --accent-soft: #cfe3d6; /* pale green for highlights, pills and tags under dark text */
+  --risk: #d9480f; /* risk heat in the SentriX demo */
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-line: var(--line);
   --color-accent: var(--accent);
-  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
   --color-risk: var(--risk);
   --font-sans: var(--font-inter);
   --font-display: var(--font-inter-tight);
+  --font-serif: var(--font-instrument);
   --font-mono: var(--font-jetbrains);
 }
 
@@ -31,44 +34,105 @@ body {
   font-family: var(--font-inter), system-ui, sans-serif;
 }
 
-::selection { background: var(--accent); color: var(--foreground); }
+::selection { background: var(--accent-soft); color: var(--foreground); }
 
-/* Small uppercase monospace used for labels, nav, indexes and captions. */
-.caps {
-  font-family: var(--font-jetbrains), ui-monospace, monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+/* Component classes live in a layer so Tailwind utilities (md:hidden, !bg-*, ...) can override them. */
+@layer components {
+  /* Small uppercase monospace used for labels, nav, indexes and captions. */
+  .caps {
+    font-family: var(--font-jetbrains), ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* Display type: heavy, tight sans, with italic serif words for warmth. */
+  .display {
+    font-family: var(--font-inter-tight), system-ui, sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    word-spacing: 0.08em;
+    line-height: 0.92;
+  }
+  .display em, .serif {
+    font-family: var(--font-instrument), Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .display em { color: var(--accent); padding-right: 0.04em; }
+
+  /* The full stop after big titles: a green dot. */
+  .mark {
+    display: inline-block;
+    width: 0.16em;
+    height: 0.16em;
+    margin-left: 0.05em;
+    border-radius: 999px;
+    background: var(--accent);
+  }
+
+  /* Highlighter hover for links and titles. */
+  .hl { border-radius: 0.15em; box-decoration-break: clone; -webkit-box-decoration-break: clone; transition: background-color 0.15s; }
+  .hl:hover, .group:hover .hl { background: var(--accent-soft); }
+
+  /* Rounded surface for cards and bento tiles. */
+  .card {
+    border-radius: 1rem;
+    background: var(--surface);
+    transition: transform 0.25s cubic-bezier(.2,.7,.2,1), box-shadow 0.25s;
+  }
+  a.card:hover, .card.lift:hover { transform: translateY(-3px); box-shadow: 0 10px 30px -18px rgb(22 22 20 / 0.45); }
+
+  /* Pills for buttons and tags. */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 999px;
+    padding: 0.55rem 1rem;
+    transition: background-color 0.15s, color 0.15s, transform 0.15s;
+  }
+  .pill:active { transform: scale(0.97); }
+  .pill-sm { padding: 0.25rem 0.65rem; }
+
+  /* Live dot that pulses gently. */
+  .live-dot { position: relative; display: inline-block; width: 0.5rem; height: 0.5rem; border-radius: 999px; background: var(--accent); }
+  .live-dot::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--accent); animation: ping 1.8s cubic-bezier(0,0,.2,1) infinite; }
+
+  /* Faint paper grain, used on the hero only; fades out at the bottom. */
+  .grain { position: relative; isolation: isolate; }
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.09 0 0 0 0 0.09 0 0 0 0 0.08 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mask-image: linear-gradient(to bottom, #000 60%, transparent);
+  }
+
+  /* Lines that draw themselves once their container gets .is-drawn. */
+  .draw-line { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.2s cubic-bezier(.7,0,.2,1); }
+  .is-drawn .draw-line { stroke-dashoffset: 0; }
+
+  /* Reveal on view: children rise in once the container gets .is-in. */
+  .reveal > * { opacity: 0; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(.2,.7,.2,1); }
+  .reveal.is-in > * { opacity: 1; transform: none; }
+  .reveal.is-in > *:nth-child(2) { transition-delay: 80ms; }
+  .reveal.is-in > *:nth-child(3) { transition-delay: 160ms; }
+  .reveal.is-in > *:nth-child(4) { transition-delay: 240ms; }
+  .reveal.is-in > *:nth-child(n+5) { transition-delay: 320ms; }
+
+  /* Endless strip of words between sections. */
+  .marquee { display: flex; width: max-content; animation: marquee 38s linear infinite; }
+  .marquee-wrap:hover .marquee { animation-play-state: paused; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
 }
 
-/* Display type: heavy, tight. */
-.display {
-  font-family: var(--font-inter-tight), system-ui, sans-serif;
-  font-weight: 800;
-  letter-spacing: -0.035em;
-  word-spacing: 0.08em;
-  line-height: 0.9;
-}
-
-/* The full stop after big titles: a small chartreuse square with an ink edge. */
-.mark {
-  display: inline-block;
-  width: 0.15em;
-  height: 0.15em;
-  margin-left: 0.05em;
-  background: var(--accent);
-  border: max(2px, 0.022em) solid var(--foreground);
-}
-
-/* Highlighter hover for links and titles on the light ground. */
-.hl { box-decoration-break: clone; -webkit-box-decoration-break: clone; transition: background-color 0.15s; }
-.hl:hover, .group:hover .hl { background: var(--accent); }
-
-/* Lines that draw themselves once their container gets .is-drawn. */
-.draw-line { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.4s cubic-bezier(.7,0,.2,1); }
-.is-drawn .draw-line { stroke-dashoffset: 0; }
+@keyframes ping { 75%, 100% { transform: scale(2.4); opacity: 0; } }
 
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   .draw-line { stroke-dashoffset: 0; }
+  .reveal > * { opacity: 1; transform: none; }
 }

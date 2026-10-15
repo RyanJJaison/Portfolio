@@ -10,23 +10,23 @@ export function Closing() {
     { label: "LinkedIn", href: profile.links.linkedin, text: "Ryan Joseph Jaison" },
   ];
   return (
-    <section className="mt-28 bg-foreground text-background">
-      <div className="mx-auto max-w-7xl px-6 py-16">
-        <p className="caps text-accent">(05) Next</p>
+    <section className="mx-auto mt-28 max-w-7xl px-6">
+      <div className="card !bg-foreground px-6 py-16 text-background sm:px-12">
+        <p className="caps text-accent-soft">(05) Next</p>
         <h2 className="display mt-6 text-[clamp(3.5rem,12vw,11rem)]">
-          Let&apos;s build<br />something<span className="text-accent">.</span>
+          Let&apos;s build<br /><em className="!text-accent-soft">something</em><span className="mark !bg-accent-soft" aria-hidden />
         </h2>
         <div className="mt-14 grid grid-cols-12 gap-6 border-t border-background/40 pt-6">
           {links.map((l) => (
             <a key={l.label} href={l.href} {...ext} className="group col-span-12 sm:col-span-4">
               <span className="caps text-background/60">{l.label}</span>
-              <span className="mt-1 block break-all text-xl font-medium group-hover:text-accent">{l.text} ↗</span>
+              <span className="mt-1 block break-all text-xl font-medium group-hover:text-accent-soft">{l.text} ↗</span>
             </a>
           ))}
         </div>
         <div className="caps mt-10 flex flex-wrap gap-6 text-background/60">
-          {profile.links.cv && <a href={profile.links.cv} {...ext} className="hover:text-accent">Download résumé ↗</a>}
-          <Link href="/contact" className="hover:text-accent">Contact page →</Link>
+          {profile.links.cv && <a href={profile.links.cv} {...ext} className="hover:text-accent-soft">Download résumé ↗</a>}
+          <Link href="/contact" className="hover:text-accent-soft">Contact page →</Link>
         </div>
       </div>
     </section>

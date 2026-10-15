@@ -1,7 +1,7 @@
 "use client";
 
 import { journeyStops } from "@/content/journey";
-import { PinnedScene } from "@/components/scroll/PinnedScene";
+import { PlayOnView } from "@/components/scroll/PlayOnView";
 
 // Equirectangular projection over a box covering Kerala and Bangalore.
 const BOX = { west: 75.4, east: 78.4, south: 8.9, north: 13.7 };
@@ -35,8 +35,8 @@ function Scene({ p }: { p: number }) {
   const current = reached.lastIndexOf(true);
 
   return (
-    <div className="mx-auto grid h-full max-w-6xl content-center items-center gap-6 px-6 pt-16 md:grid-cols-[1fr_1fr] md:gap-12">
-      <svg viewBox={`-40 -20 ${W + 80} ${H + 40}`} className="mx-auto h-[38vh] w-auto md:h-[75vh]" role="img" aria-label="Map of the route from Kottayam to Kochi to Bangalore">
+    <div className="mx-auto grid max-w-6xl content-center items-center gap-6 px-6 py-10 md:grid-cols-[1fr_1fr] md:gap-12">
+      <svg viewBox={`-40 -20 ${W + 80} ${H + 40}`} className="mx-auto h-[42vh] w-auto md:h-[min(68svh,640px)]" role="img" aria-label="Map of the route from Kottayam to Kochi to Bangalore">
         <defs>
           <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
             <path d="M0 0.5 H24 M0.5 0 V24" stroke="var(--line)" strokeWidth="1" />
@@ -50,15 +50,15 @@ function Scene({ p }: { p: number }) {
         {legs.map((d, i) => (
           <g key={i}>
             <path d={d} fill="none" stroke="var(--foreground)" strokeOpacity="0.3" strokeWidth="1" strokeDasharray="2 6" />
-            <path d={d} fill="none" stroke="var(--foreground)" strokeWidth="2" strokeLinecap="round" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - legDraw[i]} />
+            <path d={d} fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeLinecap="round" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - legDraw[i]} />
           </g>
         ))}
 
         {pts.map((s, i) => (
           <g key={s.city} transform={`translate(${s.x},${s.y})`} opacity={reached[i] ? 1 : 0.25}>
-            {i === current && <rect x={-16} y={-16} width={32} height={32} fill="none" stroke="var(--foreground)" strokeWidth="1.5" />}
-            <rect x={-9} y={-9} width={18} height={18} fill="var(--background)" stroke="var(--foreground)" strokeWidth="2" />
-            <rect x={-4.5} y={-4.5} width={9} height={9} fill={i === current ? "var(--accent)" : reached[i] ? "var(--foreground)" : "var(--line)"} stroke={i === current ? "var(--foreground)" : "none"} />
+            {i === current && <circle r={17} fill="var(--accent-soft)" />}
+            <circle r={9} fill="var(--background)" stroke={reached[i] ? "var(--accent)" : "var(--foreground)"} strokeWidth="2" />
+            <circle r={4.5} fill={i === current ? "var(--accent)" : reached[i] ? "var(--foreground)" : "var(--line)"} />
             <text x={i === 0 ? 18 : -16} y={i === 1 ? -10 : 8} textAnchor={i === 0 ? "start" : "end"} fontSize="32" fontWeight={800} letterSpacing="-0.02em" className="fill-foreground font-display">
               {s.city}
             </text>
@@ -70,7 +70,7 @@ function Scene({ p }: { p: number }) {
         {pts.map((s, i) => (
           <li
             key={s.city}
-            className={`border-l-2 py-2 pl-5 transition duration-500 ${i === current ? "border-foreground" : "border-line max-md:hidden"} ${reached[i] ? "opacity-100" : "translate-y-2 opacity-20"}`}
+            className={`card p-5 transition duration-500 ${i === current ? "bg-accent-soft" : "max-md:hidden"} ${reached[i] ? "opacity-100" : "translate-y-2 opacity-20"}`}
           >
             <p className="caps text-muted">{s.period}</p>
             <h3 className="display mt-2 text-3xl">{s.title}</h3>
@@ -84,8 +84,8 @@ function Scene({ p }: { p: number }) {
 
 export function JourneyMap() {
   return (
-    <PinnedScene label="Education journey map" length={3.2}>
+    <PlayOnView label="Education journey map" duration={2200}>
       {(p) => <Scene p={p} />}
-    </PinnedScene>
+    </PlayOnView>
   );
 }

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { fields, type FieldId } from "@/content/skills";
 import { projects } from "@/content/projects";
 import { credentials } from "@/content/experience";
-import { PinnedScene } from "@/components/scroll/PinnedScene";
+import { PlayOnView } from "@/components/scroll/PlayOnView";
 import { NARROW, useMedia } from "@/components/ui/useMedia";
 
 // ---------- graph data: Ryan -> six fields -> the work built on them ----------
@@ -51,7 +51,7 @@ function layout(w: number, h: number, inner: { rx: number; ry: number }, outer: 
 const WIDE = layout(1000, 660, { rx: 210, ry: 150 }, { rx: 370, ry: 255 }, 330);
 const TALL = layout(600, 720, { rx: 150, ry: 150 }, { rx: 225, ry: 290 }, 350);
 
-// ---------- scroll timeline ----------
+// ---------- timeline over progress 0..1 ----------
 
 const clamp = (v: number) => Math.min(1, Math.max(0, v));
 const q = (v: number) => Math.round(v * 40) / 40;
@@ -75,7 +75,7 @@ const EDGES = { wide: edges(WIDE), tall: edges(TALL) };
 function caption(p: number) {
   if (p < OUT1) return "Six fields, six pieces of work";
   if (p < OUT2) return "Signal leaves the centre for each field";
-  if (p < 0.88) return "Each field feeds the work built on it";
+  if (p < 0.86) return "Each field feeds the work built on it";
   return "Most of the work draws on more than one field";
 }
 
@@ -95,15 +95,15 @@ const EdgeView = memo(function EdgeView({ d, t, state }: { d: string; t: number;
   const opacity = state === "on" ? 1 : state === "dim" ? 0.06 : passed ? 0.55 : 0.14;
   return (
     <g>
-      <path d={d} fill="none" stroke="var(--foreground)" strokeOpacity={opacity} strokeWidth={state === "on" ? 1.8 : 1} />
+      <path d={d} fill="none" stroke={state === "on" ? "var(--accent)" : "var(--foreground)"} strokeOpacity={opacity} strokeWidth={state === "on" ? 2 : 1} />
       {t > 0 && t < 1 && (
-        <path d={d} fill="none" pathLength={1} stroke="var(--foreground)" strokeWidth={2.4} strokeDasharray={`${t} 1`} />
+        <path d={d} fill="none" pathLength={1} stroke="var(--accent)" strokeWidth={2.4} strokeLinecap="round" strokeDasharray={`${t} 1`} />
       )}
     </g>
   );
 });
 
-/** The travelling signal: a chartreuse dot with an ink outline, at parameter t along the edge. */
+/** The travelling signal: a green dot with a light outline, at parameter t along the edge. */
 function headAt(e: Edge, c: { x: number; y: number }, t: number) {
   if (e.from === "me") return { x: e.a.x + (e.b.x - e.a.x) * t, y: e.a.y + (e.b.y - e.a.y) * t };
   const mx = (e.a.x + e.b.x) / 2;
@@ -160,12 +160,12 @@ function Scene({ p }: { p: number }) {
   const fieldFont = narrow ? 12 : 12.5;
 
   return (
-    <div className="mx-auto flex h-full max-w-7xl flex-col px-6 pb-14 pt-16">
+    <div className="mx-auto flex max-w-7xl flex-col px-6 pb-4 md:h-[min(80svh,720px)] md:min-h-[560px]">
       <div className="grid grid-cols-12 gap-x-6 gap-y-2 border-t border-foreground pt-4">
-        <p className="caps col-span-12 md:col-span-2">(02)</p>
-        <h2 className="display col-span-12 text-5xl sm:text-7xl md:col-span-6">The orbit</h2>
-        <p className="caps col-span-12 flex items-center gap-2 self-end md:col-span-4 md:justify-end" aria-live="polite">
-          <span className="inline-block h-2 w-2 border border-foreground bg-accent" aria-hidden />
+        <p className="caps col-span-12 text-accent md:col-span-2">(02)</p>
+        <h2 className="display col-span-12 text-5xl sm:text-7xl md:col-span-6">The <em>orbit</em></h2>
+        <p className="caps col-span-12 flex items-center gap-2 self-end text-muted md:col-span-4 md:justify-end" aria-live="polite">
+          <span className="live-dot" aria-hidden />
           {caption(p)}
         </p>
       </div>
@@ -173,7 +173,7 @@ function Scene({ p }: { p: number }) {
       <div className="mt-2 grid min-h-0 flex-1 grid-cols-12 gap-x-6">
         <svg
           viewBox={`0 0 ${g.w} ${g.h}`}
-          className="col-span-12 h-full min-h-0 w-full md:col-span-8"
+          className="col-span-12 min-h-0 w-full md:col-span-8 md:h-full"
           role="img"
           aria-label="Ryan at the centre, six fields on an inner ring, and the projects built on them on an outer ring"
           onPointerLeave={() => setFocus(null)}
@@ -191,14 +191,14 @@ function Scene({ p }: { p: number }) {
             const t = travel[i];
             if (t <= 0 || t >= 1) return null;
             const h = headAt(e, g.c, t);
-            return <circle key={`h-${e.from}-${e.to}`} cx={h.x} cy={h.y} r={6} fill="var(--accent)" stroke="var(--foreground)" strokeWidth={1.5} />;
+            return <circle key={`h-${e.from}-${e.to}`} cx={h.x} cy={h.y} r={6} fill="var(--accent)" stroke="var(--background)" strokeWidth={2} />;
           })}
 
           {/* centre */}
           <g opacity={rings} {...hover("me")} aria-label="Ryan">
-            <circle cx={g.c.x} cy={g.c.y} r={narrow ? 38 : 44} fill="var(--foreground)" />
-            <circle cx={g.c.x} cy={g.c.y} r={(narrow ? 38 : 44) + 6} fill="none" stroke="var(--foreground)" strokeOpacity={0.25} />
-            <text x={g.c.x} y={g.c.y + 5} textAnchor="middle" fontSize={14} letterSpacing="0.12em" fontWeight={600} className="font-mono" fill="var(--accent)">RYAN</text>
+            <circle cx={g.c.x} cy={g.c.y} r={narrow ? 38 : 44} fill={focus === "me" ? "var(--accent)" : "var(--foreground)"} />
+            <circle cx={g.c.x} cy={g.c.y} r={(narrow ? 38 : 44) + 7} fill="none" stroke="var(--accent)" strokeOpacity={0.4} />
+            <text x={g.c.x} y={g.c.y + 9} textAnchor="middle" fontSize={26} className="font-serif italic" fill="var(--background)">Ryan</text>
           </g>
 
           {/* fields */}
@@ -211,8 +211,8 @@ function Scene({ p }: { p: number }) {
             const dim = lit && !lit.has(id);
             return (
               <g key={id} transform={`translate(${pt.x},${pt.y})`} opacity={(dim ? 0.2 : 1) * Math.max(0.25, rings)} {...hover(id)} aria-label={f.name}>
-                <rect x={-w / 2} y={-15} width={w} height={30} rx={15} fill={a >= 1 || focus === id ? "var(--accent)" : "var(--background)"} stroke="var(--foreground)" strokeWidth={1.3} />
-                <text y={4.5} textAnchor="middle" fontSize={fieldFont} letterSpacing="0.06em" fontWeight={600} className="font-mono" fill="var(--foreground)">{label}</text>
+                <rect x={-w / 2} y={-15} width={w} height={30} rx={15} fill={focus === id ? "var(--accent)" : a >= 1 ? "var(--accent-soft)" : "var(--background)"} stroke={a >= 1 || focus === id ? "var(--accent)" : "var(--foreground)"} strokeOpacity={a >= 1 ? 1 : 0.4} strokeWidth={1.3} style={{ transition: "fill .3s" }} />
+                <text y={4.5} textAnchor="middle" fontSize={fieldFont} letterSpacing="0.06em" fontWeight={600} className="font-mono" fill={focus === id ? "var(--background)" : a >= 1 ? "var(--accent)" : "var(--foreground)"}>{label}</text>
               </g>
             );
           })}
@@ -231,7 +231,7 @@ function Scene({ p }: { p: number }) {
               <g key={o.id} transform={`translate(${pt.x},${pt.y})`} opacity={(dim ? 0.2 : 1) * Math.max(0.25, rings)}
                 {...hover(o.id)} onClick={ready ? go : undefined} role={o.href ? "link" : undefined} aria-label={o.label}
                 onKeyDown={(ev) => ev.key === "Enter" && o.href && router.push(o.href)}>
-                <rect x={-10} y={-10} width={20} height={20} fill={a >= 1 || focus === o.id ? "var(--accent)" : "var(--background)"} stroke="var(--foreground)" strokeWidth={1.6} />
+                <rect x={-10} y={-10} width={20} height={20} rx={6} fill={a >= 1 || focus === o.id ? "var(--accent)" : "var(--background)"} stroke={a >= 1 ? "var(--accent)" : "var(--foreground)"} strokeWidth={1.6} style={{ transition: "fill .3s" }} />
                 <text y={ty} textAnchor="middle" fontSize={workFont} fontWeight={800} letterSpacing="-0.02em" wordSpacing="0.1em" className="font-display"
                   fill="var(--foreground)" fillOpacity={0.4 + 0.6 * a} style={{ paintOrder: "stroke", stroke: "var(--background)", strokeWidth: 6 }}>
                   {ls.map((l, i) => (
@@ -254,14 +254,14 @@ function Panel({ focus }: { focus: string | null }) {
   const field = focus ? FIELD.get(focus as FieldId) : undefined;
   const work = focus ? OUTER.find((o) => o.id === focus) : undefined;
   return (
-    <aside className="col-span-12 self-center border-t border-foreground pt-4 max-md:mt-2 md:col-span-4" aria-live="polite">
+    <aside className="card col-span-12 self-center p-6 max-md:mt-4 md:col-span-4" aria-live="polite">
       {field ? (
         <>
           <p className="caps text-muted">Field</p>
           <h3 className="display mt-2 text-4xl">{field.name}</h3>
           <ul className="mt-4 flex flex-wrap gap-1.5">
             {field.skills.map((s) => (
-              <li key={s} className="caps border border-foreground px-2 py-1">{s}</li>
+              <li key={s} className="caps pill pill-sm border border-foreground/30">{s}</li>
             ))}
           </ul>
           <p className="caps mt-5 text-muted">Used in</p>
@@ -274,11 +274,11 @@ function Panel({ focus }: { focus: string | null }) {
           <p className="mt-3 text-lg leading-snug">{work.tagline}</p>
           <ul className="mt-4 flex flex-wrap gap-1.5">
             {work.fields.map((f) => (
-              <li key={f} className="caps bg-accent px-2 py-1">{FIELD.get(f)!.name}</li>
+              <li key={f} className="caps pill pill-sm bg-accent-soft text-accent">{FIELD.get(f)!.name}</li>
             ))}
           </ul>
           {work.href && (
-            <Link href={work.href} className="caps mt-5 inline-block bg-foreground px-4 py-2.5 text-background hover:bg-accent hover:text-foreground">
+            <Link href={work.href} className="caps pill mt-5 bg-foreground text-background hover:bg-accent">
               Open project →
             </Link>
           )}
@@ -293,7 +293,7 @@ function Panel({ focus }: { focus: string | null }) {
         <>
           <p className="caps text-muted">How to read it</p>
           <p className="mt-3 text-lg leading-snug">
-            Me at the centre, the six fields I work in on the inner ring, and what I&apos;ve built with them on the outer ring. Scroll to send the signal outward; hover or tap any node to see what&apos;s inside.
+            Me at the centre, the six fields I work in on the inner ring, and what I&apos;ve built with them on the outer ring. Hover or tap any node to see what&apos;s inside.
           </p>
         </>
       )}
@@ -304,9 +304,9 @@ function Panel({ focus }: { focus: string | null }) {
 export function OrbitGraph() {
   return (
     <div id="graph">
-      <PinnedScene label="Skill orbit graph" length={4}>
+      <PlayOnView label="Skill orbit graph" duration={2400}>
         {(p) => <Scene p={p} />}
-      </PinnedScene>
+      </PlayOnView>
     </div>
   );
 }
