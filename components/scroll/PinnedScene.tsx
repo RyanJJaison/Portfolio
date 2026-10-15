@@ -43,6 +43,7 @@ export function PinnedScene({ length = 2.5, label, children }: Props) {
   useEffect(() => {
     if (reduced) return;
     let forwarding = false;
+    let last = 0; // progress at the previous update
     const st = ScrollTrigger.create({
       trigger: ref.current,
       start: "top top",
@@ -53,7 +54,10 @@ export function PinnedScene({ length = 2.5, label, children }: Props) {
       onUpdate: (self) => {
         // Quantized so React skips re-rendering the scene for sub-pixel scroll changes.
         setProgress(Math.round(self.progress * 400) / 400);
-        if (!forwarding && self.direction === 1 && self.getVelocity() > FAST_SCROLL && self.progress < 0.95) {
+        // Only a fling that starts inside the scene skips it; a jump from elsewhere (a link, a refresh) does not.
+        const inside = last > 0 && last < 1;
+        last = self.progress;
+        if (inside && !forwarding && self.direction === 1 && self.getVelocity() > FAST_SCROLL && self.progress < 0.95) {
           forwarding = true;
           scrollPast(self.end);
           setTimeout(() => (forwarding = false), 700);
@@ -79,7 +83,7 @@ export function PinnedScene({ length = 2.5, label, children }: Props) {
           <button
             type="button"
             onClick={skip}
-            className="pointer-events-auto rounded-full border border-line bg-background/70 px-4 py-1.5 font-mono text-xs text-muted hover:border-accent hover:text-foreground"
+            className="caps pointer-events-auto border-b border-muted bg-background/80 px-1 pb-0.5 text-muted hover:border-accent hover:text-accent"
           >
             Skip ↓
           </button>

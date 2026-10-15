@@ -41,29 +41,26 @@ function Scene({ p }: { p: number }) {
           <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
             <circle cx="1" cy="1" r="1" fill="var(--line)" />
           </pattern>
-          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="6" />
-          </filter>
         </defs>
         <rect x={-40} y={-20} width={W + 80} height={H + 40} fill="url(#dots)" />
-        <text x={-20} y={H * 0.62} className="fill-muted font-mono" fontSize="16" opacity="0.5">Arabian Sea</text>
-        <text x={W * 0.48} y={H * 0.12} className="fill-muted font-mono" fontSize="16" opacity="0.5">Karnataka</text>
-        <text x={W * 0.5} y={H * 0.97} className="fill-muted font-mono" fontSize="16" opacity="0.5">Kerala</text>
+        <text x={-20} y={H * 0.62} className="fill-muted font-hand" fontSize="24" opacity="0.8">Arabian Sea</text>
+        <text x={W * 0.48} y={H * 0.12} className="fill-muted font-hand" fontSize="24" opacity="0.8">Karnataka</text>
+        <text x={W * 0.5} y={H * 0.97} className="fill-muted font-hand" fontSize="24" opacity="0.8">Kerala</text>
 
         {legs.map((d, i) => (
           <g key={i}>
-            <path d={d} fill="none" stroke="var(--line)" strokeWidth="2" strokeDasharray="4 8" />
-            <path d={d} fill="none" stroke="var(--accent)" strokeWidth="6" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - legDraw[i]} filter="url(#glow)" opacity="0.6" />
-            <path d={d} fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeLinecap="round" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - legDraw[i]} />
+            <path d={d} fill="none" stroke="var(--foreground)" strokeOpacity="0.25" strokeWidth="1.2" strokeDasharray="3 7" />
+            <path d={d} fill="none" stroke="var(--foreground)" strokeWidth="2" strokeLinecap="round" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - legDraw[i]} />
+            <path d={d} transform="translate(1.2 1.6)" fill="none" stroke="var(--foreground)" strokeOpacity="0.15" strokeWidth="1.2" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - legDraw[i]} />
           </g>
         ))}
 
         {pts.map((s, i) => (
           <g key={s.city} transform={`translate(${s.x},${s.y})`} opacity={reached[i] ? 1 : 0.25}>
-            {i === current && <circle r="22" fill="var(--accent)" opacity="0.15" className="animate-ping origin-center" />}
-            <circle r="9" fill="var(--background)" stroke="var(--accent)" strokeWidth="2.5" />
-            <circle r="4" fill={reached[i] ? "var(--accent)" : "var(--line)"} />
-            <text x={i === 0 ? 18 : -16} y={i === 1 ? -10 : 6} textAnchor={i === 0 ? "start" : "end"} fontSize="22" className="fill-foreground font-medium">
+            {i === current && <circle r="18" fill="none" stroke="var(--accent)" strokeWidth="1.2" opacity="0.6" className="animate-ping origin-center" />}
+            <circle r="9" fill="var(--background)" stroke="var(--foreground)" strokeWidth="1.5" />
+            <circle r="4" fill={i === current ? "var(--accent)" : reached[i] ? "var(--foreground)" : "var(--line)"} />
+            <text x={i === 0 ? 18 : -16} y={i === 1 ? -10 : 8} textAnchor={i === 0 ? "start" : "end"} fontSize="30" className="fill-foreground font-display">
               {s.city}
             </text>
           </g>
@@ -74,11 +71,11 @@ function Scene({ p }: { p: number }) {
         {pts.map((s, i) => (
           <li
             key={s.city}
-            className={`rounded-xl border p-5 transition duration-500 ${i === current ? "border-accent bg-accent/5" : "border-line max-md:hidden"} ${reached[i] ? "opacity-100" : "translate-y-2 opacity-20"}`}
+            className={`border-l-2 py-2 pl-5 transition duration-500 ${i === current ? "border-accent" : "border-line max-md:hidden"} ${reached[i] ? "opacity-100" : "translate-y-2 opacity-20"}`}
           >
-            <p className="font-mono text-xs text-accent">{s.period}</p>
-            <h3 className="mt-1 text-lg font-medium">{s.title}</h3>
-            <p className="text-sm text-muted">{s.city}</p>
+            <p className="caps text-muted">{s.period}</p>
+            <h3 className="font-display mt-1 text-3xl leading-tight">{s.title}</h3>
+            <p className="font-hand text-xl text-muted">{s.city}</p>
           </li>
         ))}
       </ol>

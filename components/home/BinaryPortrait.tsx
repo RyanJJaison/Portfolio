@@ -280,7 +280,12 @@ export function BinaryPortrait({ label }: { label: string }) {
   }, []);
 
   return (
-    <div ref={wrapRef} className="relative w-full" style={{ aspectRatio: `${portrait.cols} / ${portrait.rows}` }}>
+    <div
+      ref={wrapRef}
+      className="relative w-full"
+      // Fade the bottom edge into the page with a mask, so the paper texture shows through.
+      style={{ aspectRatio: `${portrait.cols} / ${portrait.rows}`, maskImage: "linear-gradient(to bottom, #000 70%, transparent)" }}
+    >
       <canvas ref={canvasRef} role="img" aria-label={label} className="block w-full" />
     </div>
   );

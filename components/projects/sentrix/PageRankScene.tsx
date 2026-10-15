@@ -123,7 +123,7 @@ function Scene({ p }: { p: number }) {
                   onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setSeed(i)}>
                   {h > 0.2 && <circle r={14 + 14 * h} fill="url(#pr-halo)" opacity={0.6 * h} />}
                   <circle r={6 + 6 * h} fill="var(--risk)" fillOpacity={0.08 + 0.92 * h} stroke={isSeed ? "var(--foreground)" : "var(--risk)"} strokeOpacity={isSeed ? 1 : 0.5} strokeWidth={isSeed ? 3 : 1} />
-                  {isSeed && <text y={-20} textAnchor="middle" fontSize="13" className="fill-foreground font-mono">seed</text>}
+                  {isSeed && <text y={-20} textAnchor="middle" fontSize="20" className="fill-foreground font-hand">seed</text>}
                 </g>
               );
             })}
@@ -138,16 +138,16 @@ function Scene({ p }: { p: number }) {
       <div className="flex min-h-0 flex-col justify-center">
         <ol className="space-y-3">
           {STEPS.map((s, i) => (
-            <li key={s.title} className={`rounded-xl border p-4 transition duration-500 ${i === step ? "border-accent bg-accent/5" : "border-line opacity-40"} ${i !== step ? "max-md:hidden" : ""}`}>
-              <p className="font-mono text-xs text-accent">0{i + 1}</p>
-              <h3 className="mt-1 font-medium">{s.title}</h3>
+            <li key={s.title} className={`border-l-2 py-2 pl-5 transition duration-500 ${i === step ? "border-accent" : "border-line opacity-40"} ${i !== step ? "max-md:hidden" : ""}`}>
+              <p className="caps text-muted">Step 0{i + 1}</p>
+              <h3 className="font-display mt-1 text-2xl leading-tight">{s.title}</h3>
               <p className="mt-1 text-sm text-muted">{s.body}</p>
             </li>
           ))}
         </ol>
 
         <div className={`mt-6 transition-opacity duration-500 ${bars > 0 ? "opacity-100" : "opacity-0"}`} aria-hidden={bars === 0}>
-          <p className="font-mono text-xs text-muted">Held-out results, 3 seeds (SentriX README)</p>
+          <p className="caps text-muted">Held-out results, 3 seeds (SentriX README)</p>
           <div className="mt-3 space-y-4">
             {sentrixMetrics.map((m) => (
               <div key={m.metric}>

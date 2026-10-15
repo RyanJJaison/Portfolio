@@ -1,16 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f4f2ec; /* warm paper */
-  --foreground: #141414; /* ink */
-  --muted: #5f5d58;
-  --line: #dcd8ce;
-  --accent: #2f4bd8; /* cobalt, ~6:1 on paper */
-  --risk: #e4572e; /* heat colour for risk scores in demos */
+  --background: #f6efe3; /* warm paper */
+  --paper-deep: #efe5d4;
+  --foreground: #2a201a; /* sepia ink */
+  --muted: #7b6b5d;
+  --line: #d8cab4;
+  --accent: #2f4bd8; /* cobalt: used only for live signal */
+  --risk: #c4502f; /* heat colour for risk scores in demos */
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-paper-deep: var(--paper-deep);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-line: var(--line);
@@ -18,17 +20,39 @@
   --color-risk: var(--risk);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-newsreader);
+  --font-display: var(--font-instrument);
+  --font-hand: var(--font-caveat);
 }
 
 html { color-scheme: light; }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
+  /* Static paper grain: one SVG noise tile, no runtime cost. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.25 0 0 0 0 0.15 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-newsreader), Georgia, serif;
 }
+
+::selection { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+
+/* Small tracked caps used for labels, nav and captions. */
+.caps {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Lines that draw themselves once their container gets .is-drawn. */
+.draw-line { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.6s cubic-bezier(.6,.05,.25,1); }
+.is-drawn .draw-line { stroke-dashoffset: 0; }
+
+@keyframes fade-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.fade-up { animation: fade-up 0.9s cubic-bezier(.2,.7,.2,1) both; }
 
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .draw-line { stroke-dashoffset: 0; }
 }
-
