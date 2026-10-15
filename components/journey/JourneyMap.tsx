@@ -35,8 +35,8 @@ function Scene({ p }: { p: number }) {
   const current = reached.lastIndexOf(true);
 
   return (
-    <div className="mx-auto grid max-w-6xl content-center items-center gap-6 px-6 py-10 md:grid-cols-[1fr_1fr] md:gap-12">
-      <svg viewBox={`-40 -20 ${W + 80} ${H + 40}`} className="mx-auto h-[42vh] w-auto md:h-[min(68svh,640px)]" role="img" aria-label="Map of the route from Kottayam to Kochi to Bangalore">
+    <div className="mx-auto grid h-full max-w-6xl content-center items-center gap-6 px-6 pb-10 md:grid-cols-[1fr_1fr] md:gap-12">
+      <svg viewBox={`-40 -20 ${W + 80} ${H + 40}`} className="mx-auto h-[46svh] w-auto md:h-[72svh]" role="img" aria-label="Map of the route from Kottayam to Kochi to Bangalore">
         <defs>
           <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
             <path d="M0 0.5 H24 M0.5 0 V24" stroke="var(--line)" strokeWidth="1" />
@@ -84,7 +84,7 @@ function Scene({ p }: { p: number }) {
 
 export function JourneyMap() {
   return (
-    <ScrollScene label="Education journey map">
+    <ScrollScene label="Education journey map" length={1.3}>
       {(p) => <Scene p={p} />}
     </ScrollScene>
   );

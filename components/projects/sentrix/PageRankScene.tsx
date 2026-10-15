@@ -97,9 +97,9 @@ function Scene({ p }: { p: number }) {
   const heat = (i: number) => (i === seed ? 1 : max > 0 ? Math.log1p(1000 * score[i]) / Math.log1p(1000 * max) : 0);
 
   return (
-    <div className="mx-auto grid max-w-6xl content-center gap-6 px-6 py-10 md:grid-cols-[1.2fr_1fr] md:gap-10">
+    <div className="mx-auto grid h-full max-w-6xl content-center gap-6 px-6 pb-10 md:grid-cols-[1.2fr_1fr] md:gap-10">
       <div className="min-h-0">
-        <svg viewBox={`0 0 ${G.W} ${G.H}`} className="mx-auto max-h-[42vh] w-full md:max-h-[min(64svh,600px)]" role="img" aria-label="Toy transaction graph with Personalized PageRank scores spreading from a seed node">
+        <svg viewBox={`0 0 ${G.W} ${G.H}`} className="mx-auto max-h-[40svh] w-full md:max-h-[68svh]" role="img" aria-label="Toy transaction graph with Personalized PageRank scores spreading from a seed node">
           <defs>
             <radialGradient id="pr-halo">
               <stop offset="0%" stopColor="var(--risk)" stopOpacity="0.7" />
@@ -174,7 +174,7 @@ function Scene({ p }: { p: number }) {
 
 export function PageRankScene() {
   return (
-    <ScrollScene label="SentriX Personalized PageRank demo">
+    <ScrollScene label="SentriX Personalized PageRank demo" length={1.8}>
       {(p) => <Scene p={p} />}
     </ScrollScene>
   );

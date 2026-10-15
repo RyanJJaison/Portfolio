@@ -160,7 +160,7 @@ function Scene({ p }: { p: number }) {
   const fieldFont = narrow ? 12 : 12.5;
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col px-6 pb-4 md:h-[min(80svh,720px)] md:min-h-[560px]">
+    <div className="mx-auto flex h-full max-w-7xl flex-col px-6 pb-10 pt-6">
       <div className="grid grid-cols-12 gap-x-6 gap-y-2 border-t border-foreground pt-4">
         <p className="caps col-span-12 text-accent md:col-span-2">(02)</p>
         <h2 className="display col-span-12 text-5xl sm:text-7xl md:col-span-6">The <em>orbit</em></h2>
@@ -173,7 +173,7 @@ function Scene({ p }: { p: number }) {
       <div className="mt-2 grid min-h-0 flex-1 grid-cols-12 gap-x-6">
         <svg
           viewBox={`0 0 ${g.w} ${g.h}`}
-          className="col-span-12 min-h-0 w-full md:col-span-8 md:h-full"
+          className="col-span-12 h-full min-h-0 w-full md:col-span-8"
           role="img"
           aria-label="Ryan at the centre, six fields on an inner ring, and the projects built on them on an outer ring"
           onPointerLeave={() => setFocus(null)}
@@ -254,7 +254,7 @@ function Panel({ focus }: { focus: string | null }) {
   const field = focus ? FIELD.get(focus as FieldId) : undefined;
   const work = focus ? OUTER.find((o) => o.id === focus) : undefined;
   return (
-    <aside className="card col-span-12 self-center p-6 max-md:mt-4 md:col-span-4" aria-live="polite">
+    <aside className={`card col-span-12 self-center p-6 max-md:mt-4 md:col-span-4 ${focus ? "" : "max-md:hidden"}`} aria-live="polite">
       {field ? (
         <>
           <p className="caps text-muted">Field</p>
@@ -304,7 +304,7 @@ function Panel({ focus }: { focus: string | null }) {
 export function OrbitGraph() {
   return (
     <div id="graph">
-      <ScrollScene label="Skill orbit graph">
+      <ScrollScene label="Skill orbit graph" length={1.6}>
         {(p) => <Scene p={p} />}
       </ScrollScene>
     </div>
