@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { fields, type FieldId } from "@/content/skills";
 import { projects } from "@/content/projects";
 import { credentials } from "@/content/experience";
-import { PlayOnView } from "@/components/scroll/PlayOnView";
+import { ScrollScene } from "@/components/scroll/ScrollScene";
 import { NARROW, useMedia } from "@/components/ui/useMedia";
 
 // ---------- graph data: Ryan -> six fields -> the work built on them ----------
@@ -293,7 +293,7 @@ function Panel({ focus }: { focus: string | null }) {
         <>
           <p className="caps text-muted">How to read it</p>
           <p className="mt-3 text-lg leading-snug">
-            Me at the centre, the six fields I work in on the inner ring, and what I&apos;ve built with them on the outer ring. Hover or tap any node to see what&apos;s inside.
+            Me at the centre, the six fields I work in on the inner ring, and what I&apos;ve built with them on the outer ring. Scroll to send the signal outward; hover or tap any node to see what&apos;s inside.
           </p>
         </>
       )}
@@ -304,9 +304,9 @@ function Panel({ focus }: { focus: string | null }) {
 export function OrbitGraph() {
   return (
     <div id="graph">
-      <PlayOnView label="Skill orbit graph" duration={2400}>
+      <ScrollScene label="Skill orbit graph">
         {(p) => <Scene p={p} />}
-      </PlayOnView>
+      </ScrollScene>
     </div>
   );
 }

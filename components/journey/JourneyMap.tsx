@@ -1,7 +1,7 @@
 "use client";
 
 import { journeyStops } from "@/content/journey";
-import { PlayOnView } from "@/components/scroll/PlayOnView";
+import { ScrollScene } from "@/components/scroll/ScrollScene";
 
 // Equirectangular projection over a box covering Kerala and Bangalore.
 const BOX = { west: 75.4, east: 78.4, south: 8.9, north: 13.7 };
@@ -84,8 +84,8 @@ function Scene({ p }: { p: number }) {
 
 export function JourneyMap() {
   return (
-    <PlayOnView label="Education journey map" duration={2200}>
+    <ScrollScene label="Education journey map">
       {(p) => <Scene p={p} />}
-    </PlayOnView>
+    </ScrollScene>
   );
 }

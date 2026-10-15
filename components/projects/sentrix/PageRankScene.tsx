@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { forceCollide, forceLink, forceManyBody, forceSimulation, forceX, forceY, type SimulationNodeDatum } from "d3-force";
-import { PlayOnView } from "@/components/scroll/PlayOnView";
+import { ScrollScene } from "@/components/scroll/ScrollScene";
 import { sentrixMetrics } from "@/content/sentrix";
 
 // ---- Toy transaction graph (illustrative only, not Elliptic data) ----
@@ -131,7 +131,7 @@ function Scene({ p }: { p: number }) {
         </svg>
         <div className="mt-2 flex flex-wrap justify-between gap-2 font-mono text-[11px] text-muted">
           <span>iteration {iter} / {ITERS} · restart {RESTART}</span>
-          <span>Toy graph, illustrative. Click a node to re-seed, then replay.</span>
+          <span>Toy graph, illustrative. Click a node to re-seed.</span>
         </div>
       </div>
 
@@ -174,8 +174,8 @@ function Scene({ p }: { p: number }) {
 
 export function PageRankScene() {
   return (
-    <PlayOnView label="SentriX Personalized PageRank demo" duration={3200}>
+    <ScrollScene label="SentriX Personalized PageRank demo">
       {(p) => <Scene p={p} />}
-    </PlayOnView>
+    </ScrollScene>
   );
 }

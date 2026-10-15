@@ -12,7 +12,7 @@ export default function JourneyPage() {
       <Reveal as="header" className="mx-auto grid max-w-7xl grid-cols-12 gap-x-6 gap-y-4 px-6 pt-10">
         <p className="caps col-span-12 text-accent">(J) Kottayam / Kochi / Bangalore</p>
         <h1 className="display col-span-12 text-[clamp(3.5rem,11vw,10rem)]">Jour<em>ney</em><span className="mark" aria-hidden /></h1>
-        <p className="caps col-span-12 text-muted md:col-span-4 md:col-start-9 md:text-right">Three cities, one route</p>
+        <p className="caps col-span-12 text-muted md:col-span-4 md:col-start-9 md:text-right">Scroll to travel the route</p>
       </Reveal>
       <JourneyMap />
       <section className="mx-auto max-w-7xl px-6 pb-24">
