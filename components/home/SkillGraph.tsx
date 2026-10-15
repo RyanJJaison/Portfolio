@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { memo, useMemo, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { skillGroups } from "@/content/skills";
 import { projects } from "@/content/projects";
@@ -141,6 +141,96 @@ const subscribeNarrow = (cb: () => void) => {
 };
 
 const clamp = (v: number) => Math.min(1, Math.max(0, v));
+/** Quantize animation values so memoized nodes and edges only re-render when they visibly change. */
+const q = (v: number) => Math.round(v * 40) / 40;
+
+type EdgeProps = { a: GNode; b: GNode; kind: GEdge["kind"]; draw: number; on: boolean; anyLit: boolean; pulse: number };
+
+const EdgeView = memo(function EdgeView({ a, b, kind, draw, on, anyLit, pulse }: EdgeProps) {
+  // Hub edges end at the far side of the skill label; project edges start at the skill dot (or label end).
+  const x1 = kind === "hub" ? a.x : a.outX ?? a.x;
+  const x2 = kind === "hub" ? b.inX ?? b.x : b.x;
+  const mx = (x1 + x2) / 2;
+  return (
+    <path
+      d={`M${x1},${a.y} C${mx},${a.y} ${mx},${b.y} ${x2},${b.y}`}
+      fill="none"
+      pathLength={1}
+      strokeDasharray="1"
+      strokeDashoffset={1 - draw}
+      stroke={on || (kind === "use" && !anyLit) ? "var(--accent)" : "var(--muted)"}
+      strokeOpacity={anyLit ? (on ? 0.9 : 0.05) : kind === "hub" ? 0.3 : 0.15 + 0.3 * pulse}
+      strokeWidth={on ? 2 : 1.2}
+    />
+  );
+});
+
+type NodeProps = {
+  n: GNode;
+  r: number;
+  dim: boolean;
+  on: boolean;
+  isFocus: boolean;
+  narrow: boolean;
+  pulse: number;
+  setFocus: (id: string | null) => void;
+  go: (href: string) => void;
+};
+
+const NodeView = memo(function NodeView({ n, r, dim, on, isFocus, narrow, pulse, setFocus, go }: NodeProps) {
+  const ready = r >= 1;
+  const open = () => n.href && go(n.href);
+  const handlers = ready
+    ? {
+        tabIndex: 0,
+        onPointerEnter: () => setFocus(n.id),
+        onPointerLeave: () => setFocus(null),
+        onFocus: () => setFocus(n.id),
+        onBlur: () => setFocus(null),
+        onClick: () => (n.href && (!narrow || isFocus) ? open() : setFocus(n.id)),
+        onKeyDown: (ev: React.KeyboardEvent) => ev.key === "Enter" && open(),
+      }
+    : {};
+  const common = {
+    opacity: (dim ? 0.15 : 1) * r,
+    className: ready ? "cursor-pointer outline-none" : undefined,
+    role: n.href ? "link" : undefined,
+    "aria-label": n.href ? `${n.label} project` : n.label,
+    ...handlers,
+  };
+
+  if (n.kind === "hub") {
+    const hubFont = narrow ? 16 : 15;
+    const w = labelWidth(n.label, hubFont) + 26;
+    return (
+      <g transform={`translate(${n.x},${n.y})`} {...common}>
+        <rect x={-w / 2} y={-15} width={w} height={30} rx={15} fill="var(--background)" stroke="var(--accent)" strokeWidth={1.5} />
+        <text y={5} textAnchor="middle" fontSize={hubFont} className="fill-accent font-mono">{n.label}</text>
+      </g>
+    );
+  }
+  if (n.kind === "skill") {
+    return (
+      <g transform={`translate(${n.x},${n.y})`} {...common}>
+        <circle r={on ? 5 : 4} fill={on ? "var(--accent)" : "var(--foreground)"} fillOpacity={0.85} />
+        <text x={n.anchor === "end" ? -12 : 12} y={5} textAnchor={n.anchor} fontSize={narrow ? TALL_SKILL_FONT : SKILL_FONT} className={on ? "fill-foreground" : "fill-muted"}>
+          {n.label}
+        </text>
+      </g>
+    );
+  }
+  return (
+    <g transform={`translate(${n.x},${n.y}) scale(${0.6 + 0.4 * r})`} {...common}>
+      <circle r={30} fill="url(#sg-halo)" opacity={0.35 + 0.45 * pulse} />
+      <rect x={-10} y={-10} width={20} height={20} rx={3} transform="rotate(45)" fill="var(--background)" stroke="var(--accent)" strokeWidth={2.5} />
+      <text y={34} textAnchor="middle" fontSize={narrow ? 18 : 16} className="fill-foreground font-medium" style={{ paintOrder: "stroke", stroke: "var(--background)", strokeWidth: 5 }}>
+        {(narrow ? wrap(n.label, 12) : [n.label]).map((line, i) => (
+          <tspan key={line} x={0} dy={i ? 20 : 0}>{line}</tspan>
+        ))}
+      </text>
+    </g>
+  );
+});
 // Reveal windows over scene progress.
 const PHASE: Record<Kind, [number, number]> = { hub: [0, 0.18], skill: [0.15, 0.5], project: [0.5, 0.8], cert: [0.5, 0.8] };
 
@@ -184,7 +274,7 @@ function Graph({ p }: { p: number }) {
   }, [focus, neighbors, byId]);
 
   const focused = focus ? byId.get(focus) : null;
-  const pulse = clamp((p - 0.82) / 0.15);
+  const qPulse = q(clamp((p - 0.82) / 0.15));
 
   return (
     <div className="mx-auto flex h-full max-w-6xl flex-col pt-20 pb-16">
@@ -196,92 +286,44 @@ function Graph({ p }: { p: number }) {
       </div>
       <svg viewBox={`0 0 ${g.w} ${g.h}`} preserveAspectRatio="xMidYMid meet" className="mt-4 min-h-0 w-full flex-1" role="img" aria-label="Graph linking skill groups, skills, projects and certification">
         <defs>
-          <filter id="sg-glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="6" />
-          </filter>
+          {/* Gradient halo instead of a blur filter: filters re-rasterize on every scroll frame. */}
+          <radialGradient id="sg-halo">
+            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.55" />
+            <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
+          </radialGradient>
         </defs>
         {g.edges.map((e) => {
-          const a = byId.get(e.a)!;
-          const b = byId.get(e.b)!;
-          const draw = Math.min(reveal.get(e.a)!, reveal.get(e.b)!);
+          const draw = q(Math.min(reveal.get(e.a)!, reveal.get(e.b)!));
           if (draw <= 0) return null;
-          // Hub edges end at the far side of the skill label; project edges start at the skill dot (or label end).
-          const x1 = e.kind === "hub" ? a.x : a.outX ?? a.x;
-          const x2 = e.kind === "hub" ? b.inX ?? b.x : b.x;
-          const [ya, yb] = [a.y, b.y];
-          const mx = (x1 + x2) / 2;
-          const on = lit ? lit.has(e.a) && lit.has(e.b) : false;
           return (
-            <path
+            <EdgeView
               key={`${e.a}-${e.b}`}
-              d={`M${x1},${ya} C${mx},${ya} ${mx},${yb} ${x2},${yb}`}
-              fill="none"
-              pathLength={1}
-              strokeDasharray="1"
-              strokeDashoffset={1 - draw}
-              stroke={on || (e.kind === "use" && !lit) ? "var(--accent)" : "var(--muted)"}
-              strokeOpacity={lit ? (on ? 0.9 : 0.05) : e.kind === "hub" ? 0.3 : 0.15 + 0.3 * pulse}
-              strokeWidth={on ? 2 : 1.2}
+              a={byId.get(e.a)!}
+              b={byId.get(e.b)!}
+              kind={e.kind}
+              draw={draw}
+              on={lit ? lit.has(e.a) && lit.has(e.b) : false}
+              anyLit={!!lit}
+              pulse={e.kind === "use" ? qPulse : 0}
             />
           );
         })}
         {g.nodes.map((n) => {
-          const r = reveal.get(n.id)!;
+          const r = q(reveal.get(n.id)!);
           if (r <= 0) return null;
-          const dim = lit && !lit.has(n.id);
-          const ready = r >= 1;
-          const go = () => n.href && router.push(n.href);
-          const handlers = ready
-            ? {
-                tabIndex: 0,
-                onPointerEnter: () => setFocus(n.id),
-                onPointerLeave: () => setFocus(null),
-                onFocus: () => setFocus(n.id),
-                onBlur: () => setFocus(null),
-                onClick: () => (n.href && (!narrow || focus === n.id) ? go() : setFocus(n.id)),
-                onKeyDown: (ev: React.KeyboardEvent) => ev.key === "Enter" && go(),
-              }
-            : {};
-          const common = {
-            opacity: (dim ? 0.15 : 1) * r,
-            className: ready ? "cursor-pointer outline-none" : undefined,
-            role: n.href ? "link" : undefined,
-            "aria-label": n.href ? `${n.label} project` : n.label,
-            ...handlers,
-          };
-
-          if (n.kind === "hub") {
-            const hubFont = narrow ? 16 : 15;
-            const w = labelWidth(n.label, hubFont) + 26;
-            return (
-              <g key={n.id} transform={`translate(${n.x},${n.y})`} {...common}>
-                <rect x={-w / 2} y={-15} width={w} height={30} rx={15} fill="var(--accent)" opacity={0.25} filter="url(#sg-glow)" />
-                <rect x={-w / 2} y={-15} width={w} height={30} rx={15} fill="var(--background)" stroke="var(--accent)" strokeWidth={1.5} />
-                <text y={5} textAnchor="middle" fontSize={hubFont} className="fill-accent font-mono">{n.label}</text>
-              </g>
-            );
-          }
-          if (n.kind === "skill") {
-            const on = lit?.has(n.id);
-            return (
-              <g key={n.id} transform={`translate(${n.x},${n.y})`} {...common}>
-                <circle r={on ? 5 : 4} fill={on ? "var(--accent)" : "var(--foreground)"} fillOpacity={0.85} />
-                <text x={n.anchor === "end" ? -12 : 12} y={5} textAnchor={n.anchor} fontSize={narrow ? TALL_SKILL_FONT : SKILL_FONT} className={on ? "fill-foreground" : "fill-muted"}>
-                  {n.label}
-                </text>
-              </g>
-            );
-          }
           return (
-            <g key={n.id} transform={`translate(${n.x},${n.y}) scale(${0.6 + 0.4 * r})`} {...common}>
-              <circle r={26} fill="var(--accent)" opacity={0.2 + 0.25 * pulse} filter="url(#sg-glow)" />
-              <rect x={-10} y={-10} width={20} height={20} rx={3} transform="rotate(45)" fill="var(--background)" stroke="var(--accent)" strokeWidth={2.5} />
-              <text y={34} textAnchor="middle" fontSize={narrow ? 18 : 16} className="fill-foreground font-medium" style={{ paintOrder: "stroke", stroke: "var(--background)", strokeWidth: 5 }}>
-                {(narrow ? wrap(n.label, 12) : [n.label]).map((line, i) => (
-                  <tspan key={line} x={0} dy={i ? 20 : 0}>{line}</tspan>
-                ))}
-              </text>
-            </g>
+            <NodeView
+              key={n.id}
+              n={n}
+              r={r}
+              dim={!!lit && !lit.has(n.id)}
+              on={!!lit?.has(n.id)}
+              isFocus={focus === n.id}
+              narrow={narrow}
+              pulse={n.kind === "project" || n.kind === "cert" ? qPulse : 0}
+              setFocus={setFocus}
+              go={router.push}
+            />
           );
         })}
       </svg>

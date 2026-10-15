@@ -7,7 +7,7 @@ import { nav, profile } from "@/content/profile";
 export function Nav() {
   const path = usePathname();
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-background/80 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-line bg-background/95">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
         <Link href="/" className="font-mono text-sm text-accent">
           rj<span className="text-muted">/</span>graph

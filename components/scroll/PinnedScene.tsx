@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { scrollToY } from "./SmoothScroll";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +12,12 @@ const subscribeRM = (cb: () => void) => {
   m.addEventListener("change", cb);
   return () => m.removeEventListener("change", cb);
 };
+
+/** Jump just past a scene's end. Native smooth scroll: no scroll-smoothing library, so wheel input stays 1:1. */
+function scrollPast(end: number) {
+  const smooth = !window.matchMedia(RM).matches;
+  window.scrollTo({ top: end + 2, behavior: smooth ? "smooth" : "auto" });
+}
 
 const FAST_SCROLL = 2500; // px/s; flinging faster than this fast-forwards the scene
 
@@ -46,10 +51,11 @@ export function PinnedScene({ length = 2.5, label, children }: Props) {
       scrub: true,
       onToggle: (self) => setActive(self.isActive),
       onUpdate: (self) => {
-        setProgress(self.progress);
+        // Quantized so React skips re-rendering the scene for sub-pixel scroll changes.
+        setProgress(Math.round(self.progress * 400) / 400);
         if (!forwarding && self.direction === 1 && self.getVelocity() > FAST_SCROLL && self.progress < 0.95) {
           forwarding = true;
-          scrollToY(self.end + 2, 0.6);
+          scrollPast(self.end);
           setTimeout(() => (forwarding = false), 700);
         }
       },
@@ -59,7 +65,7 @@ export function PinnedScene({ length = 2.5, label, children }: Props) {
   }, [length, reduced]);
 
   const skip = () => {
-    if (trigger.current) scrollToY(trigger.current.end + 2, 0.6);
+    if (trigger.current) scrollPast(trigger.current.end);
   };
 
   return (
@@ -73,7 +79,7 @@ export function PinnedScene({ length = 2.5, label, children }: Props) {
           <button
             type="button"
             onClick={skip}
-            className="pointer-events-auto rounded-full border border-line bg-background/70 px-4 py-1.5 font-mono text-xs text-muted backdrop-blur hover:border-accent hover:text-foreground"
+            className="pointer-events-auto rounded-full border border-line bg-background/70 px-4 py-1.5 font-mono text-xs text-muted hover:border-accent hover:text-foreground"
           >
             Skip ↓
           </button>

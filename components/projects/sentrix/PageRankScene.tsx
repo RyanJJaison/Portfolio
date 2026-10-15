@@ -101,7 +101,10 @@ function Scene({ p }: { p: number }) {
       <div className="min-h-0">
         <svg viewBox={`0 0 ${G.W} ${G.H}`} className="mx-auto max-h-[42vh] w-full md:max-h-[70vh]" role="img" aria-label="Toy transaction graph with Personalized PageRank scores spreading from a seed node">
           <defs>
-            <filter id="pr-glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="6" /></filter>
+            <radialGradient id="pr-halo">
+              <stop offset="0%" stopColor="var(--risk)" stopOpacity="0.7" />
+              <stop offset="100%" stopColor="var(--risk)" stopOpacity="0" />
+            </radialGradient>
           </defs>
           <g opacity={appear}>
             {G.edges.map(([a, b]) => {
@@ -118,7 +121,7 @@ function Scene({ p }: { p: number }) {
                 <g key={i} transform={`translate(${pt.x},${pt.y})`} className="cursor-pointer outline-none [&:focus-visible>circle:last-of-type]:stroke-[var(--accent)]" onClick={() => setSeed(i)}
                   role="button" tabIndex={0} aria-label={`Use transaction ${i + 1} as the seed`}
                   onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setSeed(i)}>
-                  {h > 0.2 && <circle r={10 + 10 * h} fill="var(--risk)" opacity={0.35 * h} filter="url(#pr-glow)" />}
+                  {h > 0.2 && <circle r={14 + 14 * h} fill="url(#pr-halo)" opacity={0.6 * h} />}
                   <circle r={6 + 6 * h} fill="var(--risk)" fillOpacity={0.08 + 0.92 * h} stroke={isSeed ? "var(--foreground)" : "var(--risk)"} strokeOpacity={isSeed ? 1 : 0.5} strokeWidth={isSeed ? 3 : 1} />
                   {isSeed && <text y={-20} textAnchor="middle" fontSize="13" className="fill-foreground font-mono">seed</text>}
                 </g>
