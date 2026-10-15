@@ -17,13 +17,3 @@ export const about = {
     { label: "Route", value: "Kottayam → Kochi → Bangalore" },
   ],
 };
-
-// The six fields the hero fans out to. `seen` names real work in each.
-export const interests = [
-  { name: "Deep Learning", seen: "PyTorch · neural networks" },
-  { name: "Graph ML", seen: "SentriX · PageRank + GraphSAGE" },
-  { name: "Speech & Language", seen: "Lahja · Whisper, NLLB" },
-  { name: "Systems & Backends", seen: "FastAPI · Flask · Postgres" },
-  { name: "Hardware & IoT", seen: "ESP32 fall-detection wearable" },
-  { name: "Cloud AI", seen: "AWS · Bedrock · SageMaker" },
-];

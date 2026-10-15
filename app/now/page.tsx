@@ -11,7 +11,7 @@ export default function NowPage() {
         {nowEntries.map((e) => (
           <li key={e.title} className="grid grid-cols-12 gap-x-6 gap-y-1 border-b border-line py-7">
             <span className="caps col-span-12 flex items-center gap-2 pt-2 md:col-span-2">
-              <span className={`inline-block h-1.5 w-1.5 ${e.when === "Now" ? "bg-accent" : e.when === "Done" ? "bg-foreground" : "border border-foreground"}`} aria-hidden />
+              <span className={`inline-block h-2 w-2 ${e.when === "Now" ? "border border-foreground bg-accent" : e.when === "Done" ? "bg-foreground" : "border border-foreground"}`} aria-hidden />
               {e.when}
             </span>
             <div className="col-span-12 md:col-span-9">

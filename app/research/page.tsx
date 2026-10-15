@@ -8,7 +8,7 @@ export default function ResearchPage() {
   return (
     <PageShell title="Research" kicker="(R) Open questions" aside="Questions before they become projects">
       <section className="grid grid-cols-12 gap-x-6 gap-y-4 py-8">
-        <h2 className="caps col-span-12 md:col-span-3"><span className="text-accent">00</span> Preface</h2>
+        <h2 className="caps col-span-12 md:col-span-3"><span className="text-accent-ink">00</span> Preface</h2>
         <div className="col-span-12 space-y-5 text-xl leading-relaxed md:col-span-8">
           {researchPreface.map((para) => <p key={para.slice(0, 24)}>{para}</p>)}
         </div>
@@ -18,12 +18,12 @@ export default function ResearchPage() {
         {researchThreads.map((t, i) => (
           <li key={t.title} className="grid grid-cols-12 gap-x-6 gap-y-3 border-b border-line py-10">
             <div className="col-span-12 md:col-span-3">
-              <p className="display text-7xl text-accent">{String(i + 1).padStart(2, "0")}</p>
+              <p className="display inline-block bg-accent px-2 pt-1 text-7xl">{String(i + 1).padStart(2, "0")}</p>
               <p className="caps mt-3 text-muted">{t.status}</p>
             </div>
             <div className="col-span-12 md:col-span-8">
               <h2 className="display text-4xl sm:text-5xl">{t.title}</h2>
-              <p className="mt-5 max-w-2xl border-l-2 border-accent pl-4 text-xl leading-relaxed">{t.question}</p>
+              <p className="mt-5 max-w-2xl border-l-4 border-accent pl-4 text-xl leading-relaxed">{t.question}</p>
               <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">{t.summary}</p>
               <p className="caps mt-5 text-muted">{t.tags.join(" / ")}</p>
             </div>

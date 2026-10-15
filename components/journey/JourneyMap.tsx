@@ -56,9 +56,9 @@ function Scene({ p }: { p: number }) {
 
         {pts.map((s, i) => (
           <g key={s.city} transform={`translate(${s.x},${s.y})`} opacity={reached[i] ? 1 : 0.25}>
-            {i === current && <rect x={-16} y={-16} width={32} height={32} fill="none" stroke="var(--accent)" strokeWidth="1.5" />}
+            {i === current && <rect x={-16} y={-16} width={32} height={32} fill="none" stroke="var(--foreground)" strokeWidth="1.5" />}
             <rect x={-9} y={-9} width={18} height={18} fill="var(--background)" stroke="var(--foreground)" strokeWidth="2" />
-            <rect x={-4.5} y={-4.5} width={9} height={9} fill={i === current ? "var(--accent)" : reached[i] ? "var(--foreground)" : "var(--line)"} />
+            <rect x={-4.5} y={-4.5} width={9} height={9} fill={i === current ? "var(--accent)" : reached[i] ? "var(--foreground)" : "var(--line)"} stroke={i === current ? "var(--foreground)" : "none"} />
             <text x={i === 0 ? 18 : -16} y={i === 1 ? -10 : 8} textAnchor={i === 0 ? "start" : "end"} fontSize="32" fontWeight={800} letterSpacing="-0.02em" className="fill-foreground font-display">
               {s.city}
             </text>
@@ -70,7 +70,7 @@ function Scene({ p }: { p: number }) {
         {pts.map((s, i) => (
           <li
             key={s.city}
-            className={`border-l-2 py-2 pl-5 transition duration-500 ${i === current ? "border-accent" : "border-line max-md:hidden"} ${reached[i] ? "opacity-100" : "translate-y-2 opacity-20"}`}
+            className={`border-l-2 py-2 pl-5 transition duration-500 ${i === current ? "border-foreground" : "border-line max-md:hidden"} ${reached[i] ? "opacity-100" : "translate-y-2 opacity-20"}`}
           >
             <p className="caps text-muted">{s.period}</p>
             <h3 className="display mt-2 text-3xl">{s.title}</h3>
@@ -84,7 +84,7 @@ function Scene({ p }: { p: number }) {
 
 export function JourneyMap() {
   return (
-    <PinnedScene label="Education journey map" length={2.5}>
+    <PinnedScene label="Education journey map" length={3.2}>
       {(p) => <Scene p={p} />}
     </PinnedScene>
   );

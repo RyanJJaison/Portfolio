@@ -6,6 +6,8 @@ export type Status =
   | "Learning project"
   | "Planned";
 
+import type { FieldId } from "@/content/skills";
+
 export type ArchPart = { layer: string; tech: string; detail: string };
 
 export type Project = {
@@ -22,7 +24,7 @@ export type Project = {
   /** Short, plain-language tour of how it is built. */
   architecture: ArchPart[];
   stack: string[];
-  skills: string[]; // names from content/skills.ts, drawn as edges in the skill graph
+  fields: FieldId[]; // edges in the home-page orbit graph
   repo?: string;
   live?: string;
   model?: string; // Hugging Face model page
@@ -53,7 +55,7 @@ export const projects: Project[] = [
       { layer: "Dashboard", tech: "React, Vite, Recharts", detail: "Alerts feed, risk tables, charts and graph drill-downs." },
     ],
     stack: ["PyTorch", "PyG", "GraphSAGE", "FastAPI", "Neo4j", "React"],
-    skills: ["Machine Learning", "Neural Networks", "PyTorch", "Graph Neural Networks", "PageRank", "Python", "FastAPI"],
+    fields: ["dl", "graph", "systems"],
     repo: "https://github.com/RyanJJaison/SentriX",
     results: [
       "Adding four PageRank proximity features to Elliptic's 165 raw features raised held-out illicit-class F1 from 0.5340 ± 0.0186 to 0.6943 ± 0.0204, and AUC from 0.8966 to 0.9570 (3 seeds).",
@@ -79,7 +81,7 @@ export const projects: Project[] = [
       { layer: "App", tech: "FastAPI, Next.js", detail: "One backend runs every model; a web app sits on top." },
     ],
     stack: ["Whisper", "LoRA", "NLLB-200", "XTTS", "FastAPI", "Next.js"],
-    skills: ["Deep Learning", "PyTorch", "Generative AI", "NLP", "Whisper", "FastAPI", "Python"],
+    fields: ["dl", "speech", "systems"],
     repo: "https://github.com/RyanJJaison/Lahja",
     model: "https://huggingface.co/RyanJJaison/kokborok-whisper-lora",
     results: [
@@ -106,7 +108,7 @@ export const projects: Project[] = [
       { layer: "App", tech: "Next.js, Supabase Auth", detail: "Web app with accounts and per-user data." },
     ],
     stack: ["Next.js", "Supabase", "pgvector", "Claude", "Voyage AI"],
-    skills: ["Generative AI", "Foundational Models", "NLP", "RAG & vector search"],
+    fields: ["dl", "speech", "systems"],
     repo: "https://github.com/RyanJJaison/Clarity",
   },
   {
@@ -128,7 +130,7 @@ export const projects: Project[] = [
       { layer: "Alerts", tech: "Blynk IoT", detail: "Pushes alerts and live readings to a phone app." },
     ],
     stack: ["ESP32", "MPU6050", "MAX30102", "GPS", "Blynk"],
-    skills: ["ESP32", "Embedded sensors"],
+    fields: ["hardware"],
   },
   {
     slug: "task-manager",
@@ -149,7 +151,7 @@ export const projects: Project[] = [
       { layer: "Hosting", tech: "Vercel", detail: "Deployed and live." },
     ],
     stack: ["Flask", "SQLAlchemy", "PostgreSQL", "Groq", "Vercel"],
-    skills: ["Python", "Generative AI"],
+    fields: ["systems", "dl"],
     repo: "https://github.com/RyanJJaison/Task-manager",
     live: "https://task-manager-ryan-bc75.vercel.app",
   },
@@ -167,7 +169,7 @@ export const projects: Project[] = [
       { layer: "Storage", tech: "JSON file", detail: "Entries saved locally between sessions." },
     ],
     stack: ["Python", "Tkinter", "JSON"],
-    skills: ["Python"],
+    fields: ["systems"],
   },
   {
     slug: "dsa",
@@ -184,6 +186,6 @@ export const projects: Project[] = [
       { layer: "Graphs", tech: "C / C++", detail: "Shortest paths and minimum spanning trees." },
     ],
     stack: ["C", "C++"],
-    skills: [],
+    fields: [],
   },
 ];

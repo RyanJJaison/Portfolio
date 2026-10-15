@@ -25,7 +25,7 @@ function Section({ index, title, children }: { index: string; title: string; chi
   return (
     <section className="mt-16 grid grid-cols-12 gap-x-6 gap-y-4 border-t border-foreground pt-4">
       <h2 className="caps col-span-12 md:col-span-3">
-        <span className="text-accent">{index}</span> {title}
+        <span className="text-accent-ink">{index}</span> {title}
       </h2>
       <div className="col-span-12 md:col-span-9">{children}</div>
     </section>
@@ -48,21 +48,21 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
 
   return (
     <main className="mx-auto max-w-7xl px-6 pb-24 pt-10">
-      <Link href="/projects" className="caps text-muted hover:text-accent">← Index</Link>
+      <Link href="/projects" className="caps text-muted hl">← Index</Link>
       <header className="mt-8 grid grid-cols-12 gap-x-6 gap-y-8">
         <div className="col-span-12 md:col-span-8">
           <p className="caps flex flex-wrap gap-x-4 gap-y-1">
-            <span className="text-accent">({String(index + 1).padStart(2, "0")})</span>
+            <span className="text-accent-ink">({String(index + 1).padStart(2, "0")})</span>
             <StatusTag status={p.status} />
           </p>
-          <h1 className="display mt-4 text-[clamp(3.5rem,11vw,9.5rem)]">{p.title}<span className="text-accent">.</span></h1>
+          <h1 className="display mt-4 text-[clamp(3.5rem,11vw,9.5rem)]">{p.title}<span className="mark" aria-hidden /></h1>
           <p className="mt-6 max-w-2xl text-2xl leading-snug">{p.tagline}</p>
           {p.context && <p className="caps mt-4 max-w-2xl text-muted">{p.context}</p>}
           {links.length > 0 && (
             <div className="mt-8 flex flex-wrap gap-3">
               {links.map((l, i) => (
                 <a key={l.href} href={l.href} {...ext}
-                  className={`caps border border-foreground px-4 py-2.5 transition-colors ${i === 0 ? "bg-foreground text-background hover:border-accent hover:bg-accent" : "hover:bg-foreground hover:text-background"}`}>
+                  className={`caps border border-foreground px-4 py-2.5 transition-colors ${i === 0 ? "bg-foreground text-background hover:bg-accent hover:text-foreground" : "hover:bg-foreground hover:text-background"}`}>
                   {l.label} ↗
                 </a>
               ))}
@@ -103,7 +103,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
 
       <Link href={`/projects/${next.slug}`} className="group mt-24 block bg-foreground px-6 py-10 text-background">
         <span className="caps text-background/60">Next project</span>
-        <span className="display mt-3 block text-5xl group-hover:text-accent sm:text-7xl">{next.title} →</span>
+        <span className="display mt-3 block text-5xl hl sm:text-7xl">{next.title} →</span>
       </Link>
     </main>
   );

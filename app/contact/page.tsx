@@ -18,7 +18,7 @@ export default function ContactPage() {
           <p className="caps text-muted">Email</p>
           <p className="display mt-3 text-[clamp(1.5rem,2.4vw,2.25rem)] [overflow-wrap:anywhere]">{profile.links.email}</p>
           {profile.links.cv && (
-            <a href={profile.links.cv} {...ext} className="caps mt-8 inline-block border border-foreground bg-foreground px-4 py-2.5 text-background hover:border-accent hover:bg-accent">
+            <a href={profile.links.cv} {...ext} className="caps mt-8 inline-block border border-foreground bg-foreground px-4 py-2.5 text-background hover:bg-accent hover:text-foreground">
               Download résumé (PDF) ↗
             </a>
           )}
@@ -27,8 +27,8 @@ export default function ContactPage() {
           {items.map((i, n) => (
             <li key={i.label} className="border-b border-line">
               <a href={i.href} {...ext} className="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 py-5">
-                <span className="caps text-accent">{String(n + 1).padStart(2, "0")}</span>
-                <span className="display text-4xl group-hover:text-accent">{i.label}</span>
+                <span className="caps text-accent-ink">{String(n + 1).padStart(2, "0")}</span>
+                <span className="display text-4xl hl">{i.label}</span>
                 <span className="caps text-right text-muted">{i.note} ↗</span>
               </a>
             </li>

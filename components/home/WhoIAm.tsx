@@ -19,7 +19,7 @@ export function WhoIAm() {
         <div className="col-span-12 space-y-12 md:col-span-7 md:col-start-6">
           {about.sections.map((s, i) => (
             <article key={s.heading}>
-              <h3 className="caps flex gap-3"><span className="text-accent">1.{i + 1}</span>{s.heading}</h3>
+              <h3 className="caps flex gap-3"><span className="text-accent-ink">1.{i + 1}</span>{s.heading}</h3>
               {s.paragraphs ? (
                 <div className="mt-4 space-y-5 text-xl leading-relaxed">
                   {s.paragraphs.map((p) => <p key={p.slice(0, 32)}>{p}</p>)}

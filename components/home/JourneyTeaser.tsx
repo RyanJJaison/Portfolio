@@ -8,7 +8,7 @@ export function JourneyTeaser() {
   return (
     <section className="mx-auto mt-28 max-w-7xl px-6">
       <SectionHead index="04" title="Journey">
-        <Link href="/journey" className="hover:text-accent">Full route →</Link>
+        <Link href="/journey" className="hl">Full route →</Link>
       </SectionHead>
       <DrawOnView className="mt-12">
         <div className="relative">

@@ -1,8 +1,13 @@
-export const skillGroups = [
-  { name: "AI / ML", skills: ["Machine Learning", "Deep Learning", "Neural Networks", "PyTorch", "Foundational Models", "Generative AI", "Predictive Analytics"] },
-  { name: "Graph ML", skills: ["Graph Neural Networks", "PageRank"] },
-  { name: "Speech & NLP", skills: ["NLP", "Whisper"] },
-  { name: "Backend & Data", skills: ["Python", "FastAPI", "RAG & vector search"] },
-  { name: "Cloud (AWS)", skills: ["Amazon SageMaker AI", "Amazon Bedrock", "Amazon AI Services", "AWS AI", "AI Security", "Responsible AI"] },
-  { name: "IoT", skills: ["ESP32", "Embedded sensors"] },
+// The six fields Ryan works across. Used by the hero and the orbit graph.
+export type FieldId = "dl" | "graph" | "speech" | "systems" | "hardware" | "cloud";
+
+export type Field = { id: FieldId; name: string; short: string; seen: string; skills: string[] };
+
+export const fields: Field[] = [
+  { id: "dl", name: "Deep Learning", short: "Deep Learning", seen: "PyTorch · neural networks", skills: ["PyTorch", "Neural networks", "Machine learning", "Generative AI", "Foundation models", "Predictive analytics"] },
+  { id: "graph", name: "Graph ML", short: "Graph ML", seen: "SentriX · PageRank + GraphSAGE", skills: ["Graph neural networks", "GraphSAGE", "Personalized PageRank", "PyTorch Geometric", "NetworkX"] },
+  { id: "speech", name: "Speech & Language", short: "Speech", seen: "Lahja · Whisper, NLLB", skills: ["NLP", "Whisper fine-tuning", "LoRA / PEFT", "NLLB-200 translation", "Text-to-speech"] },
+  { id: "systems", name: "Systems & Backends", short: "Systems", seen: "FastAPI · Flask · Postgres", skills: ["Python", "FastAPI", "Flask", "PostgreSQL", "RAG & vector search"] },
+  { id: "hardware", name: "Hardware & IoT", short: "Hardware", seen: "ESP32 fall-detection wearable", skills: ["ESP32", "MPU6050 / MAX30102 sensors", "GPS", "Blynk IoT"] },
+  { id: "cloud", name: "Cloud AI", short: "Cloud AI", seen: "AWS · Bedrock · SageMaker", skills: ["Amazon Bedrock", "Amazon SageMaker AI", "AWS AI services", "Responsible AI", "AI security"] },
 ];

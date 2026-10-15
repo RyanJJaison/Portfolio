@@ -19,7 +19,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${fonts} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
-        <a href="#main" className="caps sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:bg-accent focus:px-3 focus:py-2 focus:text-white">
+        <a href="#main" className="caps sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:bg-accent focus:px-3 focus:py-2 focus:text-foreground">
           Skip to content
         </a>
         <Nav />

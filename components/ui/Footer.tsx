@@ -8,11 +8,11 @@ export function Footer() {
       <div className="caps mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-5 text-muted">
         <span>© {new Date().getFullYear()} {profile.name} · Bangalore</span>
         <div className="flex flex-wrap gap-5">
-          <Link href="/contact" className="hover:text-accent">Contact</Link>
-          {profile.links.cv && <a href={profile.links.cv} {...ext} className="hover:text-accent">Résumé ↗</a>}
-          <a href={profile.links.github} {...ext} className="hover:text-accent">GitHub ↗</a>
-          <a href={profile.links.linkedin} {...ext} className="hover:text-accent">LinkedIn ↗</a>
-          <a href={profile.links.orcid} {...ext} className="hover:text-accent">ORCID ↗</a>
+          <Link href="/contact" className="hl">Contact</Link>
+          {profile.links.cv && <a href={profile.links.cv} {...ext} className="hl">Résumé ↗</a>}
+          <a href={profile.links.github} {...ext} className="hl">GitHub ↗</a>
+          <a href={profile.links.linkedin} {...ext} className="hl">LinkedIn ↗</a>
+          <a href={profile.links.orcid} {...ext} className="hl">ORCID ↗</a>
         </div>
       </div>
     </footer>

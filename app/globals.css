@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
-  --muted: #6b6b6b;
-  --line: #e4e4e4; /* soft dividers; hard rules use the foreground */
-  --accent: #ff3b1f; /* vermilion */
-  --risk: #ff3b1f; /* risk heat in the SentriX demo shares the accent */
+  --background: #f4f4f0; /* soft off-white */
+  --foreground: #111111;
+  --muted: #6b6b66;
+  --line: #dddcd6; /* soft dividers; hard rules use the foreground */
+  --accent: #c6f432; /* chartreuse: fills and highlights only, never thin text on light */
+  --accent-ink: #4a6600; /* readable olive for accent-coloured text on light */
+  --risk: #ff5a1f; /* risk heat in the SentriX demo */
 }
 
 @theme inline {
@@ -15,6 +16,7 @@
   --color-muted: var(--muted);
   --color-line: var(--line);
   --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
   --color-risk: var(--risk);
   --font-sans: var(--font-inter);
   --font-display: var(--font-inter-tight);
@@ -29,7 +31,7 @@ body {
   font-family: var(--font-inter), system-ui, sans-serif;
 }
 
-::selection { background: var(--accent); color: #fff; }
+::selection { background: var(--accent); color: var(--foreground); }
 
 /* Small uppercase monospace used for labels, nav, indexes and captions. */
 .caps {
@@ -47,6 +49,20 @@ body {
   word-spacing: 0.08em;
   line-height: 0.9;
 }
+
+/* The full stop after big titles: a small chartreuse square with an ink edge. */
+.mark {
+  display: inline-block;
+  width: 0.15em;
+  height: 0.15em;
+  margin-left: 0.05em;
+  background: var(--accent);
+  border: max(2px, 0.022em) solid var(--foreground);
+}
+
+/* Highlighter hover for links and titles on the light ground. */
+.hl { box-decoration-break: clone; -webkit-box-decoration-break: clone; transition: background-color 0.15s; }
+.hl:hover, .group:hover .hl { background: var(--accent); }
 
 /* Lines that draw themselves once their container gets .is-drawn. */
 .draw-line { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.4s cubic-bezier(.7,0,.2,1); }

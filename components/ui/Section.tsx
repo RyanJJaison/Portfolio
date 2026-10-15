@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 export function SectionHead({ index, title, note, children }: { index: string; title: string; note?: string; children?: ReactNode }) {
   return (
     <div className="grid grid-cols-12 gap-x-6 gap-y-3 border-t border-foreground pt-4">
-      <p className="caps col-span-12 text-accent md:col-span-2">({index})</p>
+      <p className="caps col-span-12 text-accent-ink md:col-span-2">({index})</p>
       <div className="col-span-12 md:col-span-7">
         <h2 className="display text-5xl sm:text-7xl">{title}</h2>
       </div>
@@ -21,8 +21,8 @@ export function PageShell({ title, kicker, aside, lead, children }: { title: str
   return (
     <main className="mx-auto max-w-7xl px-6 pb-24 pt-10">
       <header className="grid grid-cols-12 gap-x-6 gap-y-4">
-        {kicker && <p className="caps col-span-12 text-accent">{kicker}</p>}
-        <h1 className="display col-span-12 text-[clamp(3.5rem,11vw,10rem)]">{title}<span className="text-accent">.</span></h1>
+        {kicker && <p className="caps col-span-12 text-accent-ink">{kicker}</p>}
+        <h1 className="display col-span-12 text-[clamp(3.5rem,11vw,10rem)]">{title}<span className="mark" aria-hidden /></h1>
         {lead && <p className="col-span-12 max-w-2xl text-xl leading-relaxed md:col-span-7">{lead}</p>}
         {aside && <p className="caps col-span-12 text-muted md:col-span-4 md:col-start-9 md:self-end md:text-right">{aside}</p>}
       </header>

@@ -16,9 +16,9 @@ export function Ledger({ items }: { items: Project[] }) {
         {items.map((p, i) => (
           <li key={p.slug} className="border-b border-line">
             <Link href={`/projects/${p.slug}`} className="group grid grid-cols-12 gap-x-6 gap-y-2 py-6">
-              <span className="caps col-span-2 pt-2 text-accent md:col-span-1">{String(i + 1).padStart(2, "0")}</span>
+              <span className="caps col-span-2 pt-2 text-accent-ink md:col-span-1">{String(i + 1).padStart(2, "0")}</span>
               <span className="col-span-10 md:col-span-6">
-                <span className="display flex items-baseline gap-3 text-4xl transition-colors group-hover:text-accent sm:text-5xl">
+                <span className="display flex items-baseline gap-3 text-4xl transition-colors hl sm:text-5xl">
                   {p.title}
                   <span className="text-2xl opacity-0 transition-opacity group-hover:opacity-100" aria-hidden>→</span>
                 </span>

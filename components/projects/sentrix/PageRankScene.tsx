@@ -118,7 +118,7 @@ function Scene({ p }: { p: number }) {
               const h = heat(i);
               const isSeed = i === seed;
               return (
-                <g key={i} transform={`translate(${pt.x},${pt.y})`} className="cursor-pointer outline-none [&:focus-visible>circle:last-of-type]:stroke-[var(--accent)]" onClick={() => setSeed(i)}
+                <g key={i} transform={`translate(${pt.x},${pt.y})`} className="cursor-pointer outline-none [&:focus-visible>circle:last-of-type]:stroke-[var(--foreground)]" onClick={() => setSeed(i)}
                   role="button" tabIndex={0} aria-label={`Use transaction ${i + 1} as the seed`}
                   onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setSeed(i)}>
                   {h > 0.2 && <circle r={14 + 14 * h} fill="url(#pr-halo)" opacity={0.6 * h} />}
@@ -138,7 +138,7 @@ function Scene({ p }: { p: number }) {
       <div className="flex min-h-0 flex-col justify-center">
         <ol className="space-y-3">
           {STEPS.map((s, i) => (
-            <li key={s.title} className={`border-l-2 py-2 pl-5 transition duration-500 ${i === step ? "border-accent" : "border-line opacity-40"} ${i !== step ? "max-md:hidden" : ""}`}>
+            <li key={s.title} className={`border-l-2 py-2 pl-5 transition duration-500 ${i === step ? "border-foreground" : "border-line opacity-40"} ${i !== step ? "max-md:hidden" : ""}`}>
               <p className="caps text-muted">Step 0{i + 1}</p>
               <h3 className="display mt-2 text-2xl">{s.title}</h3>
               <p className="mt-1 text-sm text-muted">{s.body}</p>
@@ -174,7 +174,7 @@ function Scene({ p }: { p: number }) {
 
 export function PageRankScene() {
   return (
-    <PinnedScene label="SentriX Personalized PageRank demo" length={3}>
+    <PinnedScene label="SentriX Personalized PageRank demo" length={3.8}>
       {(p) => <Scene p={p} />}
     </PinnedScene>
   );
