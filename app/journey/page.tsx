@@ -8,18 +8,16 @@ export const metadata: Metadata = { title: "Journey" };
 export default function JourneyPage() {
   return (
     <main>
-      <header className="relative mx-auto max-w-6xl px-6 pt-14">
-        <h1 className="font-display text-6xl leading-none sm:text-7xl">Journey</h1>
-        <p className="caps mt-4 text-muted">Kottayam · Kochi · Bangalore</p>
-        <p className="font-hand mt-6 max-w-md -rotate-1 text-2xl text-muted md:absolute md:right-6 md:top-16 md:mt-0">
-          scroll to travel the route, or skip ahead.
-        </p>
+      <header className="mx-auto grid max-w-7xl grid-cols-12 gap-x-6 gap-y-4 px-6 pt-10">
+        <p className="caps col-span-12 text-accent">(J) Kottayam / Kochi / Bangalore</p>
+        <h1 className="display col-span-12 text-[clamp(3.5rem,11vw,10rem)]">Journey<span className="text-accent">.</span></h1>
+        <p className="caps col-span-12 text-muted md:col-span-4 md:col-start-9 md:text-right">Scroll to travel the route, or skip ahead</p>
       </header>
       <JourneyMap />
-      <section className="mx-auto max-w-6xl px-6 pb-24">
-        <div className="grid gap-10 border-t border-foreground/70 pt-10 md:grid-cols-[1fr_1.6fr]">
-          <h2 className="font-display text-5xl leading-none">The full timeline</h2>
-          <Timeline entries={journey} />
+      <section className="mx-auto max-w-7xl px-6 pb-24">
+        <div className="grid grid-cols-12 gap-x-6 gap-y-8 border-t border-foreground pt-4">
+          <h2 className="caps col-span-12 md:col-span-3"><span className="text-accent">00</span> Full timeline</h2>
+          <div className="col-span-12 md:col-span-9"><Timeline entries={journey} /></div>
         </div>
       </section>
     </main>

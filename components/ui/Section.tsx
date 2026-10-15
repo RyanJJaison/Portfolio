@@ -1,16 +1,32 @@
 import type { ReactNode } from "react";
 
-/** Editorial page header: big serif title, tracked-caps kicker, optional handwritten aside. */
+/** Swiss section head: hard rule, mono index on the left, heavy title. */
+export function SectionHead({ index, title, note, children }: { index: string; title: string; note?: string; children?: ReactNode }) {
+  return (
+    <div className="grid grid-cols-12 gap-x-6 gap-y-3 border-t border-foreground pt-4">
+      <p className="caps col-span-12 text-accent md:col-span-2">({index})</p>
+      <div className="col-span-12 md:col-span-7">
+        <h2 className="display text-5xl sm:text-7xl">{title}</h2>
+      </div>
+      <div className="caps col-span-12 self-end text-muted md:col-span-3 md:text-right">
+        {note}
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/** Page header for inner pages: huge title on a 12-column grid. */
 export function PageShell({ title, kicker, aside, lead, children }: { title: string; kicker?: string; aside?: string; lead?: string; children: ReactNode }) {
   return (
-    <main className="mx-auto max-w-6xl px-6 pb-24 pt-14">
-      <header className="relative">
-        <h1 className="font-display text-6xl leading-none sm:text-7xl">{title}</h1>
-        {kicker && <p className="caps mt-4 text-muted">{kicker}</p>}
-        {aside && <p className="font-hand mt-6 max-w-md -rotate-1 text-2xl text-muted md:absolute md:right-0 md:top-2 md:mt-0">{aside}</p>}
-        {lead && <p className="mt-8 max-w-2xl text-lg leading-relaxed">{lead}</p>}
+    <main className="mx-auto max-w-7xl px-6 pb-24 pt-10">
+      <header className="grid grid-cols-12 gap-x-6 gap-y-4">
+        {kicker && <p className="caps col-span-12 text-accent">{kicker}</p>}
+        <h1 className="display col-span-12 text-[clamp(3.5rem,11vw,10rem)]">{title}<span className="text-accent">.</span></h1>
+        {lead && <p className="col-span-12 max-w-2xl text-xl leading-relaxed md:col-span-7">{lead}</p>}
+        {aside && <p className="caps col-span-12 text-muted md:col-span-4 md:col-start-9 md:self-end md:text-right">{aside}</p>}
       </header>
-      <div className="mt-12 border-t border-foreground/70 pt-2">{children}</div>
+      <div className="mt-12 border-t border-foreground">{children}</div>
     </main>
   );
 }

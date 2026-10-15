@@ -77,7 +77,7 @@ export function PinnedScene({ length = 2.5, label, children }: Props) {
       {children(reduced ? 1 : progress)}
       {!reduced && (
         <div className={`pointer-events-none absolute inset-x-0 bottom-6 flex items-center justify-between px-6 transition-opacity ${active ? "opacity-100" : "opacity-0"}`}>
-          <div className="h-0.5 w-32 overflow-hidden rounded bg-line" aria-hidden>
+          <div className="h-0.5 w-32 overflow-hidden bg-line" aria-hidden>
             <div className="h-full bg-accent" style={{ width: `${progress * 100}%` }} />
           </div>
           <button

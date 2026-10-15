@@ -123,7 +123,7 @@ function Scene({ p }: { p: number }) {
                   onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setSeed(i)}>
                   {h > 0.2 && <circle r={14 + 14 * h} fill="url(#pr-halo)" opacity={0.6 * h} />}
                   <circle r={6 + 6 * h} fill="var(--risk)" fillOpacity={0.08 + 0.92 * h} stroke={isSeed ? "var(--foreground)" : "var(--risk)"} strokeOpacity={isSeed ? 1 : 0.5} strokeWidth={isSeed ? 3 : 1} />
-                  {isSeed && <text y={-20} textAnchor="middle" fontSize="20" className="fill-foreground font-hand">seed</text>}
+                  {isSeed && <text y={-20} textAnchor="middle" fontSize="13" letterSpacing="0.06em" className="fill-foreground font-mono uppercase">seed</text>}
                 </g>
               );
             })}
@@ -140,7 +140,7 @@ function Scene({ p }: { p: number }) {
           {STEPS.map((s, i) => (
             <li key={s.title} className={`border-l-2 py-2 pl-5 transition duration-500 ${i === step ? "border-accent" : "border-line opacity-40"} ${i !== step ? "max-md:hidden" : ""}`}>
               <p className="caps text-muted">Step 0{i + 1}</p>
-              <h3 className="font-display mt-1 text-2xl leading-tight">{s.title}</h3>
+              <h3 className="display mt-2 text-2xl">{s.title}</h3>
               <p className="mt-1 text-sm text-muted">{s.body}</p>
             </li>
           ))}

@@ -163,7 +163,7 @@ function pointOn(c: ReturnType<typeof curve>, t: number) {
 
 type EdgeProps = { a: GNode; b: GNode; kind: GEdge["kind"]; sketch: number; t: number; on: boolean; anyLit: boolean };
 
-/** One edge: a faint ink sketch, a cobalt message travelling along it, then a settled trace. */
+/** One edge: a faint line, a red message travelling along it, then a settled trace. */
 const EdgeView = memo(function EdgeView({ a, b, kind, sketch, t, on, anyLit }: EdgeProps) {
   const c = curve(a, b, kind);
   const d = `M${c.x1},${c.y1} C${c.mx},${c.y1} ${c.mx},${c.y2} ${c.x2},${c.y2}`;
@@ -173,14 +173,11 @@ const EdgeView = memo(function EdgeView({ a, b, kind, sketch, t, on, anyLit }: E
   return (
     <g>
       <path d={d} fill="none" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - sketch}
-        stroke={(passed && kind === "use") || on ? "var(--accent)" : "var(--foreground)"} strokeOpacity={traceOpacity} strokeWidth={on ? 1.8 : 1.1} />
-      {/* second, slightly offset stroke gives a hand-inked look */}
-      <path d={d} transform="translate(0.8 1.1)" fill="none" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - sketch}
-        stroke="var(--foreground)" strokeOpacity={anyLit ? 0.02 : 0.07} strokeWidth={0.8} />
+        stroke={(passed && kind === "use") || on ? "var(--accent)" : "var(--foreground)"} strokeOpacity={traceOpacity} strokeWidth={on ? 1.8 : 1} />
       {head && (
         <>
           <path d={d} fill="none" pathLength={1} strokeDasharray="0.18 1" strokeDashoffset={0.18 - t} stroke="var(--accent)" strokeWidth={2.2} strokeLinecap="round" />
-          <circle cx={head.x} cy={head.y} r={4.5} fill="var(--accent)" />
+          <rect x={head.x - 4.5} y={head.y - 4.5} width={9} height={9} fill="var(--accent)" />
         </>
       )}
     </g>
@@ -225,9 +222,8 @@ const NodeView = memo(function NodeView({ n, sketch, active, dim, on, isFocus, n
   if (n.kind === "hub") {
     return (
       <g transform={`translate(${n.x},${n.y})`} {...common}>
-        <circle r={7} fill="var(--background)" stroke="var(--foreground)" strokeWidth={1.3} />
-        <circle r={3} fill={on ? "var(--accent)" : "var(--foreground)"} />
-        <text y={-16} textAnchor="middle" fontSize={narrow ? 22 : 21} className="font-display italic" fill="var(--foreground)" style={halo}>{n.label}</text>
+        <rect x={-6} y={-6} width={12} height={12} fill={on ? "var(--accent)" : "var(--foreground)"} />
+        <text y={-16} textAnchor="middle" fontSize={narrow ? 15 : 14} letterSpacing="0.06em" className="font-mono uppercase" fontWeight={600} fill="var(--foreground)" style={halo}>{n.label}</text>
       </g>
     );
   }
@@ -235,8 +231,8 @@ const NodeView = memo(function NodeView({ n, sketch, active, dim, on, isFocus, n
     const lit = on || (active > 0 && active < 1);
     return (
       <g transform={`translate(${n.x},${n.y})`} {...common}>
-        <circle r={lit ? 4.5 : 3.5} fill={lit ? "var(--accent)" : "var(--foreground)"} fillOpacity={0.35 + 0.6 * active} />
-        <text x={n.anchor === "end" ? -11 : 11} y={5} textAnchor={n.anchor} fontSize={narrow ? TALL_SKILL_FONT : SKILL_FONT + 1} className="font-serif"
+        <rect x={-3} y={-3} width={6} height={6} fill={lit ? "var(--accent)" : "var(--foreground)"} fillOpacity={0.35 + 0.65 * active} />
+        <text x={n.anchor === "end" ? -11 : 11} y={5} textAnchor={n.anchor} fontSize={narrow ? TALL_SKILL_FONT : SKILL_FONT + 1} className="font-sans"
           fill="var(--foreground)" fillOpacity={on ? 1 : 0.45 + 0.5 * active}>
           {n.label}
         </text>
@@ -246,10 +242,9 @@ const NodeView = memo(function NodeView({ n, sketch, active, dim, on, isFocus, n
   const fill = active >= 1 || on;
   return (
     <g transform={`translate(${n.x},${n.y})`} {...common}>
-      {fill && <circle r={28} fill="url(#sg-halo)" />}
-      <rect x={-9} y={-9} width={18} height={18} rx={2} transform="rotate(45)" fill={fill ? "var(--accent)" : "var(--background)"}
+      <rect x={-10} y={-10} width={20} height={20} fill={fill ? "var(--accent)" : "var(--background)"}
         stroke={fill ? "var(--accent)" : "var(--foreground)"} strokeWidth={1.5} />
-      <text y={32} textAnchor="middle" fontSize={narrow ? 21 : 20} className="font-display" fill="var(--foreground)" fillOpacity={0.5 + 0.5 * active} style={halo}>
+      <text y={33} textAnchor="middle" fontSize={narrow ? 21 : 20} fontWeight={800} letterSpacing="-0.02em" wordSpacing="0.12em" className="font-display" fill="var(--foreground)" fillOpacity={0.45 + 0.55 * active} style={halo}>
         {(narrow ? wrap(n.label, 12) : [n.label]).map((line, i) => (
           <tspan key={line} x={0} dy={i ? 22 : 0}>{line}</tspan>
         ))}
@@ -310,24 +305,22 @@ function Graph({ p }: { p: number }) {
   const focused = focus ? byId.get(focus) : null;
 
   return (
-    <div className="mx-auto flex h-full max-w-6xl flex-col px-6 pb-16 pt-20">
-      <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-2">
-        <div>
-          <p className="caps text-muted">Message passing · scroll to propagate</p>
-          <h2 className="font-display mt-2 text-5xl leading-none">The graph</h2>
+    <div className="mx-auto flex h-full max-w-7xl flex-col px-6 pb-16 pt-16">
+      <div className="grid grid-cols-12 gap-x-6 gap-y-2 border-t border-foreground pt-4">
+        <p className="caps col-span-12 text-accent md:col-span-2">(02)</p>
+        <h2 className="display col-span-12 text-5xl sm:text-7xl md:col-span-6">The graph</h2>
+        <div className="caps col-span-12 self-end text-muted md:col-span-4 md:text-right">
+          <p>Message passing · scroll to propagate</p>
+          <p className="mt-1 text-foreground">
+            {focused ? `${focused.label}: ${neighbors.get(focused.id)?.size ?? 0} neighbours` : "Every node learns from its neighbours"}
+          </p>
         </div>
-        <p className="font-hand max-w-sm -rotate-1 text-2xl text-muted">
-          {focused ? `${focused.label}: ${neighbors.get(focused.id)?.size ?? 0} neighbours` : "every node learns from its neighbours."}
-        </p>
       </div>
-      <p className="caps mt-3 text-accent" aria-live="polite">{caption(p)}</p>
+      <p className="caps mt-4 flex items-center gap-2" aria-live="polite">
+        <span className="inline-block h-1.5 w-1.5 bg-accent" aria-hidden />
+        {caption(p)}
+      </p>
       <svg viewBox={`0 0 ${g.w} ${g.h}`} preserveAspectRatio="xMidYMid meet" className="mt-2 min-h-0 w-full flex-1" role="img" aria-label="Graph linking fields, skills, projects and certification; messages travel from fields to skills to projects as you scroll">
-        <defs>
-          <radialGradient id="sg-halo">
-            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
-          </radialGradient>
-        </defs>
         {g.edges.map((e, i) => (
           <EdgeView
             key={`${e.a}-${e.b}`}
@@ -356,9 +349,9 @@ function Graph({ p }: { p: number }) {
         ))}
       </svg>
       <div className="caps flex flex-wrap gap-x-6 gap-y-1 text-muted">
-        <span>○ field</span>
-        <span>· skill</span>
-        <span><span className="text-accent">◆</span> project / certification · click to open</span>
+        <span>■ Field</span>
+        <span>▪ Skill</span>
+        <span><span className="text-accent">■</span> Project / certification · click to open</span>
       </div>
     </div>
   );

@@ -39,28 +39,27 @@ function Scene({ p }: { p: number }) {
       <svg viewBox={`-40 -20 ${W + 80} ${H + 40}`} className="mx-auto h-[38vh] w-auto md:h-[75vh]" role="img" aria-label="Map of the route from Kottayam to Kochi to Bangalore">
         <defs>
           <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
-            <circle cx="1" cy="1" r="1" fill="var(--line)" />
+            <path d="M0 0.5 H24 M0.5 0 V24" stroke="var(--line)" strokeWidth="1" />
           </pattern>
         </defs>
         <rect x={-40} y={-20} width={W + 80} height={H + 40} fill="url(#dots)" />
-        <text x={-20} y={H * 0.62} className="fill-muted font-hand" fontSize="24" opacity="0.8">Arabian Sea</text>
-        <text x={W * 0.48} y={H * 0.12} className="fill-muted font-hand" fontSize="24" opacity="0.8">Karnataka</text>
-        <text x={W * 0.5} y={H * 0.97} className="fill-muted font-hand" fontSize="24" opacity="0.8">Kerala</text>
+        <text x={-20} y={H * 0.62} className="fill-muted font-mono uppercase" fontSize="15" letterSpacing="0.08em">Arabian Sea</text>
+        <text x={W * 0.48} y={H * 0.12} className="fill-muted font-mono uppercase" fontSize="15" letterSpacing="0.08em">Karnataka</text>
+        <text x={W * 0.5} y={H * 0.97} className="fill-muted font-mono uppercase" fontSize="15" letterSpacing="0.08em">Kerala</text>
 
         {legs.map((d, i) => (
           <g key={i}>
-            <path d={d} fill="none" stroke="var(--foreground)" strokeOpacity="0.25" strokeWidth="1.2" strokeDasharray="3 7" />
+            <path d={d} fill="none" stroke="var(--foreground)" strokeOpacity="0.3" strokeWidth="1" strokeDasharray="2 6" />
             <path d={d} fill="none" stroke="var(--foreground)" strokeWidth="2" strokeLinecap="round" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - legDraw[i]} />
-            <path d={d} transform="translate(1.2 1.6)" fill="none" stroke="var(--foreground)" strokeOpacity="0.15" strokeWidth="1.2" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - legDraw[i]} />
           </g>
         ))}
 
         {pts.map((s, i) => (
           <g key={s.city} transform={`translate(${s.x},${s.y})`} opacity={reached[i] ? 1 : 0.25}>
-            {i === current && <circle r="18" fill="none" stroke="var(--accent)" strokeWidth="1.2" opacity="0.6" className="animate-ping origin-center" />}
-            <circle r="9" fill="var(--background)" stroke="var(--foreground)" strokeWidth="1.5" />
-            <circle r="4" fill={i === current ? "var(--accent)" : reached[i] ? "var(--foreground)" : "var(--line)"} />
-            <text x={i === 0 ? 18 : -16} y={i === 1 ? -10 : 8} textAnchor={i === 0 ? "start" : "end"} fontSize="30" className="fill-foreground font-display">
+            {i === current && <rect x={-16} y={-16} width={32} height={32} fill="none" stroke="var(--accent)" strokeWidth="1.5" />}
+            <rect x={-9} y={-9} width={18} height={18} fill="var(--background)" stroke="var(--foreground)" strokeWidth="2" />
+            <rect x={-4.5} y={-4.5} width={9} height={9} fill={i === current ? "var(--accent)" : reached[i] ? "var(--foreground)" : "var(--line)"} />
+            <text x={i === 0 ? 18 : -16} y={i === 1 ? -10 : 8} textAnchor={i === 0 ? "start" : "end"} fontSize="32" fontWeight={800} letterSpacing="-0.02em" className="fill-foreground font-display">
               {s.city}
             </text>
           </g>
@@ -74,8 +73,8 @@ function Scene({ p }: { p: number }) {
             className={`border-l-2 py-2 pl-5 transition duration-500 ${i === current ? "border-accent" : "border-line max-md:hidden"} ${reached[i] ? "opacity-100" : "translate-y-2 opacity-20"}`}
           >
             <p className="caps text-muted">{s.period}</p>
-            <h3 className="font-display mt-1 text-3xl leading-tight">{s.title}</h3>
-            <p className="font-hand text-xl text-muted">{s.city}</p>
+            <h3 className="display mt-2 text-3xl">{s.title}</h3>
+            <p className="caps mt-2 text-muted">{s.city}</p>
           </li>
         ))}
       </ol>

@@ -283,7 +283,7 @@ export function BinaryPortrait({ label }: { label: string }) {
     <div
       ref={wrapRef}
       className="relative w-full"
-      // Fade the bottom edge into the page with a mask, so the paper texture shows through.
+      // Fade the bottom edge into the page with a mask, instead of painting a gradient over it.
       style={{ aspectRatio: `${portrait.cols} / ${portrait.rows}`, maskImage: "linear-gradient(to bottom, #000 70%, transparent)" }}
     >
       <canvas ref={canvasRef} role="img" aria-label={label} className="block w-full" />

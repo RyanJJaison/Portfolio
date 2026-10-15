@@ -4,31 +4,30 @@ import { Hero } from "@/components/home/Hero";
 import { WhoIAm } from "@/components/home/WhoIAm";
 import { SkillGraph } from "@/components/home/SkillGraph";
 import { JourneyTeaser } from "@/components/home/JourneyTeaser";
-import { ClosingQuote } from "@/components/home/ClosingQuote";
+import { Closing } from "@/components/home/Closing";
 import { Ledger } from "@/components/projects/Ledger";
+import { SectionHead } from "@/components/ui/Section";
 
 export default function Home() {
   return (
     <main>
       <Hero />
       <WhoIAm />
-      <div className="mt-28">
+      <div className="mt-24">
         <SkillGraph />
       </div>
 
-      <section className="mx-auto mt-24 max-w-6xl px-6">
-        <div className="flex flex-wrap items-end justify-between gap-4 pb-6">
-          <div>
-            <p className="caps text-muted">Log of built work</p>
-            <h2 className="font-display mt-2 text-5xl leading-none">Selected work</h2>
-          </div>
-          <Link href="/projects" className="caps text-muted hover:text-foreground">Every project →</Link>
+      <section className="mx-auto mt-24 max-w-7xl px-6">
+        <SectionHead index="03" title="Selected work">
+          <Link href="/projects" className="hover:text-accent">All projects →</Link>
+        </SectionHead>
+        <div className="mt-10">
+          <Ledger items={projects.filter((p) => p.featured)} />
         </div>
-        <Ledger items={projects.filter((p) => p.featured)} />
       </section>
 
       <JourneyTeaser />
-      <ClosingQuote />
+      <Closing />
     </main>
   );
 }

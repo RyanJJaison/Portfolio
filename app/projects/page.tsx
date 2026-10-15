@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "Projects" };
 
 export default function ProjectsPage() {
   return (
-    <PageShell title="Projects" kicker="Log of built work" aside="most of these started as a question.">
+    <PageShell title="Projects" kicker="(P) Index of work" aside="Newest and most involved first">
       <Ledger items={projects} />
     </PageShell>
   );

@@ -3,7 +3,7 @@ export type AboutSection = { heading: string; paragraphs: string[] | null; promp
 
 export const about = {
   title: "Who I am",
-  aside: "in my own words, soon.",
+  aside: "In my own words, soon",
   sections: [
     { heading: "Where it started", paragraphs: null, prompt: "How you got into computing and AI." },
     { heading: "What I build", paragraphs: null, prompt: "The kind of problems you like solving, and why." },
@@ -27,8 +27,3 @@ export const interests = [
   { name: "Hardware & IoT", seen: "ESP32 fall-detection wearable" },
   { name: "Cloud AI", seen: "AWS · Bedrock · SageMaker" },
 ];
-
-export const closingQuote = {
-  lines: ["We can only see a short distance ahead,", "but we can see plenty there that needs to be done."],
-  source: "Alan Turing, Computing Machinery and Intelligence · 1950",
-};

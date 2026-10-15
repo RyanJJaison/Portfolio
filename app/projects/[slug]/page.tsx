@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { projects } from "@/content/projects";
 import { PageRankScene } from "@/components/projects/sentrix/PageRankScene";
 import { Illustration } from "@/components/projects/Illustration";
+import { StatusTag } from "@/components/ui/StatusTag";
 
 // Interactive scenes for projects that have one.
 const demos: Record<string, () => React.ReactNode> = {
@@ -20,11 +21,13 @@ export async function generateMetadata({ params }: PageProps<"/projects/[slug]">
   return { title: p?.title ?? "Project", description: p?.tagline };
 }
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({ index, title, children }: { index: string; title: string; children: React.ReactNode }) {
   return (
-    <section className="mt-16">
-      <h2 className="caps text-muted">{title}</h2>
-      <div className="mt-4">{children}</div>
+    <section className="mt-16 grid grid-cols-12 gap-x-6 gap-y-4 border-t border-foreground pt-4">
+      <h2 className="caps col-span-12 md:col-span-3">
+        <span className="text-accent">{index}</span> {title}
+      </h2>
+      <div className="col-span-12 md:col-span-9">{children}</div>
     </section>
   );
 }
@@ -44,61 +47,63 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
   ].filter(Boolean) as { href: string; label: string }[];
 
   return (
-    <main className="mx-auto max-w-6xl px-6 pb-24 pt-14">
-      <Link href="/projects" className="caps text-muted hover:text-foreground">← Projects</Link>
-      <header className="mt-8 grid items-end gap-8 md:grid-cols-[1.6fr_1fr]">
-        <div>
-          <p className="caps text-muted">
-            No. {String(index + 1).padStart(2, "0")} · {p.status.toLowerCase()}
+    <main className="mx-auto max-w-7xl px-6 pb-24 pt-10">
+      <Link href="/projects" className="caps text-muted hover:text-accent">← Index</Link>
+      <header className="mt-8 grid grid-cols-12 gap-x-6 gap-y-8">
+        <div className="col-span-12 md:col-span-8">
+          <p className="caps flex flex-wrap gap-x-4 gap-y-1">
+            <span className="text-accent">({String(index + 1).padStart(2, "0")})</span>
+            <StatusTag status={p.status} />
           </p>
-          <h1 className="font-display mt-3 text-6xl leading-none sm:text-8xl">{p.title}</h1>
-          <p className="mt-5 max-w-xl text-2xl italic leading-snug text-muted">{p.tagline}</p>
-          {p.context && <p className="font-hand mt-4 max-w-xl text-xl text-muted">{p.context}</p>}
+          <h1 className="display mt-4 text-[clamp(3.5rem,11vw,9.5rem)]">{p.title}<span className="text-accent">.</span></h1>
+          <p className="mt-6 max-w-2xl text-2xl leading-snug">{p.tagline}</p>
+          {p.context && <p className="caps mt-4 max-w-2xl text-muted">{p.context}</p>}
           {links.length > 0 && (
-            <div className="caps mt-8 flex flex-wrap gap-x-6 gap-y-2">
-              {links.map((l) => (
-                <a key={l.href} href={l.href} {...ext} className="border-b border-foreground pb-0.5 hover:border-accent hover:text-accent">
+            <div className="mt-8 flex flex-wrap gap-3">
+              {links.map((l, i) => (
+                <a key={l.href} href={l.href} {...ext}
+                  className={`caps border border-foreground px-4 py-2.5 transition-colors ${i === 0 ? "bg-foreground text-background hover:border-accent hover:bg-accent" : "hover:bg-foreground hover:text-background"}`}>
                   {l.label} ↗
                 </a>
               ))}
             </div>
           )}
         </div>
-        <Illustration slug={p.slug} className="mx-auto w-full max-w-xs" />
+        <figure className="col-span-12 self-end md:col-span-4">
+          <Illustration slug={p.slug} className="border border-line p-6" />
+          <figcaption className="caps mt-2 text-muted">Fig. — {p.title}</figcaption>
+        </figure>
       </header>
 
-      <div className="mt-14 grid gap-x-16 border-t border-foreground/70 md:grid-cols-2">
-        <Section title="What it is"><p className="text-xl leading-relaxed">{p.what}</p></Section>
-        <Section title="The mission"><p className="text-xl leading-relaxed">{p.mission}</p></Section>
-      </div>
-
-      <Section title="My role"><p className="font-hand max-w-3xl text-3xl leading-snug">{p.role}</p></Section>
+      <Section index="01" title="What it is"><p className="max-w-3xl text-xl leading-relaxed">{p.what}</p></Section>
+      <Section index="02" title="The mission"><p className="max-w-3xl text-xl leading-relaxed">{p.mission}</p></Section>
+      <Section index="03" title="My role"><p className="display max-w-4xl text-3xl leading-tight sm:text-4xl">{p.role}</p></Section>
 
       {demo && <div className="mt-16">{demo()}</div>}
 
-      <Section title="How it's built">
-        <ol className="border-t border-foreground/70">
+      <Section index="04" title="How it's built">
+        <ol className="border-t border-line">
           {p.architecture.map((a) => (
-            <li key={a.layer} className="grid gap-x-8 gap-y-1 border-b border-line py-5 md:grid-cols-[12rem_14rem_1fr]">
-              <span className="font-display text-2xl leading-tight">{a.layer}</span>
-              <span className="font-sans text-sm text-muted md:pt-1.5">{a.tech}</span>
-              <span className="text-lg leading-relaxed">{a.detail}</span>
+            <li key={a.layer} className="grid grid-cols-12 gap-x-6 gap-y-1 border-b border-line py-4">
+              <span className="col-span-12 text-xl font-bold tracking-tight md:col-span-3">{a.layer}</span>
+              <span className="caps col-span-12 text-muted md:col-span-3 md:pt-1.5">{a.tech}</span>
+              <span className="col-span-12 leading-relaxed md:col-span-6">{a.detail}</span>
             </li>
           ))}
         </ol>
       </Section>
 
       {p.results && (
-        <Section title="Results">
+        <Section index="05" title="Results">
           <ul className="max-w-3xl space-y-3 text-lg leading-relaxed">
             {p.results.map((r) => <li key={r}>{r}</li>)}
           </ul>
         </Section>
       )}
 
-      <Link href={`/projects/${next.slug}`} className="group mt-24 block border-t border-foreground/70 pt-8">
-        <span className="caps text-muted">Next project</span>
-        <span className="font-display mt-2 block text-5xl group-hover:text-accent">{next.title} →</span>
+      <Link href={`/projects/${next.slug}`} className="group mt-24 block bg-foreground px-6 py-10 text-background">
+        <span className="caps text-background/60">Next project</span>
+        <span className="display mt-3 block text-5xl group-hover:text-accent sm:text-7xl">{next.title} →</span>
       </Link>
     </main>
   );

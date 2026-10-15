@@ -7,28 +7,29 @@ export const metadata: Metadata = { title: "Contact" };
 export default function ContactPage() {
   const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
   const items = [
-    { label: "GitHub", href: profile.links.github, note: "code, and the repos behind every project" },
-    { label: "LinkedIn", href: profile.links.linkedin, note: "the professional version of all this" },
-    { label: "ORCID", href: profile.links.orcid, note: "for research" },
+    { label: "GitHub", href: profile.links.github, note: "Code behind every project" },
+    { label: "LinkedIn", href: profile.links.linkedin, note: "The professional version" },
+    { label: "ORCID", href: profile.links.orcid, note: "Research identity" },
   ];
   return (
-    <PageShell title="Say hello" kicker="Contact" aside="if any of this overlaps with what you're working on.">
-      <div className="grid gap-12 py-10 md:grid-cols-[1fr_1.4fr]">
-        <div>
+    <PageShell title="Say hello" kicker="(C) Contact" aside="Open to internships and collaborations in AI/ML">
+      <div className="grid grid-cols-12 gap-x-6 gap-y-12 py-10">
+        <div className="col-span-12 md:col-span-5">
           <p className="caps text-muted">Email</p>
-          <p className="font-display mt-2 break-all text-3xl">{profile.links.email}</p>
+          <p className="display mt-3 text-[clamp(1.5rem,2.4vw,2.25rem)] [overflow-wrap:anywhere]">{profile.links.email}</p>
           {profile.links.cv && (
-            <a href={profile.links.cv} {...ext} className="caps mt-8 inline-block border-b border-foreground pb-0.5 hover:border-accent hover:text-accent">
+            <a href={profile.links.cv} {...ext} className="caps mt-8 inline-block border border-foreground bg-foreground px-4 py-2.5 text-background hover:border-accent hover:bg-accent">
               Download résumé (PDF) ↗
             </a>
           )}
         </div>
-        <ul className="border-t border-foreground/70">
-          {items.map((i) => (
+        <ul className="col-span-12 border-t border-foreground md:col-span-6 md:col-start-7">
+          {items.map((i, n) => (
             <li key={i.label} className="border-b border-line">
-              <a href={i.href} {...ext} className="group flex flex-wrap items-baseline justify-between gap-2 py-6">
-                <span className="font-display text-4xl group-hover:text-accent">{i.label} ↗</span>
-                <span className="font-hand text-xl text-muted">{i.note}</span>
+              <a href={i.href} {...ext} className="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 py-5">
+                <span className="caps text-accent">{String(n + 1).padStart(2, "0")}</span>
+                <span className="display text-4xl group-hover:text-accent">{i.label}</span>
+                <span className="caps text-right text-muted">{i.note} ↗</span>
               </a>
             </li>
           ))}

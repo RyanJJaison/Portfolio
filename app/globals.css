@@ -1,56 +1,56 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f6efe3; /* warm paper */
-  --paper-deep: #efe5d4;
-  --foreground: #2a201a; /* sepia ink */
-  --muted: #7b6b5d;
-  --line: #d8cab4;
-  --accent: #2f4bd8; /* cobalt: used only for live signal */
-  --risk: #c4502f; /* heat colour for risk scores in demos */
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+  --muted: #6b6b6b;
+  --line: #e4e4e4; /* soft dividers; hard rules use the foreground */
+  --accent: #ff3b1f; /* vermilion */
+  --risk: #ff3b1f; /* risk heat in the SentriX demo shares the accent */
 }
 
 @theme inline {
   --color-background: var(--background);
-  --color-paper-deep: var(--paper-deep);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-line: var(--line);
   --color-accent: var(--accent);
   --color-risk: var(--risk);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-serif: var(--font-newsreader);
-  --font-display: var(--font-instrument);
-  --font-hand: var(--font-caveat);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-inter-tight);
+  --font-mono: var(--font-jetbrains);
 }
 
 html { color-scheme: light; }
 
 body {
-  background-color: var(--background);
-  /* Static paper grain: one SVG noise tile, no runtime cost. */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.25 0 0 0 0 0.15 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-newsreader), Georgia, serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
 }
 
-::selection { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+::selection { background: var(--accent); color: #fff; }
 
-/* Small tracked caps used for labels, nav and captions. */
+/* Small uppercase monospace used for labels, nav, indexes and captions. */
 .caps {
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
   font-size: 0.72rem;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-/* Lines that draw themselves once their container gets .is-drawn. */
-.draw-line { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.6s cubic-bezier(.6,.05,.25,1); }
-.is-drawn .draw-line { stroke-dashoffset: 0; }
+/* Display type: heavy, tight. */
+.display {
+  font-family: var(--font-inter-tight), system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  word-spacing: 0.08em;
+  line-height: 0.9;
+}
 
-@keyframes fade-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-.fade-up { animation: fade-up 0.9s cubic-bezier(.2,.7,.2,1) both; }
+/* Lines that draw themselves once their container gets .is-drawn. */
+.draw-line { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.4s cubic-bezier(.7,0,.2,1); }
+.is-drawn .draw-line { stroke-dashoffset: 0; }
 
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
