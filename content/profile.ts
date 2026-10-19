@@ -9,7 +9,8 @@ export const profile = {
     github: "https://github.com/RyanJJaison",
     linkedin: "https://www.linkedin.com/in/ryan-joseph-jaison-960390420/",
     orcid: "https://orcid.org/0009-0004-3794-7334",
-    email: "ryan.j@btech.christuniversity.in", // as printed on the CV
+    email: "ryanjosephjaison2006@gmail.com",
+    phone: "+91 81380 09601",
     cv: "/Ryan_Joseph_Jaison_CV.pdf" as string | null,
   },
 };

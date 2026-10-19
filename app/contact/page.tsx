@@ -1,30 +1,64 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { PageShell } from "@/components/ui/Section";
+import { Reveal } from "@/components/ui/Reveal";
+import { MessageForm } from "@/components/contact/MessageForm";
 import { profile } from "@/content/profile";
 
 export const metadata: Metadata = { title: "Contact" };
 
+/** One block of the contact page: index and title on the left, content on the right. */
+function Block({ index, title, note, children }: { index: string; title: ReactNode; note: string; children: ReactNode }) {
+  return (
+    <section className="grid grid-cols-12 gap-x-6 gap-y-8 border-b border-line py-14 last:border-b-0">
+      <Reveal className="col-span-12 md:col-span-4">
+        <p className="caps text-accent">({index})</p>
+        <h2 className="display mt-3 text-5xl sm:text-6xl">{title}</h2>
+        <p className="caps mt-4 max-w-xs text-muted">{note}</p>
+      </Reveal>
+      <div className="col-span-12 md:col-span-7 md:col-start-6">{children}</div>
+    </section>
+  );
+}
+
 export default function ContactPage() {
   const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
-  const items = [
+  const direct = [
+    { label: "Email", value: profile.links.email, href: `mailto:${profile.links.email}`, note: "Best for anything detailed" },
+    { label: "Phone", value: profile.links.phone, href: `tel:${profile.links.phone.replace(/\s/g, "")}`, note: "Call or text" },
+  ];
+  const online = [
     { label: "GitHub", href: profile.links.github, note: "Code behind every project" },
     { label: "LinkedIn", href: profile.links.linkedin, note: "The professional version" },
     { label: "ORCID", href: profile.links.orcid, note: "Research identity" },
   ];
   return (
     <PageShell title={<>Say <em>hello</em></>} kicker="(C) Contact" aside="Open to internships and collaborations in AI/ML">
-      <div className="grid grid-cols-12 gap-x-6 gap-y-12 py-10">
-        <div className="col-span-12 md:col-span-5">
-          <p className="caps text-muted">Email</p>
-          <p className="display mt-3 text-[clamp(1.5rem,2.4vw,2.25rem)] [overflow-wrap:anywhere]">{profile.links.email}</p>
-          {profile.links.cv && (
-            <a href={profile.links.cv} {...ext} className="caps pill mt-8 bg-foreground text-background hover:bg-accent">
-              Download résumé (PDF) ↗
-            </a>
-          )}
-        </div>
-        <ul className="col-span-12 border-t border-foreground md:col-span-6 md:col-start-7">
-          {items.map((i, n) => (
+      <Block index="01" title={<>Reach <em>me</em></>} note="Direct lines. I usually reply within a day.">
+        <ul className="border-t border-foreground">
+          {direct.map((d) => (
+            <li key={d.label} className="border-b border-line">
+              <a href={d.href} className="group grid gap-2 py-6 sm:grid-cols-[6rem_1fr] sm:items-baseline sm:gap-x-4">
+                <span className="caps text-accent">{d.label}</span>
+                <span className="display text-[clamp(1.5rem,3vw,2.5rem)] [overflow-wrap:anywhere]">
+                  {/* Let long addresses wrap at the @ rather than mid-word. */}
+                  <span className="hl">{d.value.split("@").map((part, n) => (n ? <span key={n}><wbr />@{part}</span> : part))}</span>
+                </span>
+                <span className="caps text-muted sm:col-start-2">{d.note} →</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        {profile.links.cv && (
+          <a href={profile.links.cv} {...ext} className="caps pill mt-8 bg-foreground text-background hover:bg-accent">
+            Download résumé (PDF) ↗
+          </a>
+        )}
+      </Block>
+
+      <Block index="02" title={<>Find me <em>online</em></>} note="Where the work and the network live.">
+        <ul className="border-t border-foreground">
+          {online.map((i, n) => (
             <li key={i.label} className="border-b border-line">
               <a href={i.href} {...ext} className="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 py-5">
                 <span className="caps text-accent">{String(n + 1).padStart(2, "0")}</span>
@@ -34,7 +68,11 @@ export default function ContactPage() {
             </li>
           ))}
         </ul>
-      </div>
+      </Block>
+
+      <Block index="03" title={<>Post to <em>reach me</em></>} note="Write here and it lands in my Gmail inbox.">
+        <MessageForm />
+      </Block>
     </PageShell>
   );
 }
