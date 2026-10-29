@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-29T00:00:00Z",
+  "title": "Design System: Ryan Joseph Jaison Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "ink-green": { "role": "primary", "displayName": "Ink Green", "canonical": "#1f5c45", "tonalRamp": ["#0b2219", "#123628", "#1f5c45", "#2f7a5d", "#4e9879", "#7db59b", "#b0d2c0", "#e2efe7"] },
+      "pale-green": { "role": "primary", "displayName": "Pale Green", "canonical": "#cfe3d6", "tonalRamp": ["#1c3327", "#2f5040", "#4b7360", "#6f9783", "#9bbcaa", "#cfe3d6", "#e3efe7", "#f2f8f4"] },
+      "risk-orange": { "role": "tertiary", "displayName": "Risk Orange", "canonical": "#d9480f", "tonalRamp": ["#3b1404", "#6a2307", "#a0360b", "#d9480f", "#ef6f3b", "#f59a73", "#f9c6ae", "#fde9df"] },
+      "stone-paper": { "role": "neutral", "displayName": "Stone Paper", "canonical": "#efeee9", "tonalRamp": ["#262522", "#3f3e3a", "#5d5b56", "#7f7d77", "#a3a19a", "#c8c6bf", "#e4e2db", "#efeee9"] },
+      "stone-surface": { "role": "neutral", "displayName": "Stone Surface", "canonical": "#e4e2db", "tonalRamp": ["#262522", "#3f3e3a", "#5d5b56", "#7f7d77", "#a3a19a", "#c8c6bf", "#e4e2db", "#f5f4f0"] },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#161614", "tonalRamp": ["#161614", "#2a2a27", "#43423e", "#5e5d58", "#7c7a75", "#9d9b95", "#c3c1ba", "#e7e5df"] },
+      "graphite": { "role": "neutral", "displayName": "Graphite", "canonical": "#6e6c66", "tonalRamp": ["#1e1d1b", "#34332f", "#4e4d48", "#6e6c66", "#8d8b85", "#adaba5", "#cdcbc5", "#ebeae5"] },
+      "pencil-line": { "role": "neutral", "displayName": "Pencil Line", "canonical": "#d6d4cc", "tonalRamp": ["#262522", "#43423e", "#66645e", "#8b8982", "#b0aea6", "#d6d4cc", "#e6e4dd", "#f4f3ef"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Inner-page titles and the home hero, ending in the green full-stop dot." },
+      "display-accent": { "displayName": "Display Accent", "purpose": "One italic serif word per title, in Ink Green." },
+      "headline": { "displayName": "Headline", "purpose": "Section heads beside a mono index." },
+      "title": { "displayName": "Title", "purpose": "Ledger project titles, mobile menu items, card headings." },
+      "body": { "displayName": "Body", "purpose": "Leads, taglines, paragraphs." },
+      "label": { "displayName": "Label", "purpose": "Mono caps for indexes, nav, captions, tags, buttons, field labels." }
+    },
+    "shadows": [
+      { "name": "hover-lift", "value": "0 10px 30px -18px rgb(22 22 20 / 0.45)", "purpose": "Linked cards on hover only, paired with translateY(-3px)." },
+      { "name": "paper-plane", "value": "drop-shadow(0 6px 6px rgb(22 22 20 / 0.18))", "purpose": "The contact form's flying paper plane only." }
+    ],
+    "motion": [
+      { "name": "ease-out-soft", "value": "cubic-bezier(.2,.7,.2,1)", "purpose": "Card lift and reveal-on-view rises (0.25s to 0.6s)." },
+      { "name": "ease-draw", "value": "cubic-bezier(.7,0,.2,1)", "purpose": "Self-drawing SVG lines (1.2s)." },
+      { "name": "reveal-stagger", "value": "80ms", "purpose": "Delay step between revealed children, capped at 320ms." },
+      { "name": "fast-state", "value": "0.15s", "purpose": "Pill colour changes, highlight hovers, press scale." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main call to action: ink pill that turns green on hover.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">See my work →</a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 0.4rem; border-radius: 999px; padding: 0.55rem 1rem; background: var(--foreground, #161614); color: var(--background, #efeee9); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; transition: background-color 0.15s, color 0.15s, transform 0.15s; } .ds-btn-primary:hover { background: var(--accent, #1f5c45); } .ds-btn-primary:focus-visible { outline: 2px solid var(--accent, #1f5c45); outline-offset: 2px; } .ds-btn-primary:active { transform: scale(0.97); }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action such as the résumé link: ink outline that fills on hover.",
+      "html": "<a class=\"ds-btn-outline\" href=\"#\">Résumé ↗</a>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; gap: 0.4rem; border-radius: 999px; padding: 0.55rem 1rem; border: 1px solid var(--foreground, #161614); background: transparent; color: var(--foreground, #161614); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; transition: background-color 0.15s, color 0.15s, transform 0.15s; } .ds-btn-outline:hover { background: var(--foreground, #161614); color: var(--background, #efeee9); } .ds-btn-outline:focus-visible { outline: 2px solid var(--accent, #1f5c45); outline-offset: 2px; } .ds-btn-outline:active { transform: scale(0.97); }"
+    },
+    {
+      "name": "Status Tag",
+      "kind": "chip",
+      "refersTo": "tag-live",
+      "description": "Project status; Ongoing is pale green with a pulsing dot, others are stone with a static dot.",
+      "html": "<span class=\"ds-tag ds-tag-live\"><span class=\"ds-dot\"></span>Ongoing</span> <span class=\"ds-tag\"><span class=\"ds-dot\"></span>Completed</span>",
+      "css": ".ds-tag { display: inline-flex; align-items: center; gap: 0.4rem; border-radius: 999px; padding: 0.25rem 0.65rem; background: var(--surface, #e4e2db); color: var(--muted, #6e6c66); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; } .ds-dot { position: relative; width: 0.375rem; height: 0.375rem; border-radius: 999px; background: currentColor; } .ds-tag-live { background: var(--accent-soft, #cfe3d6); color: var(--accent, #1f5c45); } .ds-tag-live .ds-dot { width: 0.5rem; height: 0.5rem; } .ds-tag-live .ds-dot::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: currentColor; animation: ds-ping 1.8s cubic-bezier(0,0,.2,1) infinite; } @keyframes ds-ping { 75%, 100% { transform: scale(2.4); opacity: 0; } }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Flat stone-surface container; lifts with a soft shadow on hover when linked.",
+      "html": "<a class=\"ds-card\" href=\"#\"><p class=\"ds-card-kicker\">(01) Flagship</p><p class=\"ds-card-title\">Sentri<em>X</em></p><p class=\"ds-card-body\">Graph ML risk scoring for Bitcoin transactions.</p></a>",
+      "css": ".ds-card { display: block; max-width: 22rem; border-radius: 1rem; padding: 2rem; background: var(--surface, #e4e2db); color: var(--foreground, #161614); text-decoration: none; transition: transform 0.25s cubic-bezier(.2,.7,.2,1), box-shadow 0.25s; } .ds-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px -18px rgb(22 22 20 / 0.45); } .ds-card:focus-visible { outline: 2px solid var(--accent, #1f5c45); outline-offset: 2px; } .ds-card-kicker { margin: 0; color: var(--accent, #1f5c45); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; } .ds-card-title { margin: 0.75rem 0 0; font-family: 'Inter Tight', system-ui, sans-serif; font-weight: 800; font-size: 2.25rem; line-height: 0.92; letter-spacing: -0.035em; } .ds-card-title em { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; color: var(--accent, #1f5c45); } .ds-card-body { margin: 0.75rem 0 0; color: var(--muted, #6e6c66); font-family: Inter, system-ui, sans-serif; font-size: 1.125rem; line-height: 1.375; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Contact form field with a mono caps label; border turns green on focus.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">Your email</span><input class=\"ds-input\" type=\"email\" placeholder=\"you@example.com\" /></label>",
+      "css": ".ds-field { display: grid; gap: 0.5rem; max-width: 22rem; } .ds-field-label { color: var(--muted, #6e6c66); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; } .ds-input { width: 100%; border-radius: 0.75rem; border: 1px solid var(--line, #d6d4cc); background: var(--background, #efeee9); color: var(--foreground, #161614); padding: 0.75rem 1rem; font-family: Inter, system-ui, sans-serif; font-size: 1rem; outline: none; transition: border-color 0.15s; } .ds-input::placeholder { color: rgb(110 108 102 / 0.7); } .ds-input:focus, .ds-input:focus-visible { border-color: var(--accent, #1f5c45); }"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link-active",
+      "description": "Sticky ruled bar: display wordmark with serif accent, indexed mono pill links.",
+      "html": "<header class=\"ds-nav\"><a class=\"ds-nav-brand\" href=\"#\">Ryan Joseph <span>Jaison</span></a><nav class=\"ds-nav-links\"><a class=\"ds-nav-link\" href=\"#\"><i>01</i> Home</a><a class=\"ds-nav-link is-active\" href=\"#\" aria-current=\"page\"><i>02</i> Projects</a><a class=\"ds-nav-link\" href=\"#\"><i>03</i> Contact</a></nav></header>",
+      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.75rem 1.5rem; background: var(--background, #efeee9); border-bottom: 1px solid var(--foreground, #161614); } .ds-nav-brand { color: var(--foreground, #161614); text-decoration: none; font-family: 'Inter Tight', system-ui, sans-serif; font-weight: 800; font-size: 1.125rem; letter-spacing: -0.025em; } .ds-nav-brand span { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: 1.25rem; color: var(--accent, #1f5c45); } .ds-nav-links { display: flex; gap: 0.25rem; } .ds-nav-link { display: inline-flex; gap: 0.4rem; border-radius: 999px; padding: 0.25rem 0.65rem; color: var(--muted, #6e6c66); text-decoration: none; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; transition: background-color 0.15s, color 0.15s; } .ds-nav-link i { font-style: normal; opacity: 0.7; } .ds-nav-link:hover { background: var(--surface, #e4e2db); color: var(--foreground, #161614); } .ds-nav-link:focus-visible { outline: 2px solid var(--accent, #1f5c45); outline-offset: 2px; } .ds-nav-link.is-active { background: var(--foreground, #161614); color: var(--background, #efeee9); } .ds-nav-link.is-active i { opacity: 0.6; }"
+    },
+    {
+      "name": "Section Head",
+      "kind": "custom",
+      "description": "Ink rule, parenthesised mono index in green, heavy title with one italic serif word.",
+      "html": "<div class=\"ds-section-head\"><p class=\"ds-sh-index\">(02)</p><h2 class=\"ds-sh-title\">Selected <em>work</em></h2><p class=\"ds-sh-note\">Newest first</p></div>",
+      "css": ".ds-section-head { display: grid; grid-template-columns: 1fr 4fr 1.5fr; gap: 0.75rem 1.5rem; border-top: 1px solid var(--foreground, #161614); padding-top: 1rem; } .ds-sh-index, .ds-sh-note { margin: 0; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; } .ds-sh-index { color: var(--accent, #1f5c45); } .ds-sh-note { color: var(--muted, #6e6c66); align-self: end; text-align: right; } .ds-sh-title { margin: 0; font-family: 'Inter Tight', system-ui, sans-serif; font-weight: 800; font-size: 3rem; line-height: 0.92; letter-spacing: -0.035em; color: var(--foreground, #161614); } .ds-sh-title em { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; letter-spacing: -0.01em; color: var(--accent, #1f5c45); }"
+    },
+    {
+      "name": "Ledger Row",
+      "kind": "custom",
+      "description": "Project index row: green index, display title that slides and highlights on hover, status tag, stack.",
+      "html": "<a class=\"ds-ledger-row\" href=\"#\"><span class=\"ds-lr-index\">01</span><span class=\"ds-lr-main\"><span class=\"ds-lr-title\"><span class=\"ds-hl\">Lahja</span> <span class=\"ds-lr-arrow\">→</span></span><span class=\"ds-lr-tag\">Speech tech for Kokborok.</span></span><span class=\"ds-lr-stack\">Python / PyTorch</span></a>",
+      "css": ".ds-ledger-row { display: grid; grid-template-columns: 3rem 1fr 10rem; gap: 0.5rem 1.5rem; padding: 1.5rem 0; border-bottom: 1px solid var(--line, #d6d4cc); color: var(--foreground, #161614); text-decoration: none; } .ds-lr-index { padding-top: 0.5rem; color: var(--accent, #1f5c45); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.72rem; letter-spacing: 0.06em; } .ds-lr-title { display: flex; align-items: baseline; gap: 0.75rem; font-family: 'Inter Tight', system-ui, sans-serif; font-weight: 800; font-size: 2.25rem; line-height: 0.92; letter-spacing: -0.035em; transition: transform 0.3s; } .ds-hl { border-radius: 0.15em; transition: background-color 0.15s; } .ds-lr-arrow { font-size: 1.5rem; color: var(--accent, #1f5c45); opacity: 0; transition: opacity 0.15s; } .ds-lr-tag { display: block; margin-top: 0.5rem; color: var(--muted, #6e6c66); font-family: Inter, system-ui, sans-serif; font-size: 1.125rem; line-height: 1.375; } .ds-lr-stack { padding-top: 0.625rem; color: var(--muted, #6e6c66); font-family: Inter, system-ui, sans-serif; font-size: 0.875rem; } .ds-ledger-row:hover .ds-lr-title { transform: translateX(0.5rem); } .ds-ledger-row:hover .ds-hl { background: var(--accent-soft, #cfe3d6); } .ds-ledger-row:hover .ds-lr-arrow { opacity: 1; } .ds-ledger-row:focus-visible { outline: 2px solid var(--accent, #1f5c45); outline-offset: 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Field Notebook",
+    "overview": "The site reads like a working researcher's notebook: stone-coloured paper, green ink, hard ruled lines, and every entry indexed. Sections open with a parenthesised mono index such as `(01)`, figures carry `Fig. 01` captions, and projects sit in a ledger rather than a grid of cards. The structure is technical and exact; the character comes from craft details that reward attention, like the self-portrait drawn in binary digits, lines that draw themselves out of the portrait, and a contact letter that folds into a paper plane.\n\nThe mood is technical, crafted, and playful. Heavy, tight sans display type carries the confidence, and single italic serif words in green ink add warmth, as if annotated by hand. Playfulness lives in motion and small interactions, never in colour noise or decoration: the palette stays to one ink green on stone, and the layout stays on a strict 12-column grid.\n\nThis is explicitly not a template developer portfolio. No dark-mode neon gradients, glassmorphism, tech-logo walls, or skill-percentage bars.",
+    "keyCharacteristics": [
+      "Stone paper background with near-black ink and a single ink-green accent.",
+      "Heavy Inter Tight display (800, line-height 0.92) with italic Instrument Serif accent words.",
+      "Small uppercase JetBrains Mono labels for indexes, nav, captions, and tags.",
+      "Hard 1px ink rules divide sections; soft pencil lines divide rows.",
+      "Fully rounded pill buttons and tags; flat tonal cards.",
+      "Motion that draws, reveals, and assembles, all disabled under reduced motion."
+    ],
+    "rules": [
+      { "name": "The One Pen Rule", "body": "Ink Green is the only accent. Emphasis comes from green ink or a pale-green highlight, never from a second hue.", "section": "colors" },
+      { "name": "The Data-Only Orange Rule", "body": "Risk Orange appears only where it encodes meaning (risk, error). If it is decorating, remove it.", "section": "colors" },
+      { "name": "The One Italic Word Rule", "body": "A display title gets at most one italic serif word or fragment, in Ink Green. It is the annotation, not the headline.", "section": "typography" },
+      { "name": "The Mono Scaffold Rule", "body": "Indexes, captions, labels, and controls are always mono caps. Body copy never is.", "section": "typography" },
+      { "name": "The Ruled Page Rule", "body": "Major divisions are a 1px Ink rule; minor divisions are a 1px Pencil Line. No other dividers.", "section": "layout" },
+      { "name": "The Flat-At-Rest Rule", "body": "Nothing casts a shadow at rest. If a surface needs separation, use Stone Surface or a rule.", "section": "elevation" }
+    ],
+    "dos": [
+      "**Do** keep Ink Green (#1f5c45) as the single accent, and Pale Green (#cfe3d6) only as a highlight fill under dark text.",
+      "**Do** open sections with an Ink rule and a parenthesised mono index such as `(01)`.",
+      "**Do** caption figures and demos in mono caps (`Fig. 01 — …`).",
+      "**Do** end page titles with the green full-stop dot and use at most one italic serif word per title.",
+      "**Do** use pills for every button, tag, and nav link; cards at 16px radius.",
+      "**Do** make motion draw, reveal, or assemble content, and disable it fully under `prefers-reduced-motion`.",
+      "**Do** switch wide composited scenes to stacked layouts below 768px."
+    ],
+    "donts": [
+      "**Don't** build a template developer portfolio look: no dark-mode neon gradients, glassmorphism, tech-logo walls, or skill-percentage bars.",
+      "**Don't** add a second accent hue; Risk Orange (#d9480f) is for risk data and errors only.",
+      "**Don't** put shadows on surfaces at rest.",
+      "**Don't** set body copy in mono caps or labels in the serif.",
+      "**Don't** hard-code copy in components; it lives in `content/*.ts`."
+    ]
+  }
+}

@@ -2,17 +2,18 @@ import { about } from "@/content/about";
 import { SectionHead } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 
-/** Verified facts in a narrow column that stays in view, beside Ryan's own words. */
+/** Verified facts on a dark card that stays in view, beside Ryan's own words. */
 export function WhoIAm() {
   return (
     <section id="who" className="mx-auto mt-24 max-w-7xl scroll-mt-16 px-6">
       <SectionHead title="Who I am" />
       <div className="mt-12 grid grid-cols-12 items-start gap-x-6 gap-y-12">
-        <dl className="col-span-12 grid grid-cols-2 gap-x-6 gap-y-6 md:sticky md:top-24 md:col-span-3 md:grid-cols-1">
+        <dl className="card col-span-12 !bg-foreground p-6 text-background md:sticky md:top-24 md:col-span-4">
+          <p className="serif text-3xl text-accent-soft">At a glance</p>
           {about.facts.map((f) => (
-            <div key={f.label}>
-              <dt className="caps text-muted">{f.label}</dt>
-              <dd className="mt-1 text-lg leading-snug">{f.value}</dd>
+            <div key={f.label} className="mt-5">
+              <dt className="caps text-background/55">{f.label}</dt>
+              <dd className="mt-1 text-lg font-medium leading-snug">{f.value}</dd>
             </div>
           ))}
         </dl>
