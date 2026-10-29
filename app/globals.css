@@ -55,6 +55,8 @@ body {
     word-spacing: 0.08em;
     line-height: 0.92;
   }
+  /* Section and card titles step down a notch: still heavy, less clenched than the page titles. */
+  h2.display, h3.display { font-weight: 700; letter-spacing: -0.02em; line-height: 0.98; }
   .display em, .serif {
     font-family: var(--font-newsreader), Georgia, serif;
     font-style: italic;

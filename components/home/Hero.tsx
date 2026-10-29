@@ -27,7 +27,6 @@ const pct = (v: number, of: number) => `${(v / of) * 100}%`;
 function Heading({ className = "" }: { className?: string }) {
   return (
     <div className={className}>
-      <p className="caps text-accent">B.Tech AI · Christ University, Bangalore</p>
       <h1 className="display mt-4 text-[clamp(3.5rem,7.6vw,7.5rem)]">
         Hi, I&apos;m<br /><em>Ryan</em><span className="mark" aria-hidden />
       </h1>
@@ -35,7 +34,7 @@ function Heading({ className = "" }: { className?: string }) {
         Computer science student building practical AI and ML systems, from graph models to speech to hardware.
       </p>
       <div className="mt-8 flex flex-wrap items-center gap-3">
-        <Link href="/projects" className="caps pill bg-foreground text-background hover:bg-accent">See my work →</Link>
+        <Link href="/projects" className="caps pill bg-foreground text-background hover:bg-accent">See my work</Link>
         {profile.links.cv && (
           <a href={profile.links.cv} target="_blank" rel="noopener noreferrer" className="caps pill bg-surface hover:bg-foreground hover:text-background">Résumé ↗</a>
         )}

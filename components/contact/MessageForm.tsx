@@ -43,7 +43,7 @@ export function MessageForm() {
       {phase === "sent" ? (
         <div className="card flex min-h-[26rem] flex-col items-start justify-center gap-5 p-8 sm:p-10" role="status">
           <p className="caps text-accent">(Sent) Letter on its way</p>
-          <p className="display text-4xl sm:text-5xl">Thanks for <em>writing</em></p>
+          <p className="display text-4xl sm:text-5xl">Thanks for writing</p>
           <p className="max-w-md text-lg leading-relaxed text-muted">
             Your message just landed in my inbox. I&apos;ll reply to <span className="text-foreground">{replyTo || "you"}</span> soon.
           </p>
@@ -84,7 +84,7 @@ export function MessageForm() {
                 {state.status === "error" ? state.message : "Goes straight to my Gmail."}
               </p>
               <button type="submit" disabled={pending} className="caps pill bg-foreground text-background hover:bg-accent disabled:opacity-60">
-                {pending ? "Sending…" : "Send it →"}
+                {pending ? "Sending…" : "Send it"}
               </button>
             </div>
           </form>

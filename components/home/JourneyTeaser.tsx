@@ -7,8 +7,8 @@ import { SectionHead } from "@/components/ui/Section";
 export function JourneyTeaser() {
   return (
     <section className="mx-auto mt-28 max-w-7xl px-6">
-      <SectionHead index="04" title={<>The <em>route</em></>}>
-        <Link href="/journey" className="hl">Full route →</Link>
+      <SectionHead index="04" title="The route">
+        <Link href="/journey" className="hl">Full route</Link>
       </SectionHead>
       <DrawOnView className="mt-12">
         <div className="relative">

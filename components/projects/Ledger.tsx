@@ -20,7 +20,6 @@ export function Ledger({ items }: { items: Project[] }) {
               <span className="col-span-12 md:col-span-7">
                 <span className="display flex items-baseline gap-3 text-4xl transition-transform duration-300 group-hover:translate-x-2 sm:text-5xl">
                   <span className="hl">{p.title}</span>
-                  <span className="text-2xl text-accent opacity-0 transition-opacity group-hover:opacity-100" aria-hidden>→</span>
                 </span>
                 <span className="mt-2 block max-w-xl text-lg leading-snug text-muted">{p.tagline}</span>
               </span>

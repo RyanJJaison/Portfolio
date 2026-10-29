@@ -58,7 +58,8 @@ export const projects: Project[] = [
     fields: ["dl", "graph", "systems"],
     repo: "https://github.com/RyanJJaison/SentriX",
     results: [
-      "Adding four PageRank proximity features to Elliptic's 165 raw features raised held-out illicit-class F1 from 0.5340 ± 0.0186 to 0.6943 ± 0.0204, and AUC from 0.8966 to 0.9570 (3 seeds).",
+      "Adding four PageRank proximity features to Elliptic's 165 raw features raised held-out illicit-class F1 from 0.5340 ± 0.0186 to 0.6943 ± 0.0204, and AUC from 0.8966 to 0.9570 (3 seeds), using temporal splits and leave-one-out seeding to prevent leakage.",
+      "Traced the remaining train-to-test gap to temporal drift rather than overfitting, and documented the limitations.",
     ],
   },
   {

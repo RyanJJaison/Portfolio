@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Research" };
 
 export default function ResearchPage() {
   return (
-    <PageShell title={<>Research</>} kicker="Open questions" aside="Questions before they become projects">
+    <PageShell title="Research" aside="Questions before they become projects">
       <section className="grid grid-cols-12 gap-x-6 gap-y-4 py-8">
         <h2 className="caps col-span-12 md:col-span-3">Preface</h2>
         <div className="col-span-12 space-y-5 text-xl leading-relaxed md:col-span-8">
@@ -14,17 +14,17 @@ export default function ResearchPage() {
         </div>
       </section>
 
-      <ol className="grid gap-4 pt-4">
+      <ol className="grid gap-20 pt-10">
         {researchThreads.map((t) => (
-          <li key={t.title} className="card lift grid grid-cols-12 gap-x-6 gap-y-3 p-6 sm:p-10">
+          <li key={t.title} className="grid grid-cols-12 gap-x-6 gap-y-3">
             <div className="col-span-12 md:col-span-3">
-              <p className="caps pill pill-sm bg-background text-muted">{t.status}</p>
+              <p className="caps text-accent md:pt-3">{t.status}</p>
             </div>
             <div className="col-span-12 md:col-span-8">
               <h2 className="display text-4xl sm:text-5xl">{t.title}</h2>
               <p className="mt-5 max-w-2xl border-l-4 border-accent pl-4 serif !text-2xl text-xl leading-relaxed">{t.question}</p>
-              <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">{t.summary}</p>
-              <p className="caps mt-5 text-muted">{t.tags.join(" / ")}</p>
+              <p className="mt-4 max-w-2xl text-lg leading-relaxed">{t.summary}</p>
+              <p className="caps mt-5 text-muted">{t.tags.join(", ")}</p>
             </div>
           </li>
         ))}

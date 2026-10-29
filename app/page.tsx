@@ -20,8 +20,8 @@ export default function Home() {
       </div>
 
       <section className="mx-auto mt-24 max-w-7xl px-6">
-        <SectionHead index="03" title={<>Selected <em>work</em></>}>
-          <Link href="/projects" className="hl">All projects →</Link>
+        <SectionHead index="03" title="Selected work">
+          <Link href="/projects" className="hl">All projects</Link>
         </SectionHead>
         <div className="mt-10">
           <Ledger items={projects.filter((p) => p.featured)} />

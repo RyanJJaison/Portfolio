@@ -12,7 +12,6 @@ export function Closing() {
   return (
     <section className="mx-auto mt-28 max-w-7xl px-6">
       <div className="card !bg-foreground px-6 py-16 text-background sm:px-12">
-        <p className="caps text-accent-soft">Next</p>
         <h2 className="display mt-6 text-[clamp(3.5rem,12vw,11rem)]">
           Let&apos;s build<br /><em className="!text-accent-soft">something</em><span className="mark !bg-accent-soft" aria-hidden />
         </h2>
@@ -26,7 +25,7 @@ export function Closing() {
         </div>
         <div className="caps mt-10 flex flex-wrap gap-6 text-background/60">
           {profile.links.cv && <a href={profile.links.cv} {...ext} className="hover:text-accent-soft">Download résumé ↗</a>}
-          <Link href="/contact" className="hover:text-accent-soft">Contact page →</Link>
+          <Link href="/contact" className="hover:text-accent-soft">Contact page</Link>
         </div>
       </div>
     </section>

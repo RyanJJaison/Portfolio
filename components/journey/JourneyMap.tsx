@@ -36,7 +36,7 @@ function Scene({ p }: { p: number }) {
 
   return (
     <div className="mx-auto grid h-full max-w-6xl content-center items-center gap-6 px-6 pb-10 md:grid-cols-[1fr_1fr] md:gap-12">
-      <svg viewBox={`-40 -20 ${W + 80} ${H + 40}`} className="mx-auto h-[46svh] w-auto md:h-[72svh]" role="img" aria-label="Map of the route from Kottayam to Kochi to Bangalore">
+      <svg viewBox={`-40 -20 ${W + 80} ${H + 40}`} className="mx-auto h-[46svh] w-auto md:h-[72svh]" role="img" aria-label="Map of the route from Pala to Kochi to Bangalore">
         <defs>
           <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
             <path d="M0 0.5 H24 M0.5 0 V24" stroke="var(--line)" strokeWidth="1" />

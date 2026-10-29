@@ -32,8 +32,8 @@ export default function ContactPage() {
     { label: "ORCID", href: profile.links.orcid, note: "Research identity" },
   ];
   return (
-    <PageShell title={<>Say <em>hello</em></>} kicker="Contact" aside="Open to internships and collaborations in AI/ML">
-      <Block index="01" title={<>Reach <em>me</em></>} note="Direct lines. I usually reply within a day.">
+    <PageShell title="Say hello" aside="Open to internships and collaborations in AI/ML">
+      <Block index="01" title="Reach me" note="Direct lines. I usually reply within a day.">
         <ul className="">
           {direct.map((d) => (
             <li key={d.label} className="">
@@ -43,7 +43,7 @@ export default function ContactPage() {
                   {/* Let long addresses wrap at the @ rather than mid-word. */}
                   <span className="hl">{d.value.split("@").map((part, n) => (n ? <span key={n}><wbr />@{part}</span> : part))}</span>
                 </span>
-                <span className="caps text-muted sm:col-start-2">{d.note} →</span>
+                <span className="caps text-muted sm:col-start-2">{d.note}</span>
               </a>
             </li>
           ))}
@@ -55,7 +55,7 @@ export default function ContactPage() {
         )}
       </Block>
 
-      <Block index="02" title={<>Find me <em>online</em></>} note="Where the work and the network live.">
+      <Block index="02" title="Find me online" note="Where the work and the network live.">
         <ul className="">
           {online.map((i) => (
             <li key={i.label} className="">
@@ -68,7 +68,7 @@ export default function ContactPage() {
         </ul>
       </Block>
 
-      <Block index="03" title={<>Post to <em>reach me</em></>} note="Write here and it lands in my Gmail inbox.">
+      <Block index="03" title="Post to reach me" note="Write here and it lands in my Gmail inbox.">
         <MessageForm />
       </Block>
     </PageShell>

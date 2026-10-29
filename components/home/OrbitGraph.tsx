@@ -162,7 +162,7 @@ function Scene({ p }: { p: number }) {
   return (
     <div className="mx-auto flex h-full max-w-7xl flex-col px-6 pb-10 pt-6">
       <div className="grid grid-cols-12 gap-x-6 gap-y-2 pt-4">
-        <h2 className="display col-span-12 text-5xl sm:text-7xl md:col-span-8">The <em>orbit</em></h2>
+        <h2 className="display col-span-12 text-5xl sm:text-7xl md:col-span-8">The orbit</h2>
         <p className="caps col-span-12 flex items-center gap-2 self-end text-muted md:col-span-4 md:justify-end" aria-live="polite">
           <span className="live-dot" aria-hidden />
           {caption(p)}
@@ -278,7 +278,7 @@ function Panel({ focus }: { focus: string | null }) {
           </ul>
           {work.href && (
             <Link href={work.href} className="caps pill mt-5 bg-foreground text-background hover:bg-accent">
-              Open project →
+              Open project
             </Link>
           )}
         </>

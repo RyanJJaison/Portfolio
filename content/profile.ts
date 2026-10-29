@@ -1,7 +1,6 @@
 export const profile = {
   name: "Ryan Joseph Jaison",
-  headline:
-    "Computer Science Student | Aspiring AI/ML Engineer | Deep Learning & Generative AI | AWS Certified AI Practitioner",
+  headline: "AI/ML student · AWS Certified AI Practitioner",
   tagline: "CS student building practical AI/ML systems.",
   location: "Bangalore, India",
   status: "Open to internships", // shown as a pill in the nav

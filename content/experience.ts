@@ -1,10 +1,10 @@
 export const experience = [
   {
-    role: "Intern",
-    org: "iLeaf Solutions",
+    role: "Software development intern",
+    org: "iLeaf Solutions Pvt. Ltd.",
     place: "Kochi, Kerala (on-site)",
     period: "Apr 2026 to May 2026",
-    note: "One-month software development internship. Worked in the team on active sprint goals, debugging and helping build scalable systems.",
+    note: "Worked in a sprint-driven commercial team, building hands-on with Flask, PyTorch and AWS AI across backend systems and databases. Debugged core architecture setups and practised structured version control across the full development lifecycle.",
   },
 ];
 
