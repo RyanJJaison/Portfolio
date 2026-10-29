@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Project } from "@/content/projects";
 import { StatusTag } from "@/components/ui/StatusTag";
+import { Reveal } from "@/components/ui/Reveal";
 
 /** Projects as an index table on a 12-column grid. */
 export function Ledger({ items }: { items: Project[] }) {
@@ -11,7 +12,8 @@ export function Ledger({ items }: { items: Project[] }) {
         <span className="col-span-2">Status</span>
         <span className="col-span-3">Built with</span>
       </div>
-      <ol>
+      {/* Rows arrive one after another as the list scrolls in. */}
+      <Reveal as="ol">
         {items.map((p) => (
           <li key={p.slug}>
             <Link href={`/projects/${p.slug}`} className="group -mx-4 grid grid-cols-12 gap-x-6 gap-y-2 px-4 py-6 transition-colors hover:bg-surface">
@@ -27,7 +29,7 @@ export function Ledger({ items }: { items: Project[] }) {
             </Link>
           </li>
         ))}
-      </ol>
+      </Reveal>
     </div>
   );
 }

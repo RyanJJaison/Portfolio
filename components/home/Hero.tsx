@@ -27,7 +27,7 @@ const pct = (v: number, of: number) => `${(v / of) * 100}%`;
 function Heading({ className = "" }: { className?: string }) {
   return (
     <div className={className}>
-      <p className="caps text-accent">Portfolio · 2026</p>
+      <p className="caps text-accent">B.Tech AI · Christ University, Bangalore</p>
       <h1 className="display mt-4 text-[clamp(3.5rem,7.6vw,7.5rem)]">
         Hi, I&apos;m<br /><em>Ryan</em><span className="mark" aria-hidden />
       </h1>

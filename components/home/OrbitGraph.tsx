@@ -290,9 +290,9 @@ function Panel({ focus }: { focus: string | null }) {
         </>
       ) : (
         <>
-          <p className="caps text-muted">How to read it</p>
+          <p className="caps text-muted">What this shows</p>
           <p className="mt-3 text-lg leading-snug">
-            Me at the centre, the six fields I work in on the inner ring, and what I&apos;ve built with them on the outer ring. Scroll to send the signal outward; hover or tap any node to see what&apos;s inside.
+            The inner ring holds the six fields I work in. The outer ring holds what I&apos;ve built or earned with them, linked to every field it draws on, and most pieces draw on more than one. Pick any name to see what&apos;s behind it.
           </p>
         </>
       )}

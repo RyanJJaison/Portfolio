@@ -84,7 +84,7 @@ export function MessageForm() {
                 {state.status === "error" ? state.message : "Goes straight to my Gmail."}
               </p>
               <button type="submit" disabled={pending} className="caps pill bg-foreground text-background hover:bg-accent disabled:opacity-60">
-                {pending ? "Sending…" : "Send it ✈"}
+                {pending ? "Sending…" : "Send it →"}
               </button>
             </div>
           </form>

@@ -6,9 +6,9 @@ export const metadata: Metadata = { title: "Research" };
 
 export default function ResearchPage() {
   return (
-    <PageShell title={<>Re<em>search</em></>} kicker="Open questions" aside="Questions before they become projects">
+    <PageShell title={<>Research</>} kicker="Open questions" aside="Questions before they become projects">
       <section className="grid grid-cols-12 gap-x-6 gap-y-4 py-8">
-        <h2 className="caps col-span-12 md:col-span-3"><span className="text-accent">00</span> Preface</h2>
+        <h2 className="caps col-span-12 md:col-span-3">Preface</h2>
         <div className="col-span-12 space-y-5 text-xl leading-relaxed md:col-span-8">
           {researchPreface.map((para) => <p key={para.slice(0, 24)}>{para}</p>)}
         </div>

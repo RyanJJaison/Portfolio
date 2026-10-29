@@ -4,11 +4,11 @@ import { Reveal } from "@/components/ui/Reveal";
 
 const SPAN = ["md:col-span-8", "md:col-span-4", "md:col-span-4"];
 
-/** Bento grid: verified facts on a dark tile, Ryan's own words on the others. Placeholders until the words arrive. */
+/** Bento grid: verified facts on a dark tile, Ryan's own words on the others. */
 export function WhoIAm() {
   return (
     <section id="who" className="mx-auto mt-24 max-w-7xl scroll-mt-16 px-6">
-      <SectionHead index="01" title={<>Who <em>I am</em></>} note={about.aside} />
+      <SectionHead index="01" title={<>Who <em>I am</em></>}  />
       <Reveal className="mt-10 grid grid-cols-12 gap-4">
         <dl className="card col-span-12 !bg-foreground p-6 text-background md:col-span-4 md:row-span-2">
           <p className="serif text-3xl text-accent-soft">At a glance</p>
@@ -21,7 +21,7 @@ export function WhoIAm() {
         </dl>
 
         {about.sections.map((s, i) => (
-          <article key={s.heading} className={`card lift col-span-12 p-6 ${SPAN[i]}`}>
+          <article key={s.heading} className={`card col-span-12 p-6 transition-colors hover:bg-accent-soft/60 ${SPAN[i]}`}>
             <h3 className="caps">{s.heading}</h3>
             {s.paragraphs ? (
               <div className="mt-4 space-y-4 text-lg leading-relaxed">
