@@ -1,78 +1,75 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
-import { PageShell } from "@/components/ui/Section";
-import { Reveal } from "@/components/ui/Reveal";
+import { SplitPage, StageSection, type StageItem } from "@/components/split/SplitPage";
 import { MessageForm } from "@/components/contact/MessageForm";
+import { Reveal } from "@/components/ui/Reveal";
 import { profile } from "@/content/profile";
 
 export const metadata: Metadata = { title: "Contact" };
 
-/** One block of the contact page: index and title on the left, content on the right. */
-function Block({ index, title, note, children }: { index: string; title: ReactNode; note: string; children: ReactNode }) {
-  return (
-    <section className="grid grid-cols-12 gap-x-6 gap-y-8 border-b border-line py-14 last:border-b-0">
-      <Reveal className="col-span-12 md:col-span-4">
-        <p className="caps text-accent">({index})</p>
-        <h2 className="display mt-3 text-5xl sm:text-6xl">{title}</h2>
-        <p className="caps mt-4 max-w-xs text-muted">{note}</p>
-      </Reveal>
-      <div className="col-span-12 md:col-span-7 md:col-start-6">{children}</div>
-    </section>
-  );
-}
-
 export default function ContactPage() {
   const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
-  const direct = [
-    { label: "Email", value: profile.links.email, href: `mailto:${profile.links.email}`, note: "Best for anything detailed" },
-    { label: "Phone", value: profile.links.phone, href: `tel:${profile.links.phone.replace(/\s/g, "")}`, note: "Call or text" },
+  const stage: StageItem[] = [
+    { id: "hero", picture: "ryan" },
+    { id: "direct", picture: "telephone" },
+    { id: "online", picture: "bangaloreNight" },
+    { id: "post", picture: "letterBox" },
   ];
   const online = [
-    { label: "GitHub", href: profile.links.github, note: "Code behind every project" },
+    { label: "GitHub", href: profile.links.github, note: "The code behind every project" },
     { label: "LinkedIn", href: profile.links.linkedin, note: "The professional version" },
-    { label: "ORCID", href: profile.links.orcid, note: "Research identity" },
+    { label: "ORCID", href: profile.links.orcid, note: "My research identity" },
   ];
   return (
-    <PageShell title={<>Say <em>hello</em></>} kicker="(C) Contact" aside="Open to internships and collaborations in AI/ML">
-      <Block index="01" title={<>Reach <em>me</em></>} note="Direct lines. I usually reply within a day.">
-        <ul className="border-t border-foreground">
-          {direct.map((d) => (
-            <li key={d.label} className="border-b border-line">
-              <a href={d.href} className="group grid gap-2 py-6 sm:grid-cols-[6rem_1fr] sm:items-baseline sm:gap-x-4">
-                <span className="caps text-accent">{d.label}</span>
-                <span className="display text-[clamp(1.5rem,3vw,2.5rem)] [overflow-wrap:anywhere]">
-                  {/* Let long addresses wrap at the @ rather than mid-word. */}
-                  <span className="hl">{d.value.split("@").map((part, n) => (n ? <span key={n}><wbr />@{part}</span> : part))}</span>
-                </span>
-                <span className="caps text-muted sm:col-start-2">{d.note} →</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-        {profile.links.cv && (
-          <a href={profile.links.cv} {...ext} className="caps pill mt-8 bg-foreground text-background hover:bg-accent">
-            Download résumé (PDF) ↗
-          </a>
-        )}
-      </Block>
+    <main>
+      <SplitPage items={stage} aside={profile.location}>
+        <section data-stage="hero" className="flex flex-col justify-center pb-16 pt-10 lg:min-h-[56svh] lg:py-16">
+          <div className="rise">
+            <h1 className="display">Say hello</h1>
+            <p className="lead measure mt-10">I&apos;m open to internships and collaborations in AI and ML. Email, call, or write to me from this page.</p>
+          </div>
+        </section>
 
-      <Block index="02" title={<>Find me <em>online</em></>} note="Where the work and the network live.">
-        <ul className="border-t border-foreground">
-          {online.map((i, n) => (
-            <li key={i.label} className="border-b border-line">
-              <a href={i.href} {...ext} className="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 py-5">
-                <span className="caps text-accent">{String(n + 1).padStart(2, "0")}</span>
-                <span className="display text-4xl hl">{i.label}</span>
-                <span className="caps text-right text-muted">{i.note} ↗</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </Block>
+        <div className="pb-40">
+          <StageSection id="direct" picture="telephone" className="mt-16">
+            <Reveal>
+              <h2 className="head">Reach me</h2>
+              <p className="mt-8">Email</p>
+              <a href={`mailto:${profile.links.email}`} className="lead link mt-1 inline-block [overflow-wrap:anywhere]">{profile.links.email}</a>
+              <p className="mt-8">Phone</p>
+              <a href={`tel:${profile.links.phone.replace(/\s/g, "")}`} className="lead link nums mt-1 inline-block">{profile.links.phone}</a>
+              {profile.links.cv && (
+                <div className="mt-10">
+                  <a href={profile.links.cv} {...ext} className="btn">Download my résumé (PDF)</a>
+                </div>
+              )}
+            </Reveal>
+          </StageSection>
 
-      <Block index="03" title={<>Post to <em>reach me</em></>} note="Write here and it lands in my Gmail inbox.">
-        <MessageForm />
-      </Block>
-    </PageShell>
+          <StageSection id="online" picture="bangaloreNight" className="mt-32">
+            <Reveal>
+              <h2 className="head">Find me online</h2>
+              <ul className="mt-8 grid gap-6">
+                {online.map((i) => (
+                  <li key={i.label}>
+                    <a href={i.href} {...ext} className="group block">
+                      <span className="display !text-[2rem] transition-colors group-hover:text-accent">{i.label} ↗</span>
+                      <span className="mt-1 block text-muted">{i.note}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </StageSection>
+
+          <StageSection id="post" picture="letterBox" className="mt-32">
+            <Reveal>
+              <h2 className="head">Post to reach me</h2>
+              <p className="measure mt-6">Write here and it lands in my Gmail inbox. I&apos;ll reply to the address you give.</p>
+            </Reveal>
+            <div className="mt-8"><MessageForm /></div>
+          </StageSection>
+        </div>
+      </SplitPage>
+    </main>
   );
 }

@@ -36,23 +36,22 @@ export function MessageForm() {
     return result;
   }, { status: "idle" });
 
-  const field = "w-full rounded-xl border border-line bg-background px-4 py-3 outline-none transition-colors placeholder:text-muted/70 focus:border-accent";
+  const field = "w-full bg-paper px-4 py-3 outline-none transition-colors placeholder:text-muted focus:bg-white focus-visible:outline-2 focus-visible:outline-accent";
 
   return (
     <div className="relative">
       {phase === "sent" ? (
-        <div className="card flex min-h-[26rem] flex-col items-start justify-center gap-5 p-8 sm:p-10" role="status">
-          <p className="caps text-accent">(Sent) Letter on its way</p>
-          <p className="display text-4xl sm:text-5xl">Thanks for <em>writing</em></p>
-          <p className="max-w-md text-lg leading-relaxed text-muted">
-            Your message just landed in my inbox. I&apos;ll reply to <span className="text-foreground">{replyTo || "you"}</span> soon.
+        <div className="flex min-h-[26rem] flex-col items-start justify-center gap-5 bg-surface p-8 sm:p-10" role="status">
+          <p className="head">Thanks for writing</p>
+          <p>
+            Your message just landed in my inbox. I&apos;ll reply to <span className="font-semibold">{replyTo || "you"}</span> soon.
           </p>
-          <button type="button" onClick={() => { setPhase("write"); setFlight(null); }} className="caps pill mt-2 border border-foreground hover:bg-foreground hover:text-background">
+          <button type="button" onClick={() => { setPhase("write"); setFlight(null); }} className="btn btn-quiet mt-2 !bg-paper">
             Write another
           </button>
         </div>
       ) : (
-        <div ref={card} className={`card p-6 sm:p-8 ${phase === "fold" ? "letter-fold" : ""}`}>
+        <div ref={card} className={`bg-surface p-6 sm:p-8 ${phase === "fold" ? "letter-fold" : ""}`}>
           {/* Submit by hand so a failed send keeps what the visitor typed (form actions reset the form). */}
           <form
             ref={form}
@@ -65,26 +64,26 @@ export function MessageForm() {
           >
             <div className="grid gap-5 sm:grid-cols-2">
               <label className="grid gap-2">
-                <span className="caps text-muted">Your name</span>
+                <span className="font-semibold">Your name</span>
                 <input name="name" required maxLength={100} autoComplete="name" placeholder="Ada Lovelace" className={field} />
               </label>
               <label className="grid gap-2">
-                <span className="caps text-muted">Your email</span>
+                <span className="font-semibold">Your email</span>
                 <input name="email" type="email" required maxLength={200} autoComplete="email" placeholder="you@example.com" className={field} />
               </label>
             </div>
             <label className="grid gap-2">
-              <span className="caps text-muted">Message</span>
+              <span className="font-semibold">Message</span>
               <textarea name="message" required maxLength={5000} rows={6} placeholder="Hi Ryan, I'd like to talk about…" className={`${field} resize-y`} />
             </label>
             {/* Honeypot for bots; hidden from people and screen readers. */}
             <input name="company" tabIndex={-1} autoComplete="off" aria-hidden className="absolute -left-[9999px] h-0 w-0 opacity-0" />
             <div className="flex flex-wrap items-center justify-between gap-4">
-              <p className={`text-sm ${state.status === "error" ? "text-risk" : "text-muted"}`} aria-live="polite">
+              <p className={`small ${state.status === "error" ? "text-risk" : ""}`} aria-live="polite">
                 {state.status === "error" ? state.message : "Goes straight to my Gmail."}
               </p>
-              <button type="submit" disabled={pending} className="caps pill bg-foreground text-background hover:bg-accent disabled:opacity-60">
-                {pending ? "Sending…" : "Send it ✈"}
+              <button type="submit" disabled={pending} className="btn disabled:opacity-60">
+                {pending ? "Sending…" : "Send it"}
               </button>
             </div>
           </form>

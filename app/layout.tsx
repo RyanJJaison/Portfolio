@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Inter, Inter_Tight, JetBrains_Mono } from "next/font/google";
+import { Source_Serif_4, Young_Serif } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/ui/Nav";
 import { Footer } from "@/components/ui/Footer";
 import { profile } from "@/content/profile";
 
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
-const interTight = Inter_Tight({ variable: "--font-inter-tight", subsets: ["latin"], weight: ["500", "700", "800"] });
-const instrument = Instrument_Serif({ variable: "--font-instrument", subsets: ["latin"], weight: "400", style: "italic" });
-const jetbrains = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"] });
+const display = Young_Serif({ variable: "--font-display", subsets: ["latin"], weight: "400" });
+const text = Source_Serif_4({ variable: "--font-text", subsets: ["latin"], weight: ["400", "600"], style: ["normal", "italic"] });
 
 export const metadata: Metadata = {
   title: { default: `${profile.name} | AI/ML Portfolio`, template: `%s | ${profile.name}` },
@@ -16,11 +14,12 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
-  const fonts = [inter, interTight, instrument, jetbrains].map((f) => f.variable).join(" ");
   return (
-    <html lang="en" className={`${fonts} h-full antialiased`}>
+    <html lang="en" className={`${display.variable} ${text.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
-        <a href="#main" className="caps sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-accent focus:px-3 focus:py-2 focus:text-background">
+        {/* Lets entrance styles hide content only when a script is there to show it again. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:bg-accent focus:px-3 focus:py-2 focus:text-white">
           Skip to content
         </a>
         <Nav />

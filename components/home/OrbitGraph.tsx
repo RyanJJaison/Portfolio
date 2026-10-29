@@ -114,7 +114,7 @@ function headAt(e: Edge, c: { x: number; y: number }, t: number) {
   return { x: u * u * e.a.x + 2 * u * t * cx + t * t * e.b.x, y: u * u * e.a.y + 2 * u * t * cy + t * t * e.b.y };
 }
 
-const labelWidth = (s: string, size: number) => s.length * size * 0.62 + 22;
+const labelWidth = (s: string, size: number) => s.length * size * 0.56 + 24;
 
 /** On phones, split a long label over two lines at the space nearest its middle. */
 function lines(label: string, max: number) {
@@ -157,20 +157,16 @@ function Scene({ p }: { p: number }) {
       : {};
 
   const workFont = narrow ? 17 : 19;
-  const fieldFont = narrow ? 12 : 12.5;
+  const fieldFont = narrow ? 14 : 15;
 
   return (
-    <div className="mx-auto flex h-full max-w-7xl flex-col px-6 pb-10 pt-6">
-      <div className="grid grid-cols-12 gap-x-6 gap-y-2 border-t border-foreground pt-4">
-        <p className="caps col-span-12 text-accent md:col-span-2">(02)</p>
-        <h2 className="display col-span-12 text-5xl sm:text-7xl md:col-span-6">The <em>orbit</em></h2>
-        <p className="caps col-span-12 flex items-center gap-2 self-end text-muted md:col-span-4 md:justify-end" aria-live="polite">
-          <span className="live-dot" aria-hidden />
-          {caption(p)}
-        </p>
+    <div className="flex h-full flex-col px-[var(--m)] pb-8 pt-8">
+      <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-2">
+        <h2 className="head">How the work connects</h2>
+        <p className="text-muted" aria-live="polite">{caption(p)}</p>
       </div>
 
-      <div className="mt-2 grid min-h-0 flex-1 grid-cols-12 gap-x-6">
+      <div className="mt-4 grid min-h-0 flex-1 grid-cols-12 gap-x-6">
         <svg
           viewBox={`0 0 ${g.w} ${g.h}`}
           className="col-span-12 h-full min-h-0 w-full md:col-span-8"
@@ -180,7 +176,7 @@ function Scene({ p }: { p: number }) {
         >
           {/* orbits */}
           {[g.inner, g.outer].map((r, i) => (
-            <ellipse key={i} cx={g.c.x} cy={g.c.y} rx={r.rx} ry={r.ry} fill="none" stroke="var(--foreground)" strokeOpacity={0.25 * rings} strokeDasharray="2 7" />
+            <ellipse key={i} cx={g.c.x} cy={g.c.y} rx={r.rx} ry={r.ry} fill="none" stroke="var(--foreground)" strokeOpacity={0.18 * rings} />
           ))}
 
           {es.map((e, i) => {
@@ -198,7 +194,7 @@ function Scene({ p }: { p: number }) {
           <g opacity={rings} {...hover("me")} aria-label="Ryan">
             <circle cx={g.c.x} cy={g.c.y} r={narrow ? 38 : 44} fill={focus === "me" ? "var(--accent)" : "var(--foreground)"} />
             <circle cx={g.c.x} cy={g.c.y} r={(narrow ? 38 : 44) + 7} fill="none" stroke="var(--accent)" strokeOpacity={0.4} />
-            <text x={g.c.x} y={g.c.y + 9} textAnchor="middle" fontSize={26} className="font-serif italic" fill="var(--background)">Ryan</text>
+            <text x={g.c.x} y={g.c.y + 8} textAnchor="middle" fontSize={24} className="font-display" fill="var(--background)">Ryan</text>
           </g>
 
           {/* fields */}
@@ -206,13 +202,13 @@ function Scene({ p }: { p: number }) {
             const f = FIELD.get(id)!;
             const pt = g.field.get(id)!;
             const a = q(arrived.get(id) ?? 0);
-            const label = (narrow ? f.short : f.name).toUpperCase();
+            const label = narrow ? f.short : f.name;
             const w = labelWidth(label, fieldFont);
             const dim = lit && !lit.has(id);
             return (
               <g key={id} transform={`translate(${pt.x},${pt.y})`} opacity={(dim ? 0.2 : 1) * Math.max(0.25, rings)} {...hover(id)} aria-label={f.name}>
-                <rect x={-w / 2} y={-15} width={w} height={30} rx={15} fill={focus === id ? "var(--accent)" : a >= 1 ? "var(--accent-soft)" : "var(--background)"} stroke={a >= 1 || focus === id ? "var(--accent)" : "var(--foreground)"} strokeOpacity={a >= 1 ? 1 : 0.4} strokeWidth={1.3} style={{ transition: "fill .3s" }} />
-                <text y={4.5} textAnchor="middle" fontSize={fieldFont} letterSpacing="0.06em" fontWeight={600} className="font-mono" fill={focus === id ? "var(--background)" : a >= 1 ? "var(--accent)" : "var(--foreground)"}>{label}</text>
+                <rect x={-w / 2} y={-16} width={w} height={32} fill={focus === id ? "var(--accent)" : a >= 1 ? "var(--accent-soft)" : "var(--surface)"} style={{ transition: "fill .3s" }} />
+                <text y={5} textAnchor="middle" fontSize={fieldFont} fontWeight={600} fill={focus === id ? "var(--paper)" : "var(--foreground)"}>{label}</text>
               </g>
             );
           })}
@@ -231,8 +227,8 @@ function Scene({ p }: { p: number }) {
               <g key={o.id} transform={`translate(${pt.x},${pt.y})`} opacity={(dim ? 0.2 : 1) * Math.max(0.25, rings)}
                 {...hover(o.id)} onClick={ready ? go : undefined} role={o.href ? "link" : undefined} aria-label={o.label}
                 onKeyDown={(ev) => ev.key === "Enter" && o.href && router.push(o.href)}>
-                <rect x={-10} y={-10} width={20} height={20} rx={6} fill={a >= 1 || focus === o.id ? "var(--accent)" : "var(--background)"} stroke={a >= 1 ? "var(--accent)" : "var(--foreground)"} strokeWidth={1.6} style={{ transition: "fill .3s" }} />
-                <text y={ty} textAnchor="middle" fontSize={workFont} fontWeight={800} letterSpacing="-0.02em" wordSpacing="0.1em" className="font-display"
+                <rect x={-10} y={-10} width={20} height={20} fill={a >= 1 || focus === o.id ? "var(--accent)" : "var(--background)"} stroke={a >= 1 ? "var(--accent)" : "var(--foreground)"} strokeWidth={1.6} style={{ transition: "fill .3s" }} />
+                <text y={ty} textAnchor="middle" fontSize={workFont} letterSpacing="-0.01em" className="font-display"
                   fill="var(--foreground)" fillOpacity={0.4 + 0.6 * a} style={{ paintOrder: "stroke", stroke: "var(--background)", strokeWidth: 6 }}>
                   {ls.map((l, i) => (
                     <tspan key={l} x={0} dy={i ? workFont + 2 : 0}>{l}</tspan>
@@ -254,46 +250,30 @@ function Panel({ focus }: { focus: string | null }) {
   const field = focus ? FIELD.get(focus as FieldId) : undefined;
   const work = focus ? OUTER.find((o) => o.id === focus) : undefined;
   return (
-    <aside className={`card col-span-12 self-center p-6 max-md:mt-4 md:col-span-4 ${focus ? "" : "max-md:hidden"}`} aria-live="polite">
+    <aside className={`col-span-12 self-center bg-surface p-7 max-md:mt-4 md:col-span-4 ${focus ? "" : "max-md:hidden"}`} aria-live="polite">
       {field ? (
         <>
-          <p className="caps text-muted">Field</p>
-          <h3 className="display mt-2 text-4xl">{field.name}</h3>
-          <ul className="mt-4 flex flex-wrap gap-1.5">
-            {field.skills.map((s) => (
-              <li key={s} className="caps pill pill-sm border border-foreground/30">{s}</li>
-            ))}
-          </ul>
-          <p className="caps mt-5 text-muted">Used in</p>
-          <p className="mt-1">{OUTER.filter((o) => o.fields.includes(field.id)).map((o) => o.label).join(", ")}</p>
+          <h3 className="head !text-[2rem]">{field.name}</h3>
+          <p className="mt-4">{field.skills.join(", ")}.</p>
+          <p className="mt-4 text-muted">Used in {OUTER.filter((o) => o.fields.includes(field.id)).map((o) => o.label).join(", ")}.</p>
         </>
       ) : work ? (
         <>
-          <p className="caps text-muted">{work.href ? "Project" : "Certification"}</p>
-          <h3 className="display mt-2 text-4xl">{work.label}</h3>
-          <p className="mt-3 text-lg leading-snug">{work.tagline}</p>
-          <ul className="mt-4 flex flex-wrap gap-1.5">
-            {work.fields.map((f) => (
-              <li key={f} className="caps pill pill-sm bg-accent-soft text-accent">{FIELD.get(f)!.name}</li>
-            ))}
-          </ul>
-          {work.href && (
-            <Link href={work.href} className="caps pill mt-5 bg-foreground text-background hover:bg-accent">
-              Open project →
-            </Link>
-          )}
+          <h3 className="head !text-[2rem]">{work.label}</h3>
+          <p className="mt-4">{work.tagline}</p>
+          <p className="mt-4 text-muted">Draws on {work.fields.map((f) => FIELD.get(f)!.name).join(", ")}.</p>
+          {work.href && <Link href={work.href} className="btn mt-6">Open {work.label}</Link>}
         </>
       ) : focus === "me" ? (
         <>
-          <p className="caps text-muted">Centre</p>
-          <h3 className="display mt-2 text-4xl">Ryan</h3>
-          <p className="mt-3 text-lg leading-snug">B.Tech AI student at Christ University, Bangalore. Everything on the rings started here.</p>
+          <h3 className="head !text-[2rem]">Ryan</h3>
+          <p className="mt-4">B.Tech AI student at Christ University, Bangalore. Everything on the rings started here.</p>
         </>
       ) : (
         <>
-          <p className="caps text-muted">How to read it</p>
-          <p className="mt-3 text-lg leading-snug">
-            Me at the centre, the six fields I work in on the inner ring, and what I&apos;ve built with them on the outer ring. Scroll to send the signal outward; hover or tap any node to see what&apos;s inside.
+          <h3 className="head !text-[2rem]">Fields and work</h3>
+          <p className="mt-4">
+            The six fields I work in sit on the inner ring, and what I&apos;ve built with them on the outer ring. Scroll to send the signal outward, then point at or tap any name to see what&apos;s inside.
           </p>
         </>
       )}

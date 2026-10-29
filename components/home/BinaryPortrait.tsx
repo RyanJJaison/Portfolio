@@ -99,7 +99,7 @@ export function BinaryPortrait({ label }: { label: string }) {
           const t = (lvl + 1) / LEVELS;
           sc.globalAlpha = 0.14 + 0.86 * Math.pow(t, 1.1);
           sc.fillStyle = color;
-          sc.font = `${t > 0.6 ? 700 : 500} ${size * (0.85 + 0.3 * t)}px ui-monospace, monospace`;
+          sc.font = `${t > 0.6 ? 700 : 500} ${size * (0.85 + 0.3 * t)}px ui-monospace, monospace`; // taste-skill-ignore: the portrait is drawn in literal binary digits
           sc.textAlign = "center";
           sc.textBaseline = "middle";
           sc.fillText(String(bit), size / 2, size / 2 + size * 0.05);
@@ -283,8 +283,7 @@ export function BinaryPortrait({ label }: { label: string }) {
     <div
       ref={wrapRef}
       className="relative w-full"
-      // Fade the bottom edge into the page with a mask, instead of painting a gradient over it.
-      style={{ aspectRatio: `${portrait.cols} / ${portrait.rows}`, maskImage: "linear-gradient(to bottom, #000 70%, transparent)" }}
+      style={{ aspectRatio: `${portrait.cols} / ${portrait.rows}` }}
     >
       <canvas ref={canvasRef} role="img" aria-label={label} className="block w-full" />
     </div>

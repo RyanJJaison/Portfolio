@@ -71,19 +71,13 @@ export function ScrollScene({ label, length = 1.5, children }: Props) {
   }, [reduced]);
 
   if (reduced) {
-    return <section aria-label={label} className="relative h-[calc(100svh-3.375rem)] min-h-[560px]">{children(1)}</section>;
+    return <section aria-label={label} className="relative h-svh min-h-[560px]">{children(1)}</section>;
   }
 
   return (
     <section ref={ref} aria-label={label} className="relative" style={{ height: `${(1 + length) * 100}svh` }}>
-      {/* The nav is 3.375rem (54px) tall and sticky too, so the stage sits just under it. */}
-      <div ref={stage} className="sticky top-[3.375rem] h-[calc(100svh-3.375rem)] overflow-hidden">
+      <div ref={stage} className="sticky top-0 h-svh overflow-hidden">
         {children(progress)}
-        <div className="pointer-events-none absolute inset-x-0 bottom-4 mx-auto flex max-w-7xl px-6" aria-hidden>
-          <div className="h-1 w-28 overflow-hidden rounded-full bg-line">
-            <div className="h-full rounded-full bg-accent" style={{ width: `${progress * 100}%` }} />
-          </div>
-        </div>
       </div>
     </section>
   );

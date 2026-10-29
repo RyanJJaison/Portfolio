@@ -22,7 +22,7 @@ export const researchThreads: ResearchThread[] = [
     tags: ["LLM agents", "Edge AI", "Agriculture", "Healthcare"],
   },
   {
-    title: "Electrochemical precipitation for water hardness",
+    title: "Electrochemical water softening",
     status: "Research proposal",
     question: "Can an electric field remove calcium and magnesium from hard water without adding treatment chemicals?",
     summary:
