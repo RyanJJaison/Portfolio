@@ -42,6 +42,3 @@ next-env.d.ts
 
 # source photo for scripts/build-portrait.py (kept local only)
 /assets/
-
-# design-skill working files
-/.taste-skill/

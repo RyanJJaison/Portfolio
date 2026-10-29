@@ -1,7 +1,7 @@
 "use client";
 
 import { journeyStops } from "@/content/journey";
-import { useStage } from "@/components/split/SplitPage";
+import { ScrollScene } from "@/components/scroll/ScrollScene";
 
 // Equirectangular projection over a box covering Kerala and Bangalore.
 const BOX = { west: 75.4, east: 78.4, south: 8.9, north: 13.7 };
@@ -24,41 +24,68 @@ function curve(a: { x: number; y: number }, b: { x: number; y: number }, bend: n
 }
 const legs = [curve(pts[0], pts[1], -0.35), curve(pts[1], pts[2], 0.18)];
 
-/**
- * The route from Kottayam to Kochi to Bangalore. The section in view decides how far along the road
- * the map has travelled; each stage id names the stop it belongs to (`stop-<index>`).
- */
-export function JourneyMap() {
-  const active = useStage();
-  const m = /^stop-(\d)/.exec(active);
-  const current = m ? Number(m[1]) : 0;
+// Scene timeline over progress 0..1.
+const ARRIVE = [0.05, 0.4, 0.85]; // when each stop lights up
+const clamp = (v: number) => Math.min(1, Math.max(0, v));
+const span = (p: number, a: number, b: number) => clamp((p - a) / (b - a));
+
+function Scene({ p }: { p: number }) {
+  const legDraw = [span(p, ARRIVE[0], ARRIVE[1]), span(p, ARRIVE[1], ARRIVE[2])];
+  const reached = ARRIVE.map((t) => p >= t);
+  const current = reached.lastIndexOf(true);
 
   return (
-    <svg viewBox={`-40 -20 ${W + 80} ${H + 40}`} className="h-full max-h-[78svh] w-auto" role="img" aria-label={`Map of the route from Kottayam to Kochi to Bangalore, now at ${pts[current].city}`}>
-      <text x={-20} y={H * 0.62} className="fill-muted" fontSize="18" fontStyle="italic">Arabian Sea</text>
-      <text x={W * 0.5} y={H * 0.12} className="fill-muted" fontSize="18" fontStyle="italic">Karnataka</text>
-      <text x={W * 0.52} y={H * 0.97} className="fill-muted" fontSize="18" fontStyle="italic">Kerala</text>
+    <div className="mx-auto grid h-full max-w-6xl content-center items-center gap-6 px-6 pb-10 md:grid-cols-[1fr_1fr] md:gap-12">
+      <svg viewBox={`-40 -20 ${W + 80} ${H + 40}`} className="mx-auto h-[46svh] w-auto md:h-[72svh]" role="img" aria-label="Map of the route from Kottayam to Kochi to Bangalore">
+        <defs>
+          <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+            <path d="M0 0.5 H24 M0.5 0 V24" stroke="var(--line)" strokeWidth="1" />
+          </pattern>
+        </defs>
+        <rect x={-40} y={-20} width={W + 80} height={H + 40} fill="url(#dots)" />
+        <text x={-20} y={H * 0.62} className="fill-muted font-sans" fontSize="17">Arabian Sea</text>
+        <text x={W * 0.48} y={H * 0.12} className="fill-muted font-sans" fontSize="17">Karnataka</text>
+        <text x={W * 0.5} y={H * 0.97} className="fill-muted font-sans" fontSize="17">Kerala</text>
 
-      {legs.map((d, i) => (
-        <g key={i}>
-          <path d={d} fill="none" stroke="var(--foreground)" strokeOpacity="0.18" strokeWidth="2" />
-          <path d={d} fill="none" stroke="var(--accent)" strokeWidth="4" strokeLinecap="round" pathLength={1} strokeDasharray="1"
-            strokeDashoffset={current > i ? 0 : 1} style={{ transition: "stroke-dashoffset 1.2s cubic-bezier(.65,0,.35,1)" }} />
-        </g>
-      ))}
+        {legs.map((d, i) => (
+          <g key={i}>
+            <path d={d} fill="none" stroke="var(--foreground)" strokeOpacity="0.3" strokeWidth="1" strokeDasharray="2 6" />
+            <path d={d} fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeLinecap="round" pathLength={1} strokeDasharray="1" strokeDashoffset={1 - legDraw[i]} />
+          </g>
+        ))}
 
-      {pts.map((s, i) => {
-        const reached = i <= current;
-        return (
-          <g key={s.city} transform={`translate(${s.x},${s.y})`} style={{ opacity: reached ? 1 : 0.35, transition: "opacity .6s ease" }}>
-            <circle r={i === current ? 20 : 0} fill="var(--accent-soft)" style={{ transition: "r .5s ease" }} />
-            <circle r={9} fill={reached ? "var(--accent)" : "var(--surface)"} stroke="var(--foreground)" strokeWidth="2" />
-            <text x={i === 0 ? 20 : -18} y={i === 1 ? -12 : 9} textAnchor={i === 0 ? "start" : "end"} fontSize="34" className="fill-foreground font-display">
+        {pts.map((s, i) => (
+          <g key={s.city} transform={`translate(${s.x},${s.y})`} opacity={reached[i] ? 1 : 0.25}>
+            {i === current && <circle r={17} fill="var(--accent-soft)" />}
+            <circle r={9} fill="var(--background)" stroke={reached[i] ? "var(--accent)" : "var(--foreground)"} strokeWidth="2" />
+            <circle r={4.5} fill={i === current ? "var(--accent)" : reached[i] ? "var(--foreground)" : "var(--line)"} />
+            <text x={i === 0 ? 18 : -16} y={i === 1 ? -10 : 8} textAnchor={i === 0 ? "start" : "end"} fontSize="32" fontWeight={800} letterSpacing="-0.02em" className="fill-foreground font-display">
               {s.city}
             </text>
           </g>
-        );
-      })}
-    </svg>
+        ))}
+      </svg>
+
+      <ol className="space-y-4 max-md:relative max-md:h-28">
+        {pts.map((s, i) => (
+          <li
+            key={s.city}
+            className={`card p-5 transition duration-500 ${i === current ? "bg-accent-soft" : "max-md:hidden"} ${reached[i] ? "opacity-100" : "translate-y-2 opacity-20"}`}
+          >
+            <p className="caps text-muted">{s.period}</p>
+            <h3 className="display mt-2 text-3xl">{s.title}</h3>
+            <p className="caps mt-2 text-muted">{s.city}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+export function JourneyMap() {
+  return (
+    <ScrollScene label="Education journey map" length={1.3}>
+      {(p) => <Scene p={p} />}
+    </ScrollScene>
   );
 }

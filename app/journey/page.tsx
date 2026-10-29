@@ -1,56 +1,26 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { journey, journeyStops } from "@/content/journey";
-import { pictures, type PictureId } from "@/content/media";
+import { Timeline } from "@/components/journey/Timeline";
 import { JourneyMap } from "@/components/journey/JourneyMap";
-import { SplitPage, type StageItem } from "@/components/split/SplitPage";
+import { journey } from "@/content/journey";
 import { Reveal } from "@/components/ui/Reveal";
 
 export const metadata: Metadata = { title: "Journey" };
 
-// Which stop on the map each entry belongs to, and the picture of that place.
-const PLACE: { stop: number; picture: PictureId }[] = [
-  { stop: 0, picture: "vembanad" },
-  { stop: 1, picture: "kochiWater" },
-  { stop: 2, picture: "christ" },
-  { stop: 1, picture: "fishingNet" },
-  { stop: 2, picture: "dataCentre" },
-];
-
 export default function JourneyPage() {
-  const ids = journey.map((_, i) => `stop-${PLACE[i].stop}-${i}`);
-  const stage: StageItem[] = [
-    { id: "stop-0-hero", caption: "Kottayam, where it starts" },
-    ...journey.map((e, i) => ({ id: ids[i], caption: `${journeyStops[PLACE[i].stop].city}: ${e.title}` })),
-  ];
   return (
     <main>
-      <SplitPage items={stage} fixed={<JourneyMap />} aside="Kottayam · Kochi · Bangalore">
-        <section data-stage="stop-0-hero" className="flex flex-col justify-center pb-16 pt-10 lg:min-h-[60svh] lg:py-16">
-          <div className="rise">
-            <h1 className="display">Journey</h1>
-            <p className="lead measure mt-10">From school in Kottayam, to Kochi for Classes 11 and 12, to Bangalore for a degree in Artificial Intelligence.</p>
-          </div>
-        </section>
-        <ol className="max-w-[40rem] pb-40">
-          {journey.map((e, i) => {
-            const p = pictures[PLACE[i].picture];
-            return (
-              <li key={e.title} data-stage={ids[i]} className="mt-28 first:mt-10">
-                <Reveal>
-                  <h2 className="head">{e.title}</h2>
-                  <p className="mt-4 font-semibold">{e.period}{e.place ? ` · ${e.place}` : ""}</p>
-                  <p className="mt-2">{e.body}</p>
-                  <figure className="mt-10">
-                    <Image src={p.src} alt={p.alt} width={p.w} height={p.h} sizes="(min-width: 768px) 40vw, 100vw" className="aspect-[3/2] w-full object-cover" />
-                    <figcaption className="small mt-2 text-muted">{p.caption}</figcaption>
-                  </figure>
-                </Reveal>
-              </li>
-            );
-          })}
-        </ol>
-      </SplitPage>
+      <Reveal as="header" className="mx-auto grid max-w-7xl grid-cols-12 gap-x-6 gap-y-4 px-6 pt-10">
+        <p className="caps col-span-12 text-accent">Kottayam, Kochi, Bangalore</p>
+        <h1 className="display col-span-12 text-[clamp(3.5rem,11vw,10rem)]">Jour<em>ney</em><span className="mark" aria-hidden /></h1>
+        <p className="caps col-span-12 text-muted md:col-span-4 md:col-start-9 md:text-right">Scroll to travel the route</p>
+      </Reveal>
+      <JourneyMap />
+      <section className="mx-auto max-w-7xl px-6 pb-24">
+        <div className="grid grid-cols-12 gap-x-6 gap-y-8 pt-4">
+          <h2 className="caps col-span-12 md:col-span-3"><span className="text-accent">00</span> Full timeline</h2>
+          <div className="col-span-12 md:col-span-9"><Timeline entries={journey} /></div>
+        </div>
+      </section>
     </main>
   );
 }
