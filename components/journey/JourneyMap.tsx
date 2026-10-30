@@ -2,6 +2,7 @@
 
 import { journeyStops } from "@/content/journey";
 import { ScrollScene } from "@/components/scroll/ScrollScene";
+import { NARROW, useMedia } from "@/components/ui/useMedia";
 
 // Equirectangular projection over a box covering Kerala and Bangalore.
 const BOX = { west: 75.4, east: 78.4, south: 8.9, north: 13.7 };
@@ -33,19 +34,23 @@ function Scene({ p }: { p: number }) {
   const legDraw = [span(p, ARRIVE[0], ARRIVE[1]), span(p, ARRIVE[1], ARRIVE[2])];
   const reached = ARRIVE.map((t) => p >= t);
   const current = reached.lastIndexOf(true);
+  // On a phone the map is drawn at under half scale, so its labels are set larger to stay readable.
+  const narrow = useMedia(NARROW);
+  const region = narrow ? 30 : 17;
+  const city = narrow ? 50 : 32;
 
   return (
     <div className="mx-auto grid h-full max-w-6xl content-center items-center gap-6 px-6 pb-10 md:grid-cols-[1fr_1fr] md:gap-12">
-      <svg viewBox={`-40 -20 ${W + 80} ${H + 40}`} className="mx-auto h-[46svh] w-auto md:h-[72svh]" role="img" aria-label="Map of the route from Pala to Kochi to Bangalore">
+      <svg viewBox={`-40 -20 ${W + 80} ${H + 40}`} className="mx-auto h-[54svh] w-auto md:h-[72svh]" role="img" aria-label="Map of the route from Pala to Kochi to Bangalore">
         <defs>
           <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
             <path d="M0 0.5 H24 M0.5 0 V24" stroke="var(--line)" strokeWidth="1" />
           </pattern>
         </defs>
         <rect x={-40} y={-20} width={W + 80} height={H + 40} fill="url(#dots)" />
-        <text x={-20} y={H * 0.62} className="fill-muted font-sans" fontSize="17">Arabian Sea</text>
-        <text x={W * 0.48} y={H * 0.12} className="fill-muted font-sans" fontSize="17">Karnataka</text>
-        <text x={W * 0.5} y={H * 0.97} className="fill-muted font-sans" fontSize="17">Kerala</text>
+        <text x={-20} y={H * 0.62} className="fill-muted font-sans" fontSize={region}>Arabian Sea</text>
+        <text x={W * 0.48} y={H * 0.12} className="fill-muted font-sans" fontSize={region}>Karnataka</text>
+        <text x={W * 0.5} y={H * 0.97} className="fill-muted font-sans" fontSize={region}>Kerala</text>
 
         {legs.map((d, i) => (
           <g key={i}>
@@ -59,7 +64,7 @@ function Scene({ p }: { p: number }) {
             {i === current && <circle r={17} fill="var(--accent-soft)" />}
             <circle r={9} fill="var(--background)" stroke={reached[i] ? "var(--accent)" : "var(--foreground)"} strokeWidth="2" />
             <circle r={4.5} fill={i === current ? "var(--accent)" : reached[i] ? "var(--foreground)" : "var(--line)"} />
-            <text x={i === 0 ? 18 : -16} y={i === 1 ? -10 : 8} textAnchor={i === 0 ? "start" : "end"} fontSize="32" fontWeight={800} letterSpacing="-0.02em" className="fill-foreground font-display">
+            <text x={i === 0 ? 18 : -16} y={i === 1 ? -10 : 8} textAnchor={i === 0 ? "start" : "end"} fontSize={city} fontWeight={800} letterSpacing="-0.02em" className="fill-foreground font-display">
               {s.city}
             </text>
           </g>

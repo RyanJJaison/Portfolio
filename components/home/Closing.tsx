@@ -19,7 +19,7 @@ export function Closing() {
           {links.map((l) => (
             <a key={l.label} href={l.href} {...ext} className="group col-span-12 sm:col-span-4">
               <span className="caps text-background/60">{l.label}</span>
-              <span className="mt-1 block break-all text-xl font-medium group-hover:text-accent-soft">{l.text} ↗</span>
+              <span className="mt-1 block text-xl font-medium [overflow-wrap:anywhere] group-hover:text-accent-soft">{l.text.split("@").map((part, n) => (n ? <span key={n}><wbr />@{part}</span> : part))} ↗</span>
             </a>
           ))}
         </div>

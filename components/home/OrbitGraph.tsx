@@ -156,8 +156,8 @@ function Scene({ p }: { p: number }) {
         }
       : {};
 
-  const workFont = narrow ? 17 : 19;
-  const fieldFont = narrow ? 13 : 14;
+  const workFont = narrow ? 23 : 19; // phone sizes are larger because the tall graph is drawn at about half scale
+  const fieldFont = narrow ? 19 : 14;
 
   return (
     <div className="mx-auto flex h-full max-w-7xl flex-col px-6 pb-10 pt-6">
@@ -210,8 +210,8 @@ function Scene({ p }: { p: number }) {
             const dim = lit && !lit.has(id);
             return (
               <g key={id} transform={`translate(${pt.x},${pt.y})`} opacity={(dim ? 0.2 : 1) * Math.max(0.25, rings)} {...hover(id)} aria-label={f.name}>
-                <rect x={-w / 2} y={-15} width={w} height={30} rx={0} fill={focus === id ? "var(--accent)" : a >= 1 ? "var(--accent-soft)" : "var(--background)"} stroke={a >= 1 || focus === id ? "var(--accent)" : "var(--foreground)"} strokeOpacity={a >= 1 ? 1 : 0.4} strokeWidth={1.3} style={{ transition: "fill .3s" }} />
-                <text y={4.5} textAnchor="middle" fontSize={fieldFont} fontWeight={600} className="font-sans" fill={focus === id ? "var(--background)" : a >= 1 ? "var(--accent)" : "var(--foreground)"}>{label}</text>
+                <rect x={-w / 2} y={-fieldFont * 1.07} width={w} height={fieldFont * 2.14} rx={0} fill={focus === id ? "var(--accent)" : a >= 1 ? "var(--accent-soft)" : "var(--background)"} stroke={a >= 1 || focus === id ? "var(--accent)" : "var(--foreground)"} strokeOpacity={a >= 1 ? 1 : 0.4} strokeWidth={1.3} style={{ transition: "fill .3s" }} />
+                <text y={fieldFont * 0.33} textAnchor="middle" fontSize={fieldFont} fontWeight={600} className="font-sans" fill={focus === id ? "var(--background)" : a >= 1 ? "var(--accent)" : "var(--foreground)"}>{label}</text>
               </g>
             );
           })}
@@ -224,7 +224,7 @@ function Scene({ p }: { p: number }) {
             // Labels sit above nodes in the top half and below them in the bottom half, so none run off the side.
             const below = Math.sin(pt.a) > 0.05;
             const ls = narrow ? lines(o.label, 12) : [o.label];
-            const ty = below ? 36 : -22 - (ls.length - 1) * (workFont + 2);
+            const ty = below ? workFont + 17 : -workFont - 3 - (ls.length - 1) * (workFont + 2);
             const go = () => (o.href && focus === o.id ? router.push(o.href) : setFocus(o.id));
             return (
               <g key={o.id} transform={`translate(${pt.x},${pt.y})`} opacity={(dim ? 0.2 : 1) * Math.max(0.25, rings)}
