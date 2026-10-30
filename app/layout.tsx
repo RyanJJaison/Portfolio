@@ -4,6 +4,7 @@ import "./globals.css";
 import { Nav } from "@/components/ui/Nav";
 import { Footer } from "@/components/ui/Footer";
 import { profile } from "@/content/profile";
+import { Analytics } from "@vercel/analytics/next";
 
 // Schibsted Grotesk carries headings, labels and controls; Newsreader carries reading text and the italic accent word.
 const schibsted = Schibsted_Grotesk({ variable: "--font-schibsted", subsets: ["latin"], weight: ["500", "600", "700", "800", "900"] });
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Nav />
         <div id="main" className="flex-1">{children}</div>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
